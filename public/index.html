@@ -1,0 +1,5054 @@
+<!doctype html>
+
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>RightWISE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap"
+    />
+
+    <style>
+      /* Layout: Swiss 12-column grid with asymmetric editorial blocks over a slowly drifting mint mesh.
+
+   One bold moment: the hero headline beside a live "verify a claim" card. Everything else stays quiet.
+
+   Single committed light look: 65% pale/white, 25% soft greens, 10% deep forest accents. */
+
+      :root {
+        --fresh: #39d982;
+
+        --mint: #b9f6d0;
+
+        --pale: #f3fff7;
+
+        --forest: #14532d;
+
+        --white: #ffffff;
+
+        --soft: #476354;
+
+        --aqua: #c9f2e6;
+
+        --line: rgba(20, 83, 45, 0.16);
+
+        --line-strong: rgba(20, 83, 45, 0.38);
+
+        --ok-fg: #14532d;
+        --ok-bg: #cff6dd;
+
+        --bad-fg: #9f2a18;
+        --bad-bg: #fde6e1;
+
+        --warn-fg: #7a5200;
+        --warn-bg: #ffefc2;
+
+        --display:
+          "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI",
+          sans-serif;
+
+        --body:
+          "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+        --mono:
+          "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+        color-scheme: light;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--pale);
+        color: var(--soft);
+        font: 400 1rem/1.7 var(--body);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      p,
+      ol,
+      ul {
+        margin: 0;
+      }
+
+      ol,
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button {
+        font: inherit;
+        color: inherit;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--forest);
+        outline-offset: 3px;
+      }
+
+      section[id] {
+        scroll-margin-top: 76px;
+      }
+
+      .wrap {
+        width: min(1200px, 100%);
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 40px);
+      }
+
+      .mono {
+        font-family: var(--mono);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        font: 500 0.74rem/1.2 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--forest);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: var(--fresh);
+        border-radius: 2px;
+      }
+
+      h2.h2 {
+        font: 800 clamp(2rem, 4.6vw, 3.6rem)/1.1 var(--display);
+        letter-spacing: -0.025em;
+        color: var(--forest);
+        text-wrap: balance;
+      }
+
+      .lede {
+        font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+        line-height: 1.7;
+        max-width: 56ch;
+      }
+
+      .sec {
+        padding-block: clamp(64px, 9vw, 120px);
+      }
+
+      .sec-head {
+        display: grid;
+        gap: 18px;
+        max-width: 64ch;
+        margin-bottom: clamp(32px, 5vw, 56px);
+      }
+
+      /* Buttons */
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 48px;
+        padding: 0 1.4rem;
+        border-radius: 999px;
+        border: 1.5px solid var(--forest);
+        font: 600 0.95rem/1 var(--body);
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          color 0.25s,
+          transform 0.25s;
+      }
+
+      .btn-primary {
+        background: var(--forest);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background: var(--fresh);
+        color: var(--forest);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--forest);
+      }
+
+      .btn-ghost:hover {
+        background: var(--mint);
+      }
+
+      .btn-sm {
+        min-height: 40px;
+        padding: 0 1.1rem;
+        font-size: 0.88rem;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Header */
+
+      .top {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 50;
+        background: rgba(243, 255, 247, 0.84);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 64px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        text-decoration: none;
+        color: var(--forest);
+      }
+
+      .mark {
+        width: 34px;
+        height: 34px;
+        flex: none;
+      }
+
+      .mark circle {
+        fill: var(--mint);
+        stroke: var(--forest);
+        stroke-width: 3;
+      }
+
+      .mark path {
+        fill: none;
+        stroke: var(--forest);
+        stroke-width: 3.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .word {
+        font: 700 1.35rem/1 var(--display);
+        letter-spacing: -0.02em;
+      }
+
+      .word b {
+        font-weight: 800;
+        background: linear-gradient(transparent 60%, var(--mint) 60%);
+      }
+
+      .nav {
+        display: none;
+        gap: clamp(14px, 2.2vw, 30px);
+        font-size: 0.92rem;
+        font-weight: 500;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--soft);
+        padding-block: 6px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+
+      .nav a:hover {
+        color: var(--forest);
+        border-color: var(--fresh);
+      }
+
+      @media (min-width: 900px) {
+        .nav {
+          display: flex;
+        }
+      }
+
+      /* Hero */
+
+      .hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        padding-block: clamp(44px, 7vw, 92px) clamp(56px, 8vw, 104px);
+        background:
+          radial-gradient(
+            900px 520px at 88% -8%,
+            var(--mint) 0%,
+            transparent 62%
+          ),
+          linear-gradient(180deg, var(--white) 0%, var(--pale) 70%);
+      }
+
+      #net {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .blob {
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+        translate: calc(var(--px, 0) * 26px) calc(var(--py, 0) * 26px);
+        transition: translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .blob i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        animation:
+          morph 19s ease-in-out infinite,
+          float 27s ease-in-out infinite;
+      }
+
+      .b1 {
+        right: -9%;
+        top: -8%;
+        width: clamp(260px, 40vw, 540px);
+        aspect-ratio: 1;
+      }
+
+      .b1 i {
+        background: linear-gradient(
+          145deg,
+          var(--mint) 0%,
+          var(--aqua) 62%,
+          rgba(201, 242, 230, 0) 100%
+        );
+        opacity: 0.9;
+      }
+
+      .b2 {
+        left: -12%;
+        bottom: -22%;
+        width: clamp(240px, 34vw, 460px);
+        aspect-ratio: 1;
+      }
+
+      .b2 i {
+        background: radial-gradient(
+          circle at 35% 35%,
+          var(--fresh),
+          rgba(57, 217, 130, 0) 70%
+        );
+        opacity: 0.24;
+        animation-delay:
+          -7s,
+          -11s;
+      }
+
+      .b3 {
+        right: 36%;
+        bottom: 9%;
+        width: clamp(70px, 9vw, 128px);
+        aspect-ratio: 1;
+      }
+
+      .b3 i {
+        border: 1.5px solid var(--fresh);
+        animation-duration: 13s, 21s;
+      }
+
+      @keyframes morph {
+        0%,
+        100% {
+          border-radius: 58% 42% 61% 39%/45% 56% 44% 55%;
+        }
+        33% {
+          border-radius: 40% 60% 45% 55%/60% 38% 62% 40%;
+        }
+        66% {
+          border-radius: 62% 38% 52% 48%/38% 60% 40% 62%;
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate3d(3%, 4%, 0) rotate(14deg);
+        }
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.85fr);
+        gap: clamp(36px, 5vw, 72px);
+        align-items: end;
+      }
+
+      @media (max-width: 939px) {
+        .hero-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: clamp(20px, 3vw, 32px);
+        justify-items: start;
+        min-width: 0;
+      }
+
+      .h1 {
+        font: 800 clamp(2.9rem, 9vw, 7.4rem)/1.06 var(--display);
+        letter-spacing: -0.04em;
+        color: var(--forest);
+        text-wrap: balance;
+      }
+
+      .h1 span {
+        display: block;
+      }
+
+      .h1 .l2 {
+        padding-left: clamp(0px, 4vw, 64px);
+      }
+
+      .h1 em {
+        position: relative;
+        font-style: normal;
+        white-space: nowrap;
+      }
+
+      .h1 em::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.06em;
+        height: 0.17em;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 27 0 52 8 T 102 8 T 152 8 T 198 7' fill='none' stroke='%2339D982' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E")
+          center/100% 100% no-repeat;
+      }
+
+      .sub {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        font: 500 clamp(0.78rem, 1.4vw, 0.92rem)/1.3 var(--mono);
+        letter-spacing: 0.06em;
+        color: var(--forest);
+      }
+
+      .sub::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--fresh);
+        box-shadow: 0 0 0 5px rgba(57, 217, 130, 0.25);
+      }
+
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      /* Claim card (hero demo) */
+
+      .claim {
+        position: relative;
+        background: var(--white);
+        border: 1.5px solid var(--forest);
+        border-radius: 26px 26px 26px 6px;
+        box-shadow: 10px 10px 0 var(--mint);
+        padding: clamp(16px, 2.4vw, 24px);
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .claim-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font: 500 0.7rem/1.2 var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .post {
+        background: var(--pale);
+        border-radius: 16px;
+        padding: 14px 16px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .who {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .avatar {
+        flex: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--mint);
+        color: var(--forest);
+        display: grid;
+        place-items: center;
+        font: 800 1rem/1 var(--display);
+      }
+
+      .who b {
+        display: block;
+        color: var(--forest);
+        font-weight: 600;
+        font-size: 0.95rem;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+      }
+
+      .who .meta {
+        display: block;
+        font: 500 0.7rem/1.3 var(--mono);
+        color: var(--soft);
+      }
+
+      .post p {
+        color: var(--forest);
+        font-size: 0.98rem;
+        line-height: 1.55;
+      }
+
+      .vsteps {
+        display: grid;
+        gap: 10px;
+      }
+
+      .vsteps li {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      .k {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--mint);
+        color: var(--forest);
+        display: grid;
+        place-items: center;
+        font: 800 0.95rem/1 var(--display);
+        transition: background 0.4s;
+      }
+
+      .vsteps li.on .k {
+        background: var(--fresh);
+      }
+
+      .vsteps .res {
+        font-size: 0.88rem;
+        line-height: 1.5;
+        padding-top: 6px;
+        transition: opacity 0.45s;
+      }
+
+      .vsteps li:not(.on) .res {
+        opacity: 0;
+      }
+
+      .vsteps .res b {
+        color: var(--forest);
+        font-weight: 600;
+      }
+
+      .stamp-row {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 6px;
+      }
+
+      .stamp {
+        display: inline-block;
+        padding: 0.45rem 0.9rem;
+        border: 2px solid currentColor;
+        border-radius: 8px;
+        font: 700 0.8rem/1.2 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transform: rotate(-5deg) scale(1.25);
+        opacity: 0;
+        transition:
+          transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3),
+          opacity 0.3s;
+      }
+
+      .stamp.on {
+        opacity: 1;
+        transform: rotate(-5deg) scale(1);
+      }
+
+      .stamp.bad {
+        color: var(--bad-fg);
+        background: var(--bad-bg);
+      }
+
+      .stamp.good {
+        color: var(--ok-fg);
+        background: var(--ok-bg);
+      }
+
+      /* Mission strip */
+
+      .mission {
+        padding-block: clamp(48px, 7vw, 88px);
+        background: var(--white);
+        border-block: 1px solid var(--line);
+      }
+
+      .mission-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.4fr) minmax(0, 1fr);
+        gap: clamp(20px, 4vw, 56px);
+        align-items: start;
+      }
+
+      @media (max-width: 759px) {
+        .mission-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .mission p.big {
+        font: 700 clamp(1.4rem, 3vw, 2.15rem)/1.3 var(--display);
+        letter-spacing: -0.015em;
+        color: var(--forest);
+        text-wrap: pretty;
+      }
+
+      .mission p.big mark {
+        background: linear-gradient(transparent 58%, var(--mint) 58%);
+        color: inherit;
+      }
+
+      /* Problem + simulator */
+
+      .prob-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: clamp(32px, 5vw, 72px);
+        align-items: start;
+      }
+
+      @media (max-width: 939px) {
+        .prob-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .prob-copy {
+        display: grid;
+        gap: 20px;
+      }
+
+      .def {
+        display: grid;
+        gap: 6px;
+        padding: 18px 20px;
+        background: var(--aqua);
+        border-radius: 22px 6px 22px 6px;
+      }
+
+      .def b {
+        font: 700 0.74rem/1.2 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--forest);
+      }
+
+      .def span {
+        color: var(--forest);
+        font-size: 0.98rem;
+        line-height: 1.6;
+      }
+
+      .sim {
+        background: var(--mint);
+        border-radius: 44px 14px 44px 14px;
+        padding: clamp(20px, 3.4vw, 40px);
+        display: grid;
+        gap: 20px;
+        min-width: 0;
+      }
+
+      .sim label {
+        font: 700 1.15rem/1.35 var(--display);
+        color: var(--forest);
+      }
+
+      .slider {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .slider input {
+        width: 100%;
+        height: 32px;
+        accent-color: var(--forest);
+        cursor: pointer;
+        margin: 0;
+      }
+
+      .slider output {
+        font: 700 0.9rem/1 var(--mono);
+        color: var(--forest);
+        background: var(--white);
+        padding: 0.5rem 0.7rem;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+
+      .bars {
+        display: grid;
+        gap: 8px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 5.6rem minmax(0, 1fr) 3.2rem;
+        gap: 10px;
+        align-items: center;
+        font-size: 0.86rem;
+      }
+
+      .bl {
+        color: var(--forest);
+        font-weight: 500;
+      }
+
+      .bt {
+        height: 14px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bt i {
+        display: block;
+        height: 100%;
+        background: var(--forest);
+        border-radius: 999px;
+        transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .bv {
+        font: 700 0.8rem/1 var(--mono);
+        color: var(--forest);
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .sim-sum {
+        color: var(--forest);
+        font-weight: 600;
+        line-height: 1.55;
+      }
+
+      .note {
+        font-size: 0.8rem;
+        line-height: 1.55;
+        color: var(--soft);
+      }
+
+      /* Pillars */
+
+      .pil-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+        gap: clamp(32px, 6vw, 88px);
+        align-items: center;
+      }
+
+      @media (max-width: 859px) {
+        .pil-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .venn {
+        position: relative;
+        width: min(100%, 460px);
+        aspect-ratio: 1/1;
+        margin-inline: auto;
+      }
+
+      .orb {
+        position: absolute;
+        width: 60%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        border: 1.5px solid var(--forest);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        color: var(--forest);
+        mix-blend-mode: multiply;
+        transition:
+          transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          background 0.3s,
+          border-width 0.2s;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .orb .vi {
+        font: 700 clamp(0.95rem, 2.6vw, 1.12rem)/1.15 var(--display);
+      }
+
+      .orb .en {
+        font: 500 clamp(0.52rem, 1.5vw, 0.62rem)/1.3 var(--mono);
+        letter-spacing: 0.1em;
+      }
+
+      .o1 {
+        left: 3%;
+        top: 3%;
+        background: rgba(57, 217, 130, 0.5);
+        align-items: flex-start;
+        text-align: left;
+        padding: 22% 0 0 14%;
+      }
+
+      .o2 {
+        right: 3%;
+        top: 3%;
+        background: rgba(185, 246, 208, 0.95);
+        align-items: flex-end;
+        text-align: right;
+        padding: 22% 14% 0 0;
+      }
+
+      .o3 {
+        left: 20%;
+        bottom: 3%;
+        background: rgba(150, 228, 212, 0.8);
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+        padding: 0 0 12% 0;
+      }
+
+      .orb[aria-pressed="true"] {
+        border-width: 3px;
+        transform: scale(1.045);
+        z-index: 2;
+      }
+
+      .o1[aria-pressed="true"] {
+        background: rgba(57, 217, 130, 0.72);
+      }
+
+      .o2[aria-pressed="true"] {
+        background: rgba(185, 246, 208, 1);
+      }
+
+      .o3[aria-pressed="true"] {
+        background: rgba(110, 222, 200, 0.85);
+      }
+
+      .orb:hover {
+        transform: scale(1.03);
+      }
+
+      .orb[aria-pressed="true"]:hover {
+        transform: scale(1.045);
+      }
+
+      .venn-core {
+        position: absolute;
+        left: 50%;
+        top: 44%;
+        translate: -50% -50%;
+        z-index: 3;
+        pointer-events: none;
+        font: 800 clamp(0.8rem, 2.2vw, 1rem)/1 var(--display);
+        letter-spacing: -0.02em;
+        color: var(--forest);
+        text-align: center;
+      }
+
+      .panel {
+        display: grid;
+        gap: 18px;
+        min-width: 0;
+        border-top: 2px solid var(--forest);
+        padding-top: 22px;
+      }
+
+      .panel .en {
+        font: 500 0.74rem/1.2 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .panel h3 {
+        font: 800 clamp(1.7rem, 3.4vw, 2.5rem)/1.12 var(--display);
+        letter-spacing: -0.02em;
+        color: var(--forest);
+        text-wrap: balance;
+      }
+
+      .panel .q {
+        font: 600 1.1rem/1.45 var(--display);
+        color: var(--forest);
+        background: var(--aqua);
+        padding: 14px 18px;
+        border-radius: 18px 4px 18px 4px;
+      }
+
+      .panel ul {
+        display: grid;
+        gap: 8px;
+      }
+
+      .panel li {
+        display: grid;
+        grid-template-columns: 18px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .panel li::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        margin-top: 0.62em;
+        border-radius: 50%;
+        background: var(--fresh);
+      }
+
+      .panel .lbl {
+        font: 700 0.72rem/1.2 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--forest);
+      }
+
+      /* WISE process */
+
+      .wise-sec {
+        background: linear-gradient(180deg, var(--pale), var(--white) 100%);
+      }
+
+      .wise {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(24px, 3vw, 36px);
+      }
+
+      @media (max-width: 559px) {
+        .wise {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (min-width: 900px) {
+        .wise {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(16px, 2vw, 28px);
+          padding-bottom: 8px;
+        }
+
+        .wise::before {
+          content: "";
+          position: absolute;
+          inset: 36px 0 0 0;
+          background: linear-gradient(
+            to bottom right,
+            transparent calc(50% - 1px),
+            var(--fresh) calc(50% - 1px),
+            var(--fresh) calc(50% + 1px),
+            transparent calc(50% + 1px)
+          );
+        }
+
+        .step {
+          margin-top: calc(var(--i) * clamp(28px, 4.4vw, 68px));
+        }
+      }
+
+      .step {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 10px;
+        align-content: start;
+        padding: 8px 8px 20px 0;
+        background: var(--pale);
+        min-width: 0;
+      }
+
+      @media (min-width: 900px) {
+        .step {
+          background: linear-gradient(180deg, var(--pale), var(--white));
+        }
+      }
+
+      .big {
+        font: 800 clamp(5rem, 9vw, 8rem)/0.95 var(--display);
+        color: var(--mint);
+        -webkit-text-stroke: 1.5px var(--forest);
+        transition: color 0.35s;
+      }
+
+      .step:hover .big,
+      .step:focus-within .big {
+        color: var(--fresh);
+      }
+
+      .step .en {
+        font: 500 0.72rem/1.2 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .step h3 {
+        font: 700 clamp(1.15rem, 1.9vw, 1.4rem)/1.25 var(--display);
+        color: var(--forest);
+        text-wrap: balance;
+      }
+
+      .step p {
+        font-size: 0.95rem;
+        line-height: 1.65;
+      }
+
+      /* Lab */
+
+      .lab {
+        background: var(--white);
+        border: 1.5px solid var(--forest);
+        border-radius: 34px 10px 34px 10px;
+        padding: clamp(16px, 3vw, 34px);
+        display: grid;
+        gap: clamp(20px, 3vw, 30px);
+        min-width: 0;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        min-height: 44px;
+        padding: 0 1rem;
+        border-radius: 999px;
+        border: 1.5px solid var(--line-strong);
+        background: transparent;
+        color: var(--forest);
+        font: 600 0.9rem/1 var(--body);
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .tab:hover {
+        background: var(--mint);
+      }
+
+      .tab[aria-current="true"] {
+        background: var(--forest);
+        border-color: var(--forest);
+        color: var(--white);
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 1.5px solid currentColor;
+        flex: none;
+      }
+
+      .dot.ok {
+        background: var(--fresh);
+        border-color: var(--fresh);
+      }
+
+      .dot.no {
+        background: var(--bad-fg);
+        border-color: var(--bad-fg);
+      }
+
+      .lab-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(20px, 3.4vw, 44px);
+        align-items: start;
+      }
+
+      @media (max-width: 819px) {
+        .lab-main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .post-card {
+        background: var(--pale);
+        border-radius: 22px;
+        padding: clamp(16px, 2.4vw, 24px);
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .post-card .tagline {
+        font: 500 0.7rem/1.2 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .post-card .txt {
+        font: 500 clamp(1.05rem, 1.8vw, 1.22rem)/1.55 var(--display);
+        color: var(--forest);
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        font: 500 0.72rem/1 var(--mono);
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        background: var(--white);
+        color: var(--forest);
+        border: 1px solid var(--line);
+      }
+
+      .side {
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .side h3 {
+        font: 700 1.05rem/1.3 var(--display);
+        color: var(--forest);
+      }
+
+      .side h3 small {
+        font: 500 0.74rem/1 var(--mono);
+        color: var(--soft);
+        margin-left: 0.4rem;
+      }
+
+      .probes {
+        display: grid;
+        gap: 8px;
+      }
+
+      .probe {
+        border: 1.5px solid var(--line-strong);
+        border-radius: 16px;
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .probe.open {
+        border-color: var(--forest);
+      }
+
+      .pbtn {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 52px;
+        padding: 8px 14px 8px 10px;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        text-align: left;
+        font-weight: 600;
+        color: var(--forest);
+      }
+
+      .pbtn:hover {
+        background: var(--pale);
+      }
+
+      .pbtn .pk {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--mint);
+        display: grid;
+        place-items: center;
+        font: 800 0.95rem/1 var(--display);
+      }
+
+      .probe.open .pk {
+        background: var(--fresh);
+      }
+
+      .pbtn .chev {
+        font: 700 1.1rem/1 var(--mono);
+        color: var(--soft);
+      }
+
+      .pres {
+        padding: 0 16px 14px 56px;
+        font-size: 0.93rem;
+        line-height: 1.6;
+        color: var(--soft);
+      }
+
+      .verdicts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      @media (max-width: 519px) {
+        .verdicts {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .vbtn {
+        min-height: 52px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        border: 1.5px solid var(--forest);
+        background: var(--white);
+        color: var(--forest);
+        font: 600 0.92rem/1.25 var(--body);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .vbtn:hover:not(:disabled) {
+        background: var(--mint);
+      }
+
+      .vbtn:disabled {
+        cursor: default;
+      }
+
+      .vbtn.right {
+        background: var(--ok-bg);
+        border-color: var(--ok-fg);
+      }
+
+      .vbtn.wrong {
+        background: var(--bad-bg);
+        border-color: var(--bad-fg);
+        color: var(--bad-fg);
+      }
+
+      .vbtn.dim {
+        opacity: 0.55;
+      }
+
+      .hint {
+        min-height: 1.5em;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--warn-fg);
+      }
+
+      .fb {
+        padding: 16px 18px;
+        border-radius: 18px;
+        display: grid;
+        gap: 6px;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .fb b {
+        font: 700 1.05rem/1.3 var(--display);
+      }
+
+      .fb.ok {
+        background: var(--ok-bg);
+        color: var(--ok-fg);
+      }
+
+      .fb.no {
+        background: var(--bad-bg);
+        color: var(--bad-fg);
+      }
+
+      .lab-foot {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .score {
+        font: 700 0.85rem/1.4 var(--mono);
+        color: var(--forest);
+      }
+
+      /* Photo check, placed first on the page. Large type and targets for older users. */
+
+      .snap {
+        padding-block: clamp(14px, 2.2vw, 22px);
+        background: linear-gradient(180deg, var(--mint) 0%, var(--pale) 100%);
+      }
+
+      .snap-card {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+        padding: clamp(14px, 2.2vw, 22px);
+        background: var(--white);
+        border: 2px solid var(--forest);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(20, 83, 45, 0.08);
+        font-size: 1rem;
+      }
+
+      .snap-header-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .snap-head {
+        display: grid;
+        gap: 4px;
+      }
+
+      .snap-title {
+        font: 800 clamp(1.25rem, 2.8vw, 1.7rem)/1.2 var(--display);
+        letter-spacing: -0.02em;
+        color: var(--forest);
+        margin: 0;
+      }
+
+      .snap-lead {
+        font-size: 0.92rem;
+        line-height: 1.45;
+        color: var(--soft);
+        margin: 0;
+      }
+
+      .stepper {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        margin-top: 2px;
+      }
+
+      .stepper li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+        padding: 5px 10px;
+        border: 1.5px solid transparent;
+        border-radius: 999px;
+        background: var(--pale);
+        font-weight: 700;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        color: var(--forest);
+      }
+
+      .stepper b {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--mint);
+        font: 800 0.78rem/1 var(--display);
+      }
+
+      .stepper li.now {
+        border-color: var(--forest);
+        background: var(--mint);
+      }
+
+      .stepper li.now b {
+        background: var(--fresh);
+      }
+
+      .stepper li.done b {
+        background: var(--forest);
+        color: var(--white);
+      }
+
+      @media (max-width: 539px) {
+        .stepper li {
+          flex-direction: column;
+          gap: 2px;
+          padding: 4px;
+          border-radius: 12px;
+          text-align: center;
+          font-size: 0.75rem;
+        }
+      }
+
+      .pick {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .bigbtn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 2px solid var(--forest);
+        border-radius: 12px;
+        font: 700 0.92rem/1.2 var(--body);
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .bigbtn svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .bigbtn.main {
+        background: var(--forest);
+        color: var(--white);
+      }
+
+      .bigbtn.main:hover {
+        background: var(--fresh);
+        color: var(--forest);
+      }
+
+      .bigbtn.alt {
+        background: var(--white);
+        color: var(--forest);
+      }
+
+      .bigbtn.alt:hover {
+        background: var(--mint);
+      }
+
+      .bigbtn.sm {
+        min-height: 40px;
+        font-size: 0.85rem;
+        padding: 6px 10px;
+      }
+
+      .bigbtn:focus-within {
+        outline: 3px solid var(--forest);
+        outline-offset: 2px;
+      }
+
+      .bigbtn[aria-disabled="true"] {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .shot {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+        height: 190px;
+        overflow: hidden;
+        border: 2px dashed var(--line-strong);
+        border-radius: 16px;
+        background: var(--pale);
+      }
+
+      .shot.has {
+        height: 190px;
+        border-style: solid;
+        border-color: var(--forest);
+        background: #0f172a;
+      }
+
+      .ph {
+        display: grid;
+        gap: 4px;
+        justify-items: center;
+        padding: 16px 14px;
+        text-align: center;
+        color: var(--forest);
+      }
+
+      .ph svg {
+        width: 38px;
+        height: 38px;
+        fill: none;
+        stroke: var(--forest);
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .ph b {
+        font: 700 0.98rem/1.3 var(--display);
+      }
+
+      .ph span {
+        max-width: 30ch;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        color: var(--soft);
+      }
+
+      .view {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .view img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .pmeta {
+        min-height: 1.2em;
+        font: 500 0.78rem/1.3 var(--mono);
+        color: var(--soft);
+        overflow-wrap: anywhere;
+        margin: 0;
+      }
+
+      .after {
+        display: grid;
+        gap: 30px;
+      }
+
+      .blk {
+        display: grid;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .blk h3 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font: 800 clamp(1.3rem, 4.4vw, 1.7rem)/1.25 var(--display);
+        letter-spacing: -0.01em;
+        color: var(--forest);
+      }
+
+      .blk h3 b {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--fresh);
+        font: 800 1.15rem/1 var(--display);
+      }
+
+      .blk p {
+        line-height: 1.65;
+      }
+
+      .zoombar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .lookups {
+        display: grid;
+        gap: 12px;
+      }
+
+      .steps3 {
+        display: grid;
+        gap: 8px;
+        padding-left: 1.4rem;
+        list-style: decimal;
+        line-height: 1.6;
+      }
+
+      .steps3 li {
+        padding-left: 0.3rem;
+      }
+
+      .chks {
+        display: grid;
+      }
+
+      .chk {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 14px;
+        align-items: start;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+        cursor: pointer;
+      }
+
+      .chk:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .chk input {
+        width: 28px;
+        height: 28px;
+        margin: 0;
+        accent-color: var(--forest);
+        cursor: pointer;
+      }
+
+      .chk b {
+        display: block;
+        font-weight: 700;
+        line-height: 1.4;
+        color: var(--forest);
+      }
+
+      .chk > span > span {
+        display: block;
+        margin-top: 2px;
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+
+      .pprog {
+        min-height: 1.5em;
+        font: 700 1rem/1.5 var(--mono);
+        color: var(--forest);
+      }
+
+      .private {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .fab {
+        position: fixed;
+        left: 50%;
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        z-index: 60;
+        translate: -50% 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 60px;
+        padding: 0 26px;
+        border: 3px solid var(--fresh);
+        border-radius: 999px;
+        background: var(--forest);
+        color: var(--white);
+        font: 700 1.1rem/1 var(--body);
+        text-decoration: none;
+        box-shadow: 0 8px 24px rgba(20, 83, 45, 0.35);
+        white-space: nowrap;
+      }
+
+      .fab svg {
+        width: 28px;
+        height: 28px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .fab:hover {
+        background: var(--fresh);
+        color: var(--forest);
+        border-color: var(--forest);
+      }
+
+      /* Classroom */
+
+      .room-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        gap: clamp(32px, 5vw, 72px);
+        align-items: start;
+      }
+
+      @media (max-width: 899px) {
+        .room-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .pocket {
+        background: var(--forest);
+        color: var(--mint);
+        border-radius: 30px 8px 30px 8px;
+        padding: clamp(22px, 3.4vw, 36px);
+        display: grid;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      @media (min-width: 900px) {
+        .pocket {
+          position: sticky;
+          top: calc(88px + env(safe-area-inset-top, 0px));
+        }
+      }
+
+      .pocket .eyebrow {
+        color: var(--mint);
+      }
+
+      .pocket h3 {
+        font: 800 clamp(1.7rem, 3vw, 2.3rem)/1.1 var(--display);
+        color: var(--white);
+        letter-spacing: -0.02em;
+      }
+
+      .pocket ol {
+        display: grid;
+        gap: 12px;
+      }
+
+      .pocket li {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        line-height: 1.55;
+        font-size: 0.96rem;
+      }
+
+      .pocket li b {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--fresh);
+        color: var(--forest);
+        display: grid;
+        place-items: center;
+        font: 800 0.95rem/1 var(--display);
+      }
+
+      .pocket .btn {
+        background: var(--fresh);
+        border-color: var(--fresh);
+        color: var(--forest);
+        justify-self: start;
+      }
+
+      .pocket .btn:hover {
+        background: var(--white);
+        border-color: var(--white);
+      }
+
+      .pocket :focus-visible {
+        outline-color: var(--fresh);
+      }
+
+      .copy-state {
+        font: 500 0.78rem/1.4 var(--mono);
+        color: var(--mint);
+        min-height: 1.4em;
+      }
+
+      .acts {
+        display: grid;
+      }
+
+      .act {
+        display: grid;
+        grid-template-columns: 7.5rem minmax(0, 1fr);
+        gap: clamp(12px, 3vw, 32px);
+        padding-block: 26px;
+        border-top: 1.5px solid var(--forest);
+      }
+
+      .act:last-child {
+        border-bottom: 1.5px solid var(--forest);
+      }
+
+      @media (max-width: 559px) {
+        .act {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 8px;
+        }
+      }
+
+      .act .tm {
+        font: 700 0.8rem/1.4 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--forest);
+      }
+
+      .act h3 {
+        font: 700 clamp(1.25rem, 2.2vw, 1.6rem)/1.2 var(--display);
+        color: var(--forest);
+        margin-bottom: 8px;
+      }
+
+      .act .out {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--forest);
+      }
+
+      .act .out b {
+        font: 700 0.72rem/1 var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-right: 0.5rem;
+        background: var(--mint);
+        padding: 0.3rem 0.55rem;
+        border-radius: 999px;
+      }
+
+      /* Footer */
+
+      .foot {
+        background: var(--forest);
+        color: var(--mint);
+        padding-block: clamp(56px, 8vw, 96px)
+          calc(104px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .foot-grid {
+        display: grid;
+        gap: clamp(28px, 4vw, 48px);
+      }
+
+      .foot h2 {
+        font: 800 clamp(2.2rem, 6.4vw, 5rem)/1.08 var(--display);
+        letter-spacing: -0.035em;
+        color: var(--white);
+        text-wrap: balance;
+      }
+
+      .foot h2 em {
+        font-style: normal;
+        color: var(--fresh);
+      }
+
+      .vals {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 28px;
+        font: 500 0.78rem/1.3 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .vals span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .vals span::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--fresh);
+      }
+
+      .foot small {
+        display: block;
+        max-width: 70ch;
+        font-size: 0.82rem;
+        line-height: 1.6;
+        color: rgba(185, 246, 208, 0.82);
+        padding-top: 24px;
+        border-top: 1px solid rgba(185, 246, 208, 0.25);
+      }
+
+      /* ===== Liquid Glass layer: translucent, blurred panels with bright rims over a colourful drifting ground ===== */
+
+      :root {
+        --g-fill: rgba(255, 255, 255, 0.5);
+
+        --g-fill-hi: rgba(255, 255, 255, 0.66);
+
+        --g-rim: rgba(255, 255, 255, 0.82);
+
+        --g-shadow:
+          0 14px 36px rgba(20, 83, 45, 0.15), 0 2px 6px rgba(20, 83, 45, 0.08);
+
+        --g-inner:
+          inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+          inset 0 -1.5px 0 rgba(255, 255, 255, 0.4),
+          inset 0 0 24px rgba(255, 255, 255, 0.3);
+
+        --g-blur: blur(22px) saturate(1.7);
+
+        --g-dark: rgba(20, 83, 45, 0.86);
+      }
+
+      body {
+        background: #e6f9ee;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -15%;
+        z-index: -1;
+        pointer-events: none;
+
+        background:
+          radial-gradient(
+            38% 32% at 12% 14%,
+            rgba(57, 217, 130, 0.6),
+            transparent 70%
+          ),
+          radial-gradient(
+            34% 30% at 88% 20%,
+            rgba(110, 224, 214, 0.65),
+            transparent 70%
+          ),
+          radial-gradient(
+            40% 34% at 72% 80%,
+            rgba(185, 246, 208, 1),
+            transparent 70%
+          ),
+          radial-gradient(
+            30% 26% at 16% 82%,
+            rgba(196, 240, 160, 0.65),
+            transparent 70%
+          ),
+          linear-gradient(180deg, #f3fff7, #ddf7e8);
+
+        animation: drift 38s ease-in-out infinite alternate;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-2%, -1%, 0) scale(1);
+        }
+        to {
+          transform: translate3d(2%, 2%, 0) scale(1.1);
+        }
+      }
+
+      .hero,
+      .snap,
+      .wise-sec {
+        background: none;
+      }
+
+      #tru-cot,
+      #lop-hoc {
+        background: transparent !important;
+        border-color: transparent !important;
+      }
+
+      .top,
+      .claim,
+      .snap-card,
+      .sim,
+      .lab,
+      .mission,
+      .step {
+        background: var(--g-fill);
+
+        -webkit-backdrop-filter: var(--g-blur);
+        backdrop-filter: var(--g-blur);
+
+        border: 1px solid var(--g-rim);
+
+        box-shadow: var(--g-inner), var(--g-shadow);
+      }
+
+      .claim,
+      .snap-card,
+      .lab,
+      .step {
+        background: var(--g-fill-hi);
+      }
+
+      .top,
+      .claim,
+      .snap-card,
+      .sim,
+      .lab,
+      .pocket,
+      .step {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .top {
+        position: sticky;
+        background: rgba(255, 255, 255, 0.58);
+        border-width: 0 0 1px;
+        border-radius: 0 0 28px 28px;
+      }
+
+      .mission {
+        border-width: 1px 0;
+      }
+
+      .claim,
+      .snap-card {
+        border-radius: 36px;
+      }
+
+      .sim,
+      .lab,
+      .pocket {
+        border-radius: 36px;
+      }
+
+      .step {
+        padding: 20px 20px 24px;
+        border-radius: 30px;
+      }
+
+      .sim {
+        background: rgba(185, 246, 208, 0.5);
+      }
+
+      .claim::before,
+      .snap-card::before,
+      .sim::before,
+      .lab::before,
+      .pocket::before,
+      .step::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        pointer-events: none;
+
+        background:
+          radial-gradient(
+            420px 260px at var(--mx, 28%) var(--my, 0%),
+            rgba(255, 255, 255, 0.7),
+            transparent 62%
+          ),
+          linear-gradient(160deg, rgba(255, 255, 255, 0.4), transparent 38%);
+      }
+
+      .pocket {
+        background: var(--g-dark);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+
+        -webkit-backdrop-filter: var(--g-blur);
+        backdrop-filter: var(--g-blur);
+
+        box-shadow:
+          inset 0 1.5px 0 rgba(255, 255, 255, 0.4),
+          inset 0 0 26px rgba(255, 255, 255, 0.08),
+          var(--g-shadow);
+      }
+
+      .pocket::before {
+        background:
+          radial-gradient(
+            420px 260px at var(--mx, 28%) var(--my, 0%),
+            rgba(255, 255, 255, 0.22),
+            transparent 62%
+          ),
+          linear-gradient(160deg, rgba(255, 255, 255, 0.14), transparent 38%);
+      }
+
+      @media (min-width: 900px) {
+        .pocket {
+          position: sticky;
+        }
+      }
+
+      .post,
+      .post-card,
+      .probe,
+      .chip,
+      .stepper li,
+      .shot,
+      .def,
+      .panel .q {
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid rgba(255, 255, 255, 0.88);
+
+        box-shadow:
+          var(--g-inner),
+          0 4px 14px rgba(20, 83, 45, 0.08);
+      }
+
+      .def,
+      .panel .q {
+        background: rgba(201, 242, 230, 0.6);
+      }
+
+      .tab {
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(20, 83, 45, 0.4);
+        box-shadow: var(--g-inner);
+      }
+
+      .vbtn,
+      .btn-ghost,
+      .bigbtn.alt {
+        background: rgba(255, 255, 255, 0.58);
+        border: 1.5px solid rgba(20, 83, 45, 0.5);
+        box-shadow: var(--g-inner);
+      }
+
+      .bigbtn.alt {
+        border-width: 2px;
+      }
+
+      .btn-primary,
+      .bigbtn.main {
+        background: rgba(20, 83, 45, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.38);
+
+        box-shadow:
+          inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
+          inset 0 -2px 6px rgba(0, 0, 0, 0.18),
+          0 8px 20px rgba(20, 83, 45, 0.3);
+      }
+
+      .fab {
+        background: rgba(20, 83, 45, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        -webkit-backdrop-filter: var(--g-blur);
+        backdrop-filter: var(--g-blur);
+
+        box-shadow:
+          inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
+          0 10px 28px rgba(20, 83, 45, 0.38);
+      }
+
+      .orb {
+        mix-blend-mode: normal;
+        border-color: rgba(20, 83, 45, 0.5);
+
+        box-shadow:
+          inset 0 12px 26px rgba(255, 255, 255, 0.7),
+          inset 0 -12px 24px rgba(255, 255, 255, 0.2),
+          0 12px 30px rgba(20, 83, 45, 0.12);
+      }
+
+      .o1 {
+        background: rgba(57, 217, 130, 0.38);
+      }
+
+      .o2 {
+        background: rgba(185, 246, 208, 0.62);
+      }
+
+      .o3 {
+        background: rgba(110, 222, 200, 0.45);
+      }
+
+      .o1[aria-pressed="true"] {
+        background: rgba(57, 217, 130, 0.55);
+      }
+
+      .o2[aria-pressed="true"] {
+        background: rgba(185, 246, 208, 0.8);
+      }
+
+      .o3[aria-pressed="true"] {
+        background: rgba(110, 222, 200, 0.62);
+      }
+
+      .orb[aria-pressed="true"] {
+        border-color: var(--forest);
+      }
+
+      .foot {
+        border-radius: 36px 36px 0 0;
+        box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+      }
+
+      @supports not (
+        (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+      ) {
+        .top,
+        .claim,
+        .snap-card,
+        .sim,
+        .lab,
+        .mission,
+        .step {
+          background: rgba(255, 255, 255, 0.92);
+        }
+      }
+
+      @media (prefers-reduced-transparency: reduce) {
+        .top,
+        .claim,
+        .snap-card,
+        .sim,
+        .lab,
+        .mission,
+        .step {
+          background: #ffffff;
+          -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+        }
+
+        .pocket,
+        .fab {
+          -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+        }
+      }
+
+      /* ===== Liquid Glass buttons: tinted see-through glass ===== */
+
+      .btn,
+      .bigbtn,
+      .tab,
+      .vbtn {
+        --hl: radial-gradient(
+          130px 80px at var(--mx, 50%) var(--my, 0%),
+          rgba(255, 255, 255, 0.75),
+          transparent 70%
+        );
+
+        color: var(--forest);
+
+        -webkit-backdrop-filter: blur(10px) saturate(1.8);
+        backdrop-filter: blur(10px) saturate(1.8);
+
+        transition:
+          transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.4),
+          background 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+
+      .btn:hover,
+      .bigbtn:hover,
+      .tab:hover,
+      .vbtn:hover:not(:disabled) {
+        transform: translateY(-2px) scale(1.015);
+      }
+
+      .btn:active,
+      .bigbtn:active,
+      .tab:active,
+      .vbtn:active:not(:disabled) {
+        transform: scale(0.96);
+      }
+
+      /* Green-tinted clear glass (main actions) */
+
+      .btn-primary,
+      .bigbtn.main {
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(57, 217, 130, 0.55),
+            rgba(57, 217, 130, 0.2)
+          );
+
+        border: 1.5px solid rgba(255, 255, 255, 0.85);
+        color: var(--forest);
+
+        box-shadow:
+          inset 0 0 0 1px rgba(20, 83, 45, 0.32),
+          inset 0 2px 1px rgba(255, 255, 255, 0.9),
+          inset 0 -10px 16px rgba(57, 217, 130, 0.28),
+          0 8px 22px rgba(20, 83, 45, 0.16);
+      }
+
+      .btn-primary:hover,
+      .bigbtn.main:hover {
+        color: var(--forest);
+
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(57, 217, 130, 0.78),
+            rgba(57, 217, 130, 0.4)
+          );
+      }
+
+      /* Colourless clear glass (secondary actions, choices, tabs) */
+
+      .btn-ghost,
+      .bigbtn.alt,
+      .vbtn,
+      .tab {
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.42),
+            rgba(255, 255, 255, 0.1)
+          );
+
+        border: 1.5px solid rgba(255, 255, 255, 0.85);
+
+        box-shadow:
+          inset 0 0 0 1px rgba(20, 83, 45, 0.3),
+          inset 0 2px 1px rgba(255, 255, 255, 0.9),
+          inset 0 -8px 14px rgba(185, 246, 208, 0.35),
+          0 6px 16px rgba(20, 83, 45, 0.1);
+      }
+
+      .btn-ghost:hover,
+      .bigbtn.alt:hover,
+      .tab:hover {
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(185, 246, 208, 0.7),
+            rgba(185, 246, 208, 0.28)
+          );
+      }
+
+      .tab[aria-current="true"] {
+        color: var(--forest);
+
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(57, 217, 130, 0.62),
+            rgba(57, 217, 130, 0.26)
+          );
+
+        box-shadow:
+          inset 0 0 0 1px rgba(20, 83, 45, 0.4),
+          inset 0 2px 1px rgba(255, 255, 255, 0.9),
+          inset 0 -8px 14px rgba(57, 217, 130, 0.3),
+          0 6px 16px rgba(20, 83, 45, 0.14);
+      }
+
+      .vbtn.right {
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(57, 217, 130, 0.6),
+            rgba(57, 217, 130, 0.28)
+          );
+      }
+
+      .vbtn.wrong {
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(224, 90, 70, 0.35),
+            rgba(224, 90, 70, 0.12)
+          );
+      }
+
+      /* Floating button: real glass over whatever is behind it */
+
+      .fab {
+        color: var(--forest);
+        border: 1.5px solid rgba(255, 255, 255, 0.9);
+
+        background: linear-gradient(
+          180deg,
+          rgba(57, 217, 130, 0.62),
+          rgba(57, 217, 130, 0.4)
+        );
+
+        -webkit-backdrop-filter: blur(16px) saturate(1.8);
+        backdrop-filter: blur(16px) saturate(1.8);
+
+        box-shadow:
+          inset 0 0 0 1px rgba(20, 83, 45, 0.35),
+          inset 0 2px 1px rgba(255, 255, 255, 0.9),
+          0 10px 26px rgba(20, 83, 45, 0.28);
+      }
+
+      .fab:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(57, 217, 130, 0.8),
+          rgba(57, 217, 130, 0.55)
+        );
+        color: var(--forest);
+        border-color: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Button on the dark card */
+
+      .pocket .btn {
+        color: var(--white);
+        border: 1.5px solid rgba(255, 255, 255, 0.55);
+
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(57, 217, 130, 0.6),
+            rgba(57, 217, 130, 0.25)
+          );
+
+        box-shadow:
+          inset 0 2px 1px rgba(255, 255, 255, 0.55),
+          0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+
+      .pocket .btn:hover {
+        color: var(--white);
+        border-color: rgba(255, 255, 255, 0.7);
+        background:
+          var(--hl),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.4),
+            rgba(255, 255, 255, 0.15)
+          );
+      }
+
+      .zoombar .bigbtn {
+        gap: 8px;
+        padding: 10px 12px;
+        font-size: 1.05rem;
+      }
+
+      .zoombar .bigbtn svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Motion: scroll-driven rise only where supported, always visible at rest */
+
+      @supports (animation-timeline: view()) {
+        .rise {
+          animation: rise linear both;
+          animation-timeline: view();
+          animation-range: entry 0% entry 55%;
+        }
+      }
+
+      @keyframes rise {
+        from {
+          translate: 0 28px;
+        }
+        to {
+          translate: 0 0;
+        }
+      }
+
+      /* ---------- Gemini AI OCOP Verification Styles ---------- */
+      .ai-action-bar {
+        margin-top: 14px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn-ai-scan {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 24px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(20, 83, 45, 0.25);
+        cursor: pointer;
+      }
+      .ai-scanner {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 83, 45, 0.45);
+        backdrop-filter: blur(2px);
+        display: grid;
+        place-items: center;
+        z-index: 10;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .scan-laser {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #39d982, #ffffff, #39d982, transparent);
+        box-shadow: 0 0 16px #39d982, 0 0 24px #39d982;
+        animation: scanDown 2s infinite ease-in-out;
+      }
+      @keyframes scanDown {
+        0%, 100% { top: 5%; opacity: 0.2; }
+        50% { top: 92%; opacity: 1; }
+      }
+      .scan-box {
+        background: var(--white);
+        padding: 18px 24px;
+        border-radius: 16px;
+        border: 2px solid var(--forest);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        max-width: 90%;
+      }
+      .spinner {
+        width: 24px;
+        height: 24px;
+        border: 3px solid var(--mint);
+        border-top-color: var(--forest);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        flex: none;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      /* Workspace 2-Column Split Dashboard */
+      .snap-workspace {
+        display: grid;
+        grid-template-columns: minmax(280px, 340px) 1fr;
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      @media (max-width: 899px) {
+        .snap-workspace {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Left Column: Media & Controls */
+      .snap-col-media {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      /* Media Controls when image loaded */
+      .media-controls {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .media-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--pale);
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .media-toolbar .pmeta {
+        flex: 1 1 0;
+        min-width: 0;
+        font: 500 0.8rem/1.3 var(--mono);
+        color: var(--soft);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .btn-trash {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        background: var(--white);
+        color: #dc2626;
+        cursor: pointer;
+        padding: 0;
+        flex: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-trash:hover {
+        background: #fee2e2;
+        border-color: #ef4444;
+        color: #b91c1c;
+        transform: translateY(-1px);
+      }
+
+      .btn-scan-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 40px;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 12px;
+        background: var(--forest);
+        color: var(--white);
+        font: 700 0.94rem/1.2 var(--body);
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(20, 83, 45, 0.22);
+        transition: all 0.2s;
+      }
+
+      .btn-scan-primary:hover {
+        background: var(--fresh);
+        color: var(--forest);
+        transform: translateY(-1px);
+      }
+
+      /* Right Column: Results & OCOP Dashboard */
+      .snap-col-results {
+        min-width: 0;
+        width: 100%;
+      }
+
+      /* Results Empty State */
+      .results-empty-state {
+        height: 100%;
+        box-sizing: border-box;
+        background: rgba(240, 253, 244, 0.55);
+        border: 1.5px dashed #86efac;
+        border-radius: 16px;
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .empty-icon {
+        font-size: 1.6rem;
+        line-height: 1;
+      }
+
+      .results-empty-state h4 {
+        margin: 0;
+        font: 800 1.1rem/1.2 var(--display);
+        color: var(--forest);
+      }
+
+      .empty-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 6px;
+        font-size: 0.86rem;
+        line-height: 1.4;
+        color: #334155;
+      }
+
+      .empty-features li {
+        position: relative;
+        padding-left: 18px;
+      }
+
+      .empty-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #16a34a;
+        font-weight: 800;
+      }
+
+      .empty-features b {
+        color: var(--forest);
+      }
+
+      .empty-hint {
+        margin-top: 4px;
+        font-size: 0.8rem;
+        font-style: italic;
+        color: var(--soft);
+      }
+
+      /* AI Results Dashboard */
+      .ai-results-dashboard {
+        display: grid;
+        gap: 10px;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Verdict Banner */
+      .verdict-banner {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1.5px solid transparent;
+      }
+
+      .verdict-banner.success { background: #ecfdf5; border-color: #059669; color: #065f46; }
+      .verdict-banner.danger { background: #fef2f2; border-color: #dc2626; color: #991b1b; }
+      .verdict-banner.warning { background: #fffbeb; border-color: #d97706; color: #92400e; }
+
+      .verdict-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .verdict-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font: 800 1.1rem/1.2 var(--display);
+        letter-spacing: -0.01em;
+      }
+
+      .match-score-pill {
+        font: 700 0.8rem/1.2 var(--mono);
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.06);
+        flex: none;
+      }
+
+      .verdict-explain {
+        font-size: 0.86rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* Segmented Tab Bar */
+      .results-tab-bar {
+        display: flex;
+        gap: 4px;
+        background: var(--pale);
+        padding: 3px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: transparent;
+        font: 700 0.82rem/1.2 var(--body);
+        color: var(--soft);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        transition: all 0.15s ease;
+      }
+
+      .tab-btn:hover {
+        color: var(--forest);
+      }
+
+      .tab-btn.active {
+        background: var(--white);
+        color: var(--forest);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      }
+
+      /* Tab Content Area (Bounded, in-frame scroll) */
+      .results-tab-content {
+        height: 200px;
+        max-height: 220px;
+        overflow-y: auto;
+        padding: 12px 14px;
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--line-strong) transparent;
+      }
+
+      .results-tab-content::-webkit-scrollbar {
+        width: 6px;
+      }
+      .results-tab-content::-webkit-scrollbar-thumb {
+        background: var(--line-strong);
+        border-radius: 4px;
+      }
+
+      .tab-pane {
+        display: none;
+      }
+
+      .tab-pane.active {
+        display: block;
+      }
+
+      .narrative-body {
+        font-size: 0.92rem;
+        line-height: 1.65;
+        color: #1e293b;
+      }
+
+      .narrative-body p {
+        margin: 0 0 8px;
+      }
+
+      .narrative-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Official Record Details Grid */
+      .official-record-card {
+        background: var(--pale);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+      }
+
+      .official-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+        font-size: 0.84rem;
+      }
+
+      .official-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        border-bottom: 1px dashed var(--line);
+        padding-bottom: 3px;
+      }
+
+      .official-item.full {
+        grid-column: 1 / -1;
+      }
+
+      .official-item .lbl {
+        color: var(--soft);
+        font-weight: 600;
+        flex: none;
+      }
+
+      .official-item .stars-val {
+        color: #d97706;
+        font-weight: 800;
+      }
+
+      .official-item .val-bold {
+        font-weight: 700;
+        color: var(--forest);
+      }
+
+      /* Matrix Table */
+      .matrix-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+
+      .matrix-table th {
+        background: var(--pale);
+        text-align: left;
+        padding: 6px 8px;
+        font: 700 0.78rem/1.2 var(--mono);
+        color: var(--forest);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .matrix-table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+      }
+
+      .matrix-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .check-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        font: 700 0.75rem/1 var(--mono);
+        white-space: nowrap;
+      }
+
+      .check-pill.match { background: #dcfce7; color: #15803d; }
+      .check-pill.diff { background: #fee2e2; color: #b91c1c; }
+
+      /* Advice Card */
+      .advice-card {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 0.84rem;
+        line-height: 1.45;
+        color: #166534;
+      }
+
+      .advice-card b {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 0.86rem;
+      }
+
+      .advice-card p {
+        margin: 0;
+      }
+
+      .results-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="brand" href="#top" aria-label="RightWISE, về đầu trang">
+          <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="18" cy="18" r="13" />
+            <path d="M12 18.5l4.4 4.5L24.5 13" />
+            <path d="M28 28l9 9" />
+          </svg>
+
+          <span class="word">Right<b>WISE</b></span>
+        </a>
+
+        <nav class="nav" aria-label="Điều hướng chính">
+          <a href="#kiem-tra-anh">Kiểm tra ảnh</a>
+
+          <a href="#van-de">Vấn đề</a>
+
+          <a href="#tru-cot">Trụ cột</a>
+
+          <a href="#quy-trinh">WISE</a>
+
+          <a href="#thu-thach">Phòng kiểm chứng</a>
+
+          <a href="#lop-hoc">Lớp học</a>
+        </nav>
+
+        <a class="btn btn-primary btn-sm" href="#kiem-tra-anh">Chụp ảnh</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="snap" id="kiem-tra-anh" aria-labelledby="snapTitle">
+        <div class="wrap">
+          <div class="snap-card" id="snapCard">
+            <!-- Header Row -->
+            <div class="snap-header-row">
+              <div class="snap-head">
+                <span class="eyebrow">Thẩm định OCOP</span>
+                <h2 class="snap-title" id="snapTitle">
+                  Kiểm tra nhãn mác & Tra cứu chứng chỉ OCOP địa phương
+                </h2>
+                <p class="snap-lead">
+                  Chụp hoặc tải ảnh bao bì sản phẩm. Hệ thống sẽ tự động đọc nhãn mác, tra cứu dữ liệu OCOP chính thức của tỉnh/huyện và đối chiếu chứng chỉ chi tiết.
+                </p>
+              </div>
+
+              <ol class="stepper" id="stepper" aria-label="Ba bước kiểm tra ảnh">
+                <li class="now" data-s="1"><b>1</b><span>Chụp / Tải ảnh</span></li>
+                <li data-s="2"><b>2</b><span>Phân tích nhãn mác</span></li>
+                <li data-s="3"><b>3</b><span>Đối chiếu OCOP</span></li>
+              </ol>
+            </div>
+
+            <!-- Workspace: 2-Column Split Dashboard (All in one screen) -->
+            <div class="snap-workspace" id="snapWorkspace">
+
+              <!-- CỘT TRÁI: Ảnh bao bì & Thao tác -->
+              <div class="snap-col-media">
+                <div class="shot" id="shot">
+                  <div class="ph" id="photoPh">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
+                      <circle cx="24" cy="26" r="7" />
+                    </svg>
+                    <b>Kéo thả hoặc tải ảnh nhãn mác</b>
+                    <span>Chụp trực tiếp từ điện thoại hoặc tải ảnh JPG, PNG, WebP</span>
+                  </div>
+
+                  <div class="view" id="photoView" hidden>
+                    <img id="photoImg" alt="Ảnh nhãn bao bì bạn vừa chọn" />
+                  </div>
+
+                  <!-- AI Scanning Overlay -->
+                  <div class="ai-scanner" id="aiScanner" hidden>
+                    <div class="scan-laser"></div>
+                    <div class="scan-box">
+                      <div class="spinner"></div>
+                      <div>
+                        <b style="display:block; color:var(--forest); font-size:1.02rem;">Đang phân tích & đối chiếu...</b>
+                        <span style="font-size:0.84rem; color:var(--soft);">Đọc thông tin nhãn & đối chiếu hồ sơ OCOP</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2 Nút tải ảnh (Hiện khi chưa có ảnh) -->
+                <div class="pick" id="snapPickRow">
+                  <label class="bigbtn main" for="photoCam">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
+                      <circle cx="24" cy="26" r="7" />
+                    </svg>
+                    <span>Chụp ảnh bao bì</span>
+                    <input class="sr" type="file" id="photoCam" accept="image/*" capture="environment" />
+                  </label>
+
+                  <label class="bigbtn alt" for="photoLib">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <rect x="6" y="9" width="36" height="30" rx="3" />
+                      <circle cx="17" cy="20" r="3" />
+                      <path d="M6 34l10-9 8 7 6-5 12 9" />
+                    </svg>
+                    <span>Tải ảnh từ máy</span>
+                    <input class="sr" type="file" id="photoLib" accept="image/*" />
+                  </label>
+                </div>
+
+                <!-- Thanh điều khiển khi đã có ảnh -->
+                <div class="media-controls" id="snapAfter" hidden>
+                  <div class="media-toolbar">
+                    <p class="pmeta" id="photoMeta" aria-live="polite"></p>
+
+                    <button type="button" class="btn-trash" id="photoClear" title="Bỏ chọn ảnh" aria-label="Bỏ chọn ảnh">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <button type="button" class="btn-scan-primary" id="btnAiScan">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/>
+                    </svg>
+                    <span>Phân tích & Đối chiếu OCOP</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- CỘT PHẢI: Kết quả phân tích & Hồ sơ OCOP đối chiếu -->
+              <div class="snap-col-results" id="snapColResults">
+
+                <!-- Trạng thái chờ / Hướng dẫn ban đầu -->
+                <div class="results-empty-state" id="resultsEmptyState">
+                  <div class="empty-icon">🔍</div>
+                  <h4>Hệ thống thẩm định OCOP tự động</h4>
+                  <ul class="empty-features">
+                    <li><b>Đọc chữ OCR tiếng Việt:</b> Tự động đọc tên cơ sở, sản phẩm, địa chỉ sản xuất và số sao tự in trên bao bì.</li>
+                    <li><b>Tra cứu hồ sơ OCOP địa phương:</b> Đối chiếu với danh mục quyết định công nhận OCOP chính thức của UBND tỉnh/huyện.</li>
+                    <li><b>Phát hiện gian lận:</b> Cảnh báo nâng khống sao OCOP, mạo danh nhãn hiệu hoặc sai lệch địa bàn sản xuất.</li>
+                  </ul>
+                  <div class="empty-hint">Chụp hoặc tải ảnh nhãn mác ở khung bên trái để bắt đầu thẩm định.</div>
+                </div>
+
+                <!-- Bảng kết quả (Hiện khi phân tích xong) -->
+                <div class="ai-results-dashboard" id="aiResultsPanel" hidden>
+                  
+                  <!-- 1. Verdict Banner -->
+                  <div class="verdict-banner success" id="verdictBanner">
+                    <div class="verdict-top">
+                      <div class="verdict-badge" id="aiVerdictBadge">
+                        <span>✅</span><span>ĐANG PHÂN TÍCH...</span>
+                      </div>
+                      <span class="match-score-pill" id="aiMatchScore">Độ tin cậy: 95%</span>
+                    </div>
+                    <p class="verdict-explain" id="aiVerdictExplain">Đang chờ phân tích thông tin...</p>
+                  </div>
+
+                  <!-- 2. Segmented Tabs -->
+                  <div class="results-tab-bar" role="tablist">
+                    <button type="button" class="tab-btn active" id="tabBtnNarrative" role="tab" aria-selected="true">
+                      Văn bản đối chiếu
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnMatrix" role="tab" aria-selected="false">
+                      Bảng 4 tiêu chí
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnOfficial" role="tab" aria-selected="false">
+                      Hồ sơ OCOP & Lời khuyên
+                    </button>
+                  </div>
+
+                  <!-- 3. Tab Content Panes -->
+                  <div class="results-tab-content">
+                    
+                    <!-- TAB 1: VĂN BẢN ĐỐI CHIẾU CHI TIẾT -->
+                    <div class="tab-pane active" id="tabPaneNarrative" role="tabpanel">
+                      <div class="narrative-body" id="aiComparisonNarrative">
+                        Đang tạo văn bản đối chiếu...
+                      </div>
+                    </div>
+
+                    <!-- TAB 2: BẢNG 4 TIÊU CHÍ -->
+                    <div class="tab-pane" id="tabPaneMatrix" role="tabpanel" hidden>
+                      <table class="matrix-table" id="matrixTable">
+                        <thead>
+                          <tr>
+                            <th>Tiêu chí</th>
+                            <th>Trên nhãn của bạn</th>
+                            <th>Hồ sơ OCOP địa phương</th>
+                            <th>Đánh giá</th>
+                          </tr>
+                        </thead>
+                        <tbody id="matrixTableBody">
+                          <!-- Dynamic rows rendered by JS -->
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- TAB 3: HỒ SƠ OCOP & LỜI KHUYÊN -->
+                    <div class="tab-pane" id="tabPaneOfficial" role="tabpanel" hidden>
+                      <div class="official-record-card">
+                        <div class="official-grid">
+                          <div class="official-item">
+                            <span class="lbl">Tình trạng OCOP:</span>
+                            <span id="offCertStatus" class="check-pill match">Đã chứng nhận</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Xếp hạng:</span>
+                            <span id="offStars" class="stars-val">-</span>
+                          </div>
+                          <div class="official-item full">
+                            <span class="lbl">Sản phẩm chính thức:</span>
+                            <span id="offProduct" class="val-bold">-</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Cơ quan công nhận:</span>
+                            <span id="offAuthority">-</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Địa bàn OCOP:</span>
+                            <span id="offLocation">-</span>
+                          </div>
+                          <div class="official-item full">
+                            <span class="lbl">Đợt / Quyết định:</span>
+                            <span id="offDetails">-</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="advice-card" id="consumerAdviceBox">
+                        <b>💡 Lời khuyên kiểm chứng thực tế:</b>
+                        <p id="consumerAdviceText">Đang cập nhật lời khuyên...</p>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Bottom Action -->
+                  <div class="results-actions">
+                    <button type="button" class="btn btn-ghost btn-sm" id="btnCheckAnother">
+                      Kiểm tra ảnh khác
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero" id="hero">
+        <div class="blob b1"><i></i></div>
+
+        <div class="blob b2"><i></i></div>
+
+        <div class="blob b3"><i></i></div>
+
+        <canvas id="net" aria-hidden="true"></canvas>
+
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow"
+              >Giáo dục tư duy phản biện · Nông sản và OCOP</span
+            >
+
+            <h1 class="h1">
+              <span class="l1">Trust Facts,</span
+              ><span class="l2">Choose <em>Wisely.</em></span>
+            </h1>
+
+            <p class="sub">Think Critically. Verify Confidently.</p>
+
+            <p class="lede">
+              RightWISE giúp học sinh học cách dừng lại trước một thông tin, hỏi
+              về nguồn, đối chiếu bằng chứng rồi mới chọn tin, chia sẻ hay bỏ
+              qua. Chúng ta bắt đầu từ chính nông sản và sản phẩm OCOP của quê
+              hương.
+            </p>
+
+            <div class="cta">
+              <a class="btn btn-primary" href="#thu-thach"
+                >Kiểm chứng một tin ngay</a
+              >
+
+              <a class="btn btn-ghost" href="#quy-trinh">Xem quy trình WISE</a>
+            </div>
+          </div>
+
+          <aside class="claim" aria-label="Minh họa cách kiểm chứng một tin">
+            <div class="claim-head">
+              <span>Tin vừa nhận</span><span>Tình huống mô phỏng</span>
+            </div>
+
+            <div class="post">
+              <div class="who">
+                <span class="avatar" id="cAv">N</span>
+                <div>
+                  <b id="cWho">Nông Sản Sạch 24h</b
+                  ><span class="meta" id="cMeta"
+                    >Trang lập cách đây 3 ngày</span
+                  >
+                </div>
+              </div>
+
+              <p id="cText">
+                KHẨN: Trái cây vùng Đồi Sương bị tiêm chất kích thích, ăn vào
+                hại gan. Chia sẻ ngay cho người thân!
+              </p>
+            </div>
+
+            <ol class="vsteps" aria-live="off">
+              <li class="on" id="sW">
+                <span class="k">W</span
+                ><span class="res"
+                  ><b>Ai đăng?</b>
+                  <span id="cW"
+                    >Trang lập 3 ngày, không rõ chủ trang.</span
+                  ></span
+                >
+              </li>
+
+              <li class="on" id="sI">
+                <span class="k">I</span
+                ><span class="res"
+                  ><b>Bằng chứng?</b>
+                  <span id="cI"
+                    >Không có kết quả kiểm nghiệm nào đính kèm.</span
+                  ></span
+                >
+              </li>
+
+              <li class="on" id="sS">
+                <span class="k">S</span
+                ><span class="res"
+                  ><b>Nguồn khác?</b>
+                  <span id="cS"
+                    >Không cơ quan hay báo chí nào đưa tin.</span
+                  ></span
+                >
+              </li>
+
+              <li class="on" id="sE">
+                <span class="k">E</span
+                ><span class="res"
+                  ><b>Chọn gì?</b>
+                  <span id="cE">Chưa nên tin, chưa nên chia sẻ.</span></span
+                >
+              </li>
+            </ol>
+
+            <div class="stamp-row">
+              <span class="stamp bad on" id="cStamp">Dấu hiệu sai lệch</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mission" aria-label="Sứ mệnh">
+        <div class="wrap mission-grid">
+          <span class="eyebrow">Sứ mệnh</span>
+
+          <p class="big rise">
+            Giúp học sinh trở thành những người dùng Internet biết
+            <mark>nhận diện thông tin đáng tin cậy</mark>, kiểm chứng nguồn tin
+            và đưa ra quyết định có căn cứ.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec" id="van-de">
+        <div class="wrap prob-grid">
+          <div class="prob-copy">
+            <span class="eyebrow">Vấn đề</span>
+
+            <h2 class="h2">Tin sai đi nhanh hơn hàng thật.</h2>
+
+            <p class="lede">
+              Một bài đăng chỉ mất vài giây để viết, nhưng có thể khiến người
+              mua nghi ngờ cả một loại nông sản. Người làm ra sản phẩm thường
+              biết chuyện sau cùng, khi đơn hàng đã giảm.
+            </p>
+
+            <div class="def">
+              <b>OCOP · Mỗi xã một sản phẩm</b>
+
+              <span
+                >Chương trình phát triển sản phẩm đặc trưng của từng địa phương.
+                Khi một tin sai nhắm vào sản phẩm ấy, người chịu thiệt đầu tiên
+                là nhà vườn, hợp tác xã và cả một vùng quê.</span
+              >
+            </div>
+
+            <p>
+              Hãy kéo thanh bên cạnh để xem điều gì thay đổi khi người nhận tin
+              kiểm chứng trước khi bấm chia sẻ.
+            </p>
+          </div>
+
+          <div class="sim" id="sim">
+            <label for="verify"
+              >Trong 10 người nhận được một tin sai, bao nhiêu người kiểm chứng
+              trước khi chia sẻ?</label
+            >
+
+            <div class="slider">
+              <input
+                type="range"
+                id="verify"
+                min="0"
+                max="10"
+                step="1"
+                value="3"
+                aria-describedby="simSum"
+              />
+
+              <output id="verifyOut" for="verify">3 trên 10 người</output>
+            </div>
+
+            <div
+              class="bars"
+              id="bars"
+              role="img"
+              aria-label="Số người nhận tin theo từng lượt chia sẻ"
+            ></div>
+
+            <p class="sim-sum" id="simSum" aria-live="polite"></p>
+
+            <p class="note">
+              Mô hình minh họa, không phải số liệu thực tế: mỗi người nhận tin
+              nếu không kiểm chứng sẽ chuyển tiếp cho 3 người khác, qua 5 lượt
+              chia sẻ.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="sec"
+        id="tru-cot"
+        style="background: var(--white); border-block: 1px solid var(--line)"
+      >
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="eyebrow">Ba trụ cột</span>
+
+            <h2 class="h2">Ba năng lực chồng lên nhau.</h2>
+
+            <p class="lede">
+              Biết hỏi, biết tìm dấu vết, biết chọn. Chạm vào từng vòng tròn để
+              xem mỗi năng lực cho học sinh luyện điều gì.
+            </p>
+          </div>
+
+          <div class="pil-grid">
+            <div
+              class="venn"
+              role="group"
+              aria-label="Ba trụ cột của RightWISE"
+            >
+              <button
+                type="button"
+                class="orb o1"
+                data-i="0"
+                aria-pressed="true"
+              >
+                <span class="vi">Tư duy<br />phản biện</span
+                ><span class="en">CRITICAL<br />THINKING</span>
+              </button>
+
+              <button
+                type="button"
+                class="orb o2"
+                data-i="1"
+                aria-pressed="false"
+              >
+                <span class="vi">Năng lực<br />thông tin số</span
+                ><span class="en">DIGITAL<br />LITERACY</span>
+              </button>
+
+              <button
+                type="button"
+                class="orb o3"
+                data-i="2"
+                aria-pressed="false"
+              >
+                <span class="vi">Lựa chọn<br />có căn cứ</span
+                ><span class="en">INFORMED CHOICE</span>
+              </button>
+
+              <span class="venn-core" aria-hidden="true">Right<br />WISE</span>
+            </div>
+
+            <div class="panel" id="panel" aria-live="polite">
+              <span class="en">Critical Thinking</span>
+
+              <h3>Tư duy phản biện</h3>
+
+              <p>
+                Dừng lại trước khi tin. Phân biệt điều được nói là sự kiện, điều
+                là ý kiến và điều chỉ nhằm khiến mình sợ hay giận.
+              </p>
+
+              <p class="q">Bài đăng này muốn mình cảm thấy gì, và vì sao?</p>
+
+              <span class="lbl">Học sinh luyện</span>
+
+              <ul>
+                <li>Tách sự kiện khỏi ý kiến trong một bài đăng</li>
+                <li>Nhận ra lời giục gấp và cảm xúc bị khuấy động</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec wise-sec" id="quy-trinh">
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="eyebrow">Quy trình WISE</span>
+
+            <h2 class="h2">Bốn câu hỏi trước khi chia sẻ.</h2>
+
+            <p class="lede">
+              Mỗi chữ trong WISE là một câu hỏi. Học sinh có thể đi hết bốn bước
+              trong khoảng nửa phút.
+            </p>
+          </div>
+
+          <ol class="wise">
+            <li class="step rise" style="--i: 0">
+              <span class="big" aria-hidden="true">W</span
+              ><span class="en">Who</span>
+              <h3>Ai đăng, và ai được lợi?</h3>
+              <p>
+                Xem trang cá nhân, thời điểm lập trang và các bài đăng trước đó.
+                Nếu người đăng đang bán hàng, họ có lợi khi bạn tin ngay.
+              </p>
+            </li>
+
+            <li class="step rise" style="--i: 1">
+              <span class="big" aria-hidden="true">I</span
+              ><span class="en">Is there evidence</span>
+              <h3>Bằng chứng gốc ở đâu?</h3>
+              <p>
+                Tìm tài liệu gốc như kết quả kiểm nghiệm, giấy chứng nhận hay số
+                liệu có ngày tháng và tên đơn vị cấp. Ảnh chụp mờ chưa phải bằng
+                chứng.
+              </p>
+            </li>
+
+            <li class="step rise" style="--i: 2">
+              <span class="big" aria-hidden="true">S</span
+              ><span class="en">Search other sources</span>
+              <h3>Đối chiếu nguồn khác</h3>
+              <p>
+                Tìm ít nhất hai nguồn độc lập: cơ quan quản lý, báo chí chính
+                thống, tổ chức chuyên môn. Một tin được chia sẻ nhiều lần vẫn có
+                thể chỉ có một nguồn.
+              </p>
+            </li>
+
+            <li class="step rise" style="--i: 3">
+              <span class="big" aria-hidden="true">E</span
+              ><span class="en">Evaluate and choose</span>
+              <h3>Cân nhắc rồi chọn</h3>
+              <p>
+                Đủ căn cứ thì tin. Chưa đủ thì chờ. Có dấu hiệu sai thì không
+                chia sẻ, và nhắn lại với người đã gửi cho bạn.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="sec" id="thu-thach" style="padding-top: 0">
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="eyebrow">Phòng kiểm chứng</span>
+
+            <h2 class="h2">Đọc tin, mở manh mối, rồi mới kết luận.</h2>
+
+            <p class="lede">
+              Bốn tình huống mô phỏng về nông sản và sản phẩm OCOP. Tên sản
+              phẩm, tên trang và địa danh đều là hư cấu. Có tin đáng tin, có tin
+              chưa đủ căn cứ, có tin sai.
+            </p>
+          </div>
+
+          <div class="lab" id="lab">
+            <div
+              class="tabs"
+              id="tabs"
+              role="group"
+              aria-label="Chọn tình huống"
+            ></div>
+
+            <div class="lab-main">
+              <article
+                class="post-card"
+                id="postCard"
+                aria-live="polite"
+              ></article>
+
+              <div class="side">
+                <h3>Manh mối <small>mở ít nhất hai</small></h3>
+
+                <div class="probes" id="probes"></div>
+
+                <h3>Kết luận của bạn</h3>
+
+                <div class="verdicts" id="verdicts"></div>
+
+                <p class="hint" id="hint" aria-live="polite"></p>
+
+                <div id="feedback" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="lab-foot">
+              <span class="score" id="score"></span>
+
+              <button type="button" class="btn btn-ghost btn-sm" id="reset">
+                Làm lại từ đầu
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="sec"
+        id="lop-hoc"
+        style="background: var(--white); border-top: 1px solid var(--line)"
+      >
+        <div class="wrap room-grid">
+          <div class="pocket">
+            <span class="eyebrow">Thẻ bỏ túi</span>
+
+            <h3>Thẻ WISE, 30 giây</h3>
+
+            <ol id="cardList">
+              <li>
+                <b>W</b><span>Ai đăng, và ai được lợi nếu mình tin?</span>
+              </li>
+
+              <li>
+                <b>I</b
+                ><span
+                  >Bằng chứng gốc ở đâu, có ngày tháng và đơn vị cấp
+                  không?</span
+                >
+              </li>
+
+              <li>
+                <b>S</b
+                ><span>Có ít nhất hai nguồn độc lập nói giống vậy không?</span>
+              </li>
+
+              <li>
+                <b>E</b
+                ><span
+                  >Đủ căn cứ thì tin. Chưa đủ thì chờ. Có dấu hiệu sai thì không
+                  chia sẻ.</span
+                >
+              </li>
+            </ol>
+
+            <button type="button" class="btn" id="copyCard">
+              Chép thẻ để dán vào nhóm lớp
+            </button>
+
+            <span class="copy-state" id="copyState" aria-live="polite"></span>
+          </div>
+
+          <div>
+            <div class="sec-head">
+              <span class="eyebrow">Mang vào lớp học</span>
+
+              <h2 class="h2">Từ bài đăng đến cánh đồng.</h2>
+
+              <p class="lede">
+                Ba hoạt động giáo viên có thể dùng ngay, từ một tiết học đến một
+                dự án ngắn.
+              </p>
+            </div>
+
+            <div class="acts">
+              <article class="act">
+                <span class="tm">15 phút</span>
+                <div>
+                  <h3>Săn tin theo nhóm</h3>
+                  <p>
+                    Mỗi nhóm nhận ba bài đăng mô phỏng về nông sản, dùng thẻ
+                    WISE để xếp vào ba nhóm: đáng tin, chưa đủ căn cứ, có dấu
+                    hiệu sai lệch.
+                  </p>
+                  <p class="out">
+                    <b>Sản phẩm</b>Bảng xếp nhóm, mỗi lựa chọn có một lý do.
+                  </p>
+                </div>
+              </article>
+
+              <article class="act">
+                <span class="tm">1 tuần</span>
+                <div>
+                  <h3>Truy nguồn sản phẩm quê em</h3>
+                  <p>
+                    Chọn một sản phẩm địa phương, tìm tài liệu gốc về nơi sản
+                    xuất, chứng nhận và đánh giá. Gặp người làm ra sản phẩm nếu
+                    có thể.
+                  </p>
+                  <p class="out">
+                    <b>Sản phẩm</b>Một trang thông tin xác thực, ghi rõ nguồn.
+                  </p>
+                </div>
+              </article>
+
+              <article class="act">
+                <span class="tm">20 phút</span>
+                <div>
+                  <h3>Phản hồi có trách nhiệm</h3>
+                  <p>
+                    Soạn tin nhắn lịch sự gửi lại người đã chuyển tiếp một tin
+                    sai trong nhóm gia đình, kèm nguồn đúng và lời cảm ơn vì đã
+                    quan tâm.
+                  </p>
+                  <p class="out">
+                    <b>Sản phẩm</b>Một tin nhắn mẫu có dẫn nguồn.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap foot-grid">
+        <h2>Trust Facts,<br /><em>Choose Wisely.</em></h2>
+
+        <div class="vals">
+          <span>Critical Thinking</span><span>Digital Literacy</span
+          ><span>Informed Choice</span>
+        </div>
+
+        <small
+          >RightWISE · Think Critically. Verify Confidently. Các tình huống
+          trong trang là mô phỏng phục vụ giáo dục. Tên sản phẩm, tên trang và
+          địa danh đều là hư cấu, không nhắc đến cá nhân hay tổ chức có thật. Mô
+          hình lan truyền tin chỉ mang tính minh họa.</small
+        >
+      </div>
+    </footer>
+
+    <a class="fab" id="fab" href="#kiem-tra-anh" hidden
+      ><svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
+        <circle cx="24" cy="26" r="7" /></svg
+      >Chụp ảnh kiểm tra</a
+    >
+
+    <script>
+      (function () {
+        "use strict";
+
+        var reduce =
+          window.matchMedia &&
+          matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function $(id) {
+          return document.getElementById(id);
+        }
+
+        /* ---------- Hero: drifting particles and network ---------- */
+
+        (function () {
+          var cv = $("net"),
+            hero = $("hero");
+
+          if (!cv || !hero || !cv.getContext) return;
+
+          var ctx = cv.getContext("2d");
+
+          var W = 0,
+            H = 0,
+            dpr = 1,
+            pts = [],
+            mouse = { x: -9999, y: -9999 },
+            raf = 0,
+            vis = true,
+            t0 = 0;
+
+          function mk() {
+            return {
+              x: Math.random() * W,
+              y: Math.random() * H,
+              vx: (Math.random() - 0.5) * 0.28,
+              vy: (Math.random() - 0.5) * 0.28,
+              r: 1.1 + Math.random() * 2.3,
+              p: Math.random() * 6.28,
+            };
+          }
+
+          function size() {
+            var r = hero.getBoundingClientRect();
+
+            W = r.width;
+            H = r.height;
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            cv.width = Math.round(W * dpr);
+            cv.height = Math.round(H * dpr);
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            var n = Math.round(Math.min(90, Math.max(26, (W * H) / 15000)));
+
+            while (pts.length < n) pts.push(mk());
+
+            pts.length = n;
+          }
+
+          function frame(ts) {
+            ctx.clearRect(0, 0, W, H);
+
+            var i, j, a, b, dx, dy, d, al;
+
+            for (i = 0; i < pts.length; i++) {
+              a = pts[i];
+
+              if (!reduce) {
+                a.x += a.vx;
+                a.y += a.vy;
+
+                if (a.x < -10) a.x = W + 10;
+                else if (a.x > W + 10) a.x = -10;
+
+                if (a.y < -10) a.y = H + 10;
+                else if (a.y > H + 10) a.y = -10;
+              }
+            }
+
+            var LINK = 128;
+
+            for (i = 0; i < pts.length; i++) {
+              a = pts[i];
+
+              for (j = i + 1; j < pts.length; j++) {
+                b = pts[j];
+                dx = a.x - b.x;
+                dy = a.y - b.y;
+                d = dx * dx + dy * dy;
+
+                if (d < LINK * LINK) {
+                  al = (1 - Math.sqrt(d) / LINK) * 0.42;
+
+                  ctx.strokeStyle = "rgba(40,175,105," + al.toFixed(3) + ")";
+
+                  ctx.lineWidth = 1;
+
+                  ctx.beginPath();
+                  ctx.moveTo(a.x, a.y);
+                  ctx.lineTo(b.x, b.y);
+                  ctx.stroke();
+                }
+              }
+
+              dx = a.x - mouse.x;
+              dy = a.y - mouse.y;
+              d = Math.sqrt(dx * dx + dy * dy);
+
+              if (d < 170) {
+                ctx.strokeStyle =
+                  "rgba(20,83,45," + ((1 - d / 170) * 0.45).toFixed(3) + ")";
+
+                ctx.lineWidth = 1.2;
+
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+              }
+            }
+
+            for (i = 0; i < pts.length; i++) {
+              a = pts[i];
+
+              var tw = 0.55 + 0.45 * Math.sin((ts || 0) / 1400 + a.p);
+
+              ctx.fillStyle =
+                "rgba(185,246,208," + (0.55 * tw).toFixed(3) + ")";
+
+              ctx.beginPath();
+              ctx.arc(a.x, a.y, a.r * 3.2, 0, 6.283);
+              ctx.fill();
+
+              ctx.fillStyle =
+                "rgba(57,217,130," + (0.55 + 0.4 * tw).toFixed(3) + ")";
+
+              ctx.beginPath();
+              ctx.arc(a.x, a.y, a.r, 0, 6.283);
+              ctx.fill();
+            }
+
+            if (mouse.x > -999) {
+              var pulse = 40 + 6 * Math.sin((ts || 0) / 500);
+
+              ctx.strokeStyle = "rgba(20,83,45,.34)";
+              ctx.lineWidth = 1.5;
+
+              ctx.beginPath();
+              ctx.arc(mouse.x, mouse.y, pulse, 0, 6.283);
+              ctx.stroke();
+
+              ctx.fillStyle = "rgba(57,217,130,.9)";
+
+              ctx.beginPath();
+              ctx.arc(mouse.x, mouse.y, 3, 0, 6.283);
+              ctx.fill();
+            }
+
+            if (!reduce && vis) raf = requestAnimationFrame(frame);
+            else raf = 0;
+          }
+
+          function start() {
+            if (!raf && !reduce && vis) raf = requestAnimationFrame(frame);
+          }
+
+          size();
+          frame(0);
+
+          var rt;
+
+          window.addEventListener("resize", function () {
+            clearTimeout(rt);
+            rt = setTimeout(function () {
+              size();
+              if (reduce) frame(0);
+            }, 150);
+          });
+
+          hero.addEventListener("pointermove", function (e) {
+            var r = hero.getBoundingClientRect();
+
+            mouse.x = e.clientX - r.left;
+            mouse.y = e.clientY - r.top;
+
+            hero.style.setProperty(
+              "--px",
+              ((mouse.x / r.width) * 2 - 1).toFixed(3),
+            );
+
+            hero.style.setProperty(
+              "--py",
+              ((mouse.y / r.height) * 2 - 1).toFixed(3),
+            );
+
+            if (reduce) frame(0);
+          });
+
+          hero.addEventListener("pointerleave", function () {
+            mouse.x = -9999;
+            mouse.y = -9999;
+
+            hero.style.setProperty("--px", 0);
+            hero.style.setProperty("--py", 0);
+
+            if (reduce) frame(0);
+          });
+
+          if ("IntersectionObserver" in window) {
+            new IntersectionObserver(
+              function (en) {
+                vis = en[0].isIntersecting;
+                start();
+              },
+              { threshold: 0 },
+            ).observe(hero);
+          }
+
+          document.addEventListener("visibilitychange", function () {
+            vis = !document.hidden;
+            start();
+          });
+        })();
+
+        /* ---------- Hero: claim verification loop ---------- */
+
+        (function () {
+          if (reduce || !$("cStamp")) return;
+
+          var C = [
+            {
+              who: "Nông Sản Sạch 24h",
+              meta: "Trang lập cách đây 3 ngày",
+
+              text: "KHẨN: Trái cây vùng Đồi Sương bị tiêm chất kích thích, ăn vào hại gan. Chia sẻ ngay cho người thân!",
+
+              W: "Trang lập 3 ngày, không rõ chủ trang.",
+              I: "Không có kết quả kiểm nghiệm nào đính kèm.",
+              S: "Không cơ quan hay báo chí nào đưa tin.",
+
+              E: "Chưa nên tin, chưa nên chia sẻ.",
+              stamp: "Dấu hiệu sai lệch",
+              cls: "bad",
+            },
+
+            {
+              who: "Văn phòng OCOP huyện Đồi Sương",
+              meta: "Trang cơ quan, hoạt động nhiều năm",
+
+              text: "Công bố kết quả đánh giá OCOP: Chè Shan tuyết Làng Mây đạt 4 sao. Xem danh sách đầy đủ trên cổng thông tin của tỉnh.",
+
+              W: "Trang của cơ quan địa phương, có liên hệ rõ.",
+              I: "Dẫn tới danh sách công bố chính thức.",
+              S: "Cổng thông tin của tỉnh có cùng kết quả.",
+
+              E: "Có thể tin, nhớ mở danh sách gốc để đối chiếu.",
+              stamp: "Có nguồn xác thực",
+              cls: "good",
+            },
+          ];
+
+          var els = { W: $("sW"), I: $("sI"), S: $("sS"), E: $("sE") },
+            stamp = $("cStamp");
+
+          function show(c) {
+            $("cAv").textContent = c.who.charAt(0);
+
+            $("cWho").textContent = c.who;
+            $("cMeta").textContent = c.meta;
+            $("cText").textContent = c.text;
+
+            $("cW").textContent = c.W;
+            $("cI").textContent = c.I;
+            $("cS").textContent = c.S;
+            $("cE").textContent = c.E;
+
+            stamp.textContent = c.stamp;
+            stamp.className = "stamp " + c.cls;
+          }
+
+          function run(i) {
+            var c = C[i];
+            show(c);
+
+            ["W", "I", "S", "E"].forEach(function (k) {
+              els[k].classList.remove("on");
+            });
+
+            ["W", "I", "S"].forEach(function (k, j) {
+              setTimeout(
+                function () {
+                  els[k].classList.add("on");
+                },
+                900 * (j + 1),
+              );
+            });
+
+            setTimeout(function () {
+              els.E.classList.add("on");
+            }, 3600);
+
+            setTimeout(function () {
+              stamp.classList.add("on");
+            }, 4200);
+
+            setTimeout(function () {
+              run((i + 1) % C.length);
+            }, 9000);
+          }
+
+          setTimeout(function () {
+            run(1);
+          }, 4500);
+        })();
+
+        /* ---------- Spread simulator ---------- */
+
+        (function () {
+          var r = $("verify"),
+            out = $("verifyOut"),
+            bars = $("bars"),
+            sum = $("simSum");
+
+          if (!r) return;
+
+          var labels = [
+            "Người đăng",
+            "Lượt 1",
+            "Lượt 2",
+            "Lượt 3",
+            "Lượt 4",
+            "Lượt 5",
+          ];
+
+          var MAX = Math.pow(3, 5);
+
+          function fmt(n) {
+            return n >= 10
+              ? String(Math.round(n))
+              : String(Math.round(n * 10) / 10).replace(".", ",");
+          }
+
+          function draw() {
+            var n10 = +r.value,
+              v = n10 / 10,
+              k = 3 * (1 - v),
+              tot = 0,
+              html = "",
+              g,
+              n,
+              w;
+
+            for (g = 0; g < 6; g++) {
+              n = g === 0 ? 1 : Math.pow(k, g);
+
+              tot += n;
+
+              w = (n / MAX) * 100;
+              if (n > 0.05 && w < 1.6) w = 1.6;
+              if (n <= 0.05) w = 0;
+
+              html +=
+                '<div class="bar-row"><span class="bl">' +
+                labels[g] +
+                '</span><span class="bt"><i style="width:' +
+                w.toFixed(1) +
+                '%"></i></span><span class="bv">' +
+                fmt(n) +
+                "</span></div>";
+            }
+
+            bars.innerHTML = html;
+
+            out.textContent = n10 + " trên 10 người";
+
+            r.setAttribute("aria-valuetext", n10 + " trên 10 người kiểm chứng");
+
+            var s =
+              "Sau 5 lượt chia sẻ, tin chạm tới khoảng " +
+              fmt(tot) +
+              " người" +
+              (n10 > 0
+                ? " (so với 364 người khi không ai kiểm chứng). "
+                : ". ");
+
+            s +=
+              k < 1
+                ? "Từ mức này, mỗi lượt có ít người hơn lượt trước và tin tự tắt dần."
+                : "Mỗi lượt vẫn có nhiều người hơn lượt trước, tin còn lan.";
+
+            sum.textContent = s;
+          }
+
+          r.addEventListener("input", draw);
+
+          draw();
+        })();
+
+        /* ---------- Pillars ---------- */
+
+        (function () {
+          var P = [
+            {
+              en: "Critical Thinking",
+              vi: "Tư duy phản biện",
+              p: "Dừng lại trước khi tin. Phân biệt điều được nói là sự kiện, điều là ý kiến và điều chỉ nhằm khiến mình sợ hay giận.",
+              q: "Bài đăng này muốn mình cảm thấy gì, và vì sao?",
+              d: [
+                "Tách sự kiện khỏi ý kiến trong một bài đăng",
+                "Nhận ra lời giục gấp và cảm xúc bị khuấy động",
+              ],
+            },
+
+            {
+              en: "Digital Literacy",
+              vi: "Năng lực thông tin số",
+              p: "Đọc được dấu vết của một thông tin: ai đăng, đăng khi nào, trích từ đâu, hình ảnh có bị cắt ghép hay lấy từ chuyện khác không.",
+              q: "Tin này xuất hiện đầu tiên ở đâu?",
+              d: [
+                "Xem hồ sơ người đăng và thời điểm đăng",
+                "Tìm lại ảnh, video và trích dẫn về nơi xuất phát",
+              ],
+            },
+
+            {
+              en: "Informed Choice",
+              vi: "Lựa chọn dựa trên bằng chứng",
+              p: "Chọn mua, chia sẻ hay bỏ qua dựa trên căn cứ kiểm chứng được, thay vì dựa vào số lượt thích hay cảm giác quen tai.",
+              q: "Mình đã có đủ căn cứ để chọn chưa?",
+              d: [
+                "Phân biệt đủ căn cứ, chưa đủ căn cứ và có dấu hiệu sai",
+                "Giải thích lựa chọn của mình bằng bằng chứng",
+              ],
+            },
+          ];
+
+          var orbs = document.querySelectorAll(".orb"),
+            panel = $("panel");
+
+          if (!orbs.length || !panel) return;
+
+          function set(i) {
+            var d = P[i];
+
+            Array.prototype.forEach.call(orbs, function (o) {
+              o.setAttribute(
+                "aria-pressed",
+                String(+o.getAttribute("data-i") === i),
+              );
+            });
+
+            panel.innerHTML =
+              '<span class="en">' +
+              d.en +
+              "</span><h3>" +
+              d.vi +
+              "</h3><p>" +
+              d.p +
+              '</p><p class="q">' +
+              d.q +
+              '</p><span class="lbl">Học sinh luyện</span><ul><li>' +
+              d.d[0] +
+              "</li><li>" +
+              d.d[1] +
+              "</li></ul>";
+          }
+
+          Array.prototype.forEach.call(orbs, function (o) {
+            var i = +o.getAttribute("data-i");
+
+            o.addEventListener("click", function () {
+              set(i);
+            });
+
+            o.addEventListener("mouseenter", function () {
+              set(i);
+            });
+          });
+        })();
+
+        /* ---------- Phòng kiểm chứng ---------- */
+
+        (function () {
+          var S = [
+            {
+              who: "Nông Sản Sạch 24h",
+              meta: "Trang mới lập, 3 ngày trước",
+
+              text: "KHẨN CẤP: Bưởi da xanh vùng Đồi Sương bị tiêm hóa chất tăng ngọt, ăn vào hỏng gan! Chia sẻ ngay trước khi quá muộn!!!",
+
+              chips: ["2,1 nghìn lượt chia sẻ", "Không đính kèm nguồn"],
+
+              W: "Trang lập 3 ngày trước, không có địa chỉ hay số liên hệ. Các bài trước đó toàn bài bán hàng.",
+
+              I: "Không có kết quả kiểm nghiệm, không nêu tên cơ sở bị kiểm tra, không có ngày tháng.",
+
+              S: "Không cơ quan quản lý hay báo chí nào đưa tin. Hợp tác xã địa phương có công khai hồ sơ truy xuất nguồn gốc.",
+
+              ans: "bad",
+
+              why: "Bài đăng đánh vào nỗi sợ, giục chia sẻ gấp, ẩn danh và không có bằng chứng nào kiểm tra được. Chưa chứng minh được là sai, nhưng không đủ căn cứ để tin hay chia sẻ.",
+            },
+
+            {
+              who: "Văn phòng điều phối OCOP huyện Đồi Sương",
+              meta: "Trang cơ quan địa phương, đăng 2 ngày trước",
+
+              text: "Công bố kết quả đánh giá OCOP năm nay: Chè Shan tuyết Làng Mây đạt 4 sao. Danh sách đầy đủ xem tại cổng thông tin của tỉnh.",
+
+              chips: ["Có đường dẫn tới danh sách", "Có số điện thoại liên hệ"],
+
+              W: "Trang do cơ quan địa phương quản lý, có địa chỉ, số điện thoại và lịch sử đăng bài nhiều năm.",
+
+              I: "Bài ghi rõ thời điểm đánh giá và dẫn tới danh sách công bố chính thức.",
+
+              S: "Danh sách trên cổng thông tin của tỉnh có đúng sản phẩm này, cùng xếp hạng.",
+
+              ans: "good",
+
+              why: "Người đăng rõ ràng, có tài liệu gốc để kiểm tra và hai nguồn độc lập khớp nhau. Tin này đáng tin. Kiểm chứng không có nghĩa là nghi ngờ mọi thứ.",
+            },
+
+            {
+              who: "Chị Mai Review Đồ Ăn",
+              meta: "Tài khoản cá nhân, 18 nghìn người theo dõi",
+
+              text: "Mẹo phân biệt: mật ong thật không bao giờ đóng đường. Hũ nào đóng đường là mật pha, đừng mua nhé cả nhà!",
+
+              chips: [
+                "18 nghìn người theo dõi",
+                "Dựa trên kinh nghiệm cá nhân",
+              ],
+
+              W: "Một người làm nội dung ẩm thực, không phải chuyên gia về ong mật hay thực phẩm. Không bán mật ong.",
+
+              I: "Chỉ dựa trên kinh nghiệm cá nhân, không dẫn nguồn khoa học hay kết quả kiểm nghiệm.",
+
+              S: "Tài liệu của các tổ chức về thực phẩm và nuôi ong cho biết mật ong nguyên chất có thể kết tinh tự nhiên, tùy thành phần đường và nhiệt độ bảo quản.",
+
+              ans: "bad",
+
+              why: "Nghe hợp lý và đến từ người có nhiều người theo dõi, nhưng khẳng định này sai vì kết tinh là hiện tượng tự nhiên của mật ong. Số người theo dõi không thay thế cho bằng chứng.",
+            },
+
+            {
+              who: "Anh Tuấn Livestream",
+              meta: "Người bán hàng, đang bán trong buổi phát",
+
+              text: "Nước mắm truyền thống Cồn Sóng hơn hẳn nước mắm công nghiệp: đạm cao gấp đôi, đã có phiếu kiểm nghiệm! Chốt đơn hôm nay giảm 30%.",
+
+              chips: ["Giảm giá có hạn", "Phiếu kiểm nghiệm chỉ hiện lướt qua"],
+
+              W: "Người đăng chính là người bán, nên có lợi khi bạn tin và mua ngay.",
+
+              I: "Phiếu kiểm nghiệm chỉ hiện lướt trong video, bị che tên đơn vị và ngày cấp, không đọc được số liệu.",
+
+              S: "Chưa tìm thấy kết quả kiểm nghiệm độc lập nào về sản phẩm này.",
+
+              ans: "unsure",
+
+              why: "Chưa thể kết luận đúng hay sai. Người bán có lợi ích, bằng chứng bị che và chưa có nguồn độc lập. Cách chọn khôn ngoan là chờ thêm căn cứ rồi mới mua hay chia sẻ.",
+            },
+          ];
+
+          var V = [
+            { k: "good", t: "Đáng tin" },
+            { k: "unsure", t: "Chưa đủ căn cứ" },
+            { k: "bad", t: "Có dấu hiệu sai lệch" },
+          ];
+
+          var PR = [
+            { k: "W", t: "Ai đăng, và ai được lợi?" },
+            { k: "I", t: "Bằng chứng gốc ở đâu?" },
+            { k: "S", t: "Các nguồn khác nói gì?" },
+          ];
+
+          var vname = {
+            good: "Đáng tin",
+            unsure: "Chưa đủ căn cứ",
+            bad: "Có dấu hiệu sai lệch",
+          };
+
+          var tabs = $("tabs"),
+            card = $("postCard"),
+            probes = $("probes"),
+            verd = $("verdicts"),
+            hint = $("hint"),
+            fb = $("feedback"),
+            score = $("score");
+
+          if (!tabs) return;
+
+          var cur = 0,
+            st = [];
+
+          function fresh() {
+            st = S.map(function () {
+              return { rev: { W: false, I: false, S: false }, ans: null };
+            });
+            cur = 0;
+            hint.textContent = "";
+          }
+
+          function esc(s) {
+            return String(s)
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;");
+          }
+
+          function render() {
+            var s = S[cur],
+              x = st[cur],
+              i,
+              n,
+              right = 0,
+              done = 0;
+
+            tabs.innerHTML = S.map(function (_, i) {
+              var a = st[i].ans,
+                d = a ? (a === S[i].ans ? "ok" : "no") : "";
+
+              return (
+                '<button type="button" class="tab" data-i="' +
+                i +
+                '" aria-current="' +
+                (i === cur) +
+                '"><span class="dot ' +
+                d +
+                '"></span>Tình huống ' +
+                (i + 1) +
+                "</button>"
+              );
+            }).join("");
+
+            card.innerHTML =
+              '<span class="tagline">Tin nhận được · mô phỏng</span>' +
+              '<div class="who"><span class="avatar">' +
+              esc(s.who.charAt(0)) +
+              "</span><div><b>" +
+              esc(s.who) +
+              '</b><span class="meta">' +
+              esc(s.meta) +
+              "</span></div></div>" +
+              '<p class="txt">' +
+              esc(s.text) +
+              "</p>" +
+              '<div class="chips">' +
+              s.chips
+                .map(function (c) {
+                  return '<span class="chip">' + esc(c) + "</span>";
+                })
+                .join("") +
+              "</div>";
+
+            probes.innerHTML = PR.map(function (p) {
+              var open = x.rev[p.k];
+
+              return (
+                '<div class="probe' +
+                (open ? " open" : "") +
+                '"><button type="button" class="pbtn" data-p="' +
+                p.k +
+                '" aria-expanded="' +
+                open +
+                '"><span class="pk">' +
+                p.k +
+                "</span><span>" +
+                p.t +
+                '</span><span class="chev">' +
+                (open ? "−" : "+") +
+                "</span></button>" +
+                (open ? '<p class="pres">' + esc(s[p.k]) + "</p>" : "") +
+                "</div>"
+              );
+            }).join("");
+
+            verd.innerHTML = V.map(function (v) {
+              var cls = "vbtn";
+
+              if (x.ans) {
+                if (v.k === s.ans) cls += " right";
+                else if (v.k === x.ans) cls += " wrong";
+                else cls += " dim";
+              }
+
+              return (
+                '<button type="button" class="' +
+                cls +
+                '" data-v="' +
+                v.k +
+                '"' +
+                (x.ans ? " disabled" : "") +
+                ">" +
+                v.t +
+                "</button>"
+              );
+            }).join("");
+
+            if (x.ans) {
+              var ok = x.ans === s.ans;
+
+              fb.innerHTML =
+                '<div class="fb ' +
+                (ok ? "ok" : "no") +
+                '"><b>' +
+                (ok ? "Chính xác." : "Chưa đúng.") +
+                " Kết luận phù hợp: " +
+                vname[s.ans] +
+                ".</b><span>" +
+                esc(s.why) +
+                "</span></div>";
+            } else fb.innerHTML = "";
+
+            for (i = 0; i < S.length; i++) {
+              if (st[i].ans) {
+                done++;
+                if (st[i].ans === S[i].ans) right++;
+              }
+            }
+
+            score.textContent =
+              "Đúng " +
+              right +
+              "/4 · đã trả lời " +
+              done +
+              "/4" +
+              (done === 4
+                ? right === 4
+                  ? " · Bạn kiểm chứng rất chắc tay."
+                  : " · Thử lại và mở đủ ba manh mối trước khi kết luận."
+                : "");
+          }
+
+          tabs.addEventListener("click", function (e) {
+            var b = e.target.closest(".tab");
+            if (!b) return;
+
+            cur = +b.getAttribute("data-i");
+            hint.textContent = "";
+            render();
+          });
+
+          probes.addEventListener("click", function (e) {
+            var b = e.target.closest(".pbtn");
+            if (!b) return;
+
+            var k = b.getAttribute("data-p");
+            st[cur].rev[k] = !st[cur].rev[k];
+            hint.textContent = "";
+            render();
+
+            var nb = probes.querySelector('[data-p="' + k + '"]');
+            if (nb) nb.focus();
+          });
+
+          verd.addEventListener("click", function (e) {
+            var b = e.target.closest(".vbtn");
+            if (!b || b.disabled) return;
+
+            var x = st[cur],
+              opened =
+                (x.rev.W ? 1 : 0) + (x.rev.I ? 1 : 0) + (x.rev.S ? 1 : 0);
+
+            if (opened < 2) {
+              hint.textContent =
+                "Hãy mở ít nhất hai manh mối trước khi kết luận.";
+              return;
+            }
+
+            hint.textContent = "";
+            x.ans = b.getAttribute("data-v");
+            render();
+          });
+
+          $("reset").addEventListener("click", function () {
+            fresh();
+            render();
+          });
+
+          fresh();
+          render();
+        })();
+
+        /* ---------- Kiểm tra ảnh bằng Gemini AI & Đối chiếu OCOP ---------- */
+
+        (function () {
+          var cam = $("photoCam"),
+            lib = $("photoLib"),
+            shot = $("shot"),
+            ph = $("photoPh"),
+            view = $("photoView"),
+            img = $("photoImg");
+
+          var after = $("snapAfter"),
+            snapPickRow = $("snapPickRow"),
+            clr = $("photoClear"),
+            meta = $("photoMeta");
+
+          var stepper = $("stepper"),
+            fab = $("fab"),
+            snap = $("kiem-tra-anh");
+
+          // AI Verification Elements
+          var btnAiScan = $("btnAiScan"),
+            aiScanner = $("aiScanner"),
+            resultsEmptyState = $("resultsEmptyState"),
+            aiResultsPanel = $("aiResultsPanel"),
+            verdictBanner = $("verdictBanner"),
+            aiVerdictBadge = $("aiVerdictBadge"),
+            aiMatchScore = $("aiMatchScore"),
+            aiVerdictExplain = $("aiVerdictExplain"),
+            aiComparisonNarrative = $("aiComparisonNarrative");
+
+          // Tab Controls
+          var tabBtnNarrative = $("tabBtnNarrative"),
+            tabBtnMatrix = $("tabBtnMatrix"),
+            tabBtnOfficial = $("tabBtnOfficial"),
+            tabPaneNarrative = $("tabPaneNarrative"),
+            tabPaneMatrix = $("tabPaneMatrix"),
+            tabPaneOfficial = $("tabPaneOfficial");
+
+          var offCertStatus = $("offCertStatus"),
+            offProduct = $("offProduct"),
+            offStars = $("offStars"),
+            offAuthority = $("offAuthority"),
+            offLocation = $("offLocation"),
+            offDetails = $("offDetails");
+
+          var matrixTableBody = $("matrixTableBody"),
+            consumerAdviceText = $("consumerAdviceText"),
+            btnCheckAnother = $("btnCheckAnother");
+
+          if (!cam || !img) return;
+
+          var API_BASE = "";
+          if (window.location.protocol === "file:") {
+            API_BASE = "http://localhost:8000";
+          } else if ((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && window.location.port !== "8000") {
+            API_BASE = "http://localhost:8000";
+          } else {
+            API_BASE = "";
+          }
+
+          var url = null,
+            currentFile = null,
+            currentApiKey = localStorage.getItem("rightwise_gemini_key") || "";
+
+          function esc(s) {
+            if (!s) return "";
+            return String(s)
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;");
+          }
+
+          function bytes(n) {
+            return n >= 1048576
+              ? (n / 1048576).toFixed(1).replace(".", ",") + " MB"
+              : Math.max(1, Math.round(n / 1024)) + " KB";
+          }
+
+          function stage(now, done) {
+            Array.prototype.forEach.call(stepper.children, function (li) {
+              var s = +li.getAttribute("data-s");
+              li.classList.toggle("now", s === now);
+              li.classList.toggle("done", s <= done);
+              if (s === now) li.setAttribute("aria-current", "step");
+              else li.removeAttribute("aria-current");
+            });
+          }
+
+          function switchTab(name) {
+            var tabMap = [
+              { btn: tabBtnNarrative, pane: tabPaneNarrative, id: "narrative" },
+              { btn: tabBtnMatrix, pane: tabPaneMatrix, id: "matrix" },
+              { btn: tabBtnOfficial, pane: tabPaneOfficial, id: "official" }
+            ];
+
+            tabMap.forEach(function (t) {
+              if (!t.btn || !t.pane) return;
+              var isMatch = t.id === name;
+              t.btn.classList.toggle("active", isMatch);
+              t.btn.setAttribute("aria-selected", String(isMatch));
+              t.pane.classList.toggle("active", isMatch);
+              t.pane.hidden = !isMatch;
+            });
+          }
+
+          if (tabBtnNarrative) tabBtnNarrative.addEventListener("click", function () { switchTab("narrative"); });
+          if (tabBtnMatrix) tabBtnMatrix.addEventListener("click", function () { switchTab("matrix"); });
+          if (tabBtnOfficial) tabBtnOfficial.addEventListener("click", function () { switchTab("official"); });
+
+          function reset() {
+            if (url) {
+              URL.revokeObjectURL(url);
+              url = null;
+            }
+            currentFile = null;
+            img.removeAttribute("src");
+            img.style.transform = "";
+
+            view.hidden = true;
+            after.hidden = true;
+            if (snapPickRow) snapPickRow.hidden = false;
+            ph.hidden = false;
+            if (aiScanner) aiScanner.hidden = true;
+            if (aiResultsPanel) aiResultsPanel.hidden = true;
+            if (resultsEmptyState) resultsEmptyState.hidden = false;
+            if (meta) meta.textContent = "";
+
+            shot.classList.remove("has");
+            stage(1, 0);
+            switchTab("narrative");
+          }
+
+          function load(f, autoScan) {
+            if (!f) return;
+            if (!/^image\//.test(f.type) && !f.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
+              if (meta) meta.textContent = "Tệp này không phải ảnh. Hãy chọn một tệp ảnh JPG, PNG hoặc WebP.";
+              return;
+            }
+
+            if (url) URL.revokeObjectURL(url);
+            currentFile = f;
+            url = URL.createObjectURL(f);
+
+            var name = f.name || "Ảnh vừa chọn",
+              size = f.size ? bytes(f.size) : "";
+
+            if (meta) meta.textContent = "Đang mở ảnh...";
+
+            img.onload = function () {
+              if (meta) {
+                var shortName = name.length > 22
+                  ? (name.slice(0, 10) + "…" + (name.lastIndexOf(".") > 0 ? name.slice(name.lastIndexOf(".")) : ""))
+                  : name;
+                meta.textContent =
+                  shortName +
+                  (img.naturalWidth ? " · " + img.naturalWidth + "×" + img.naturalHeight + " px" : "") +
+                  (size ? " · " + size : "");
+                meta.title = name;
+              }
+              if (autoScan) {
+                runAiVerification();
+              }
+            };
+
+            img.onerror = function () {
+              reset();
+              if (meta) meta.textContent = "Không mở được ảnh này. Hãy thử ảnh khác.";
+            };
+
+            img.src = url;
+
+            ph.hidden = true;
+            view.hidden = false;
+            after.hidden = false;
+            if (snapPickRow) snapPickRow.hidden = true;
+            if (aiResultsPanel) aiResultsPanel.hidden = true;
+            if (resultsEmptyState) resultsEmptyState.hidden = false;
+
+            shot.classList.add("has");
+            stage(2, 1);
+          }
+
+          // Core AI Verification execution
+          function runAiVerification() {
+            if (!currentFile) {
+              if (meta) meta.textContent = "Vui lòng chụp ảnh hoặc chọn ảnh nhãn mác trước.";
+              return;
+            }
+
+            stage(2, 1);
+            if (aiScanner) aiScanner.hidden = false;
+            if (btnAiScan) {
+              btnAiScan.setAttribute("aria-disabled", "true");
+              btnAiScan.style.opacity = "0.7";
+            }
+
+            var formData = new FormData();
+            formData.append("file", currentFile);
+            if (currentApiKey) {
+              formData.append("api_key", currentApiKey);
+            }
+
+            fetch(API_BASE + "/api/verify", {
+              method: "POST",
+              body: formData
+            })
+              .then(function (res) {
+                if (!res.ok) {
+                  return res.json().then(function (err) {
+                    throw new Error(err.detail || "Lỗi khi gọi API phân tích nhãn.");
+                  });
+                }
+                return res.json();
+              })
+              .then(function (data) {
+                displayResults(data);
+              })
+              .catch(function (err) {
+                console.error("AI Verify Error:", err);
+                if (aiScanner) aiScanner.hidden = true;
+                if (btnAiScan) {
+                  btnAiScan.removeAttribute("aria-disabled");
+                  btnAiScan.style.opacity = "1";
+                }
+                alert("Không thể kết nối hoặc xảy ra lỗi phân tích: " + err.message);
+              });
+          }
+
+          function displayResults(data) {
+            if (aiScanner) aiScanner.hidden = true;
+            if (btnAiScan) {
+              btnAiScan.removeAttribute("aria-disabled");
+              btnAiScan.style.opacity = "1";
+            }
+
+            if (!aiResultsPanel) return;
+            if (resultsEmptyState) resultsEmptyState.hidden = true;
+            aiResultsPanel.hidden = false;
+            stage(3, 2);
+
+            var resData = (data && data.data) ? data.data : data;
+
+            // 1. Verdict Banner
+            var v = resData.verdict || {};
+            var severity = v.severity || "warning";
+            if (verdictBanner) {
+              verdictBanner.className = "verdict-banner " + severity;
+              var icon = severity === "success" ? "✅" : (severity === "danger" ? "⚠️" : "🔍");
+              var title = v.title || (severity === "success" ? "ĐẠT CHUẨN OCOP ĐỊA PHƯƠNG" : "CẦN LƯU Ý");
+              if (aiVerdictBadge) {
+                aiVerdictBadge.innerHTML = "<span>" + icon + "</span><span>" + esc(title) + "</span>";
+              }
+              var conf = v.confidence_score ? ("Độ tin cậy: " + v.confidence_score + "%") : "Thẩm định OCOP";
+              if (aiMatchScore) aiMatchScore.textContent = conf;
+              if (aiVerdictExplain) {
+                aiVerdictExplain.textContent = v.title ? (v.title + (v.code ? (" · Phân loại: " + v.code) : "")) : "";
+              }
+            }
+
+            // 2. VĂN BẢN ĐỐI CHIẾU CHI TIẾT (Tab 1: Narrative)
+            if (aiComparisonNarrative) {
+              var narrativeText = resData.comparison_text || "";
+              if (narrativeText) {
+                var paras = narrativeText.split(/\n\s*\n|\n/).filter(function (p) {
+                  return p.trim().length > 0;
+                });
+                aiComparisonNarrative.innerHTML = paras.map(function (p) {
+                  return "<p>" + esc(p.trim()) + "</p>";
+                }).join("");
+              } else {
+                aiComparisonNarrative.innerHTML = "<p>Đã đối chiếu thành công với cơ sở dữ liệu OCOP địa phương.</p>";
+              }
+            }
+
+            // 3. BẢNG 4 TIÊU CHÍ (Tab 2: Matrix)
+            if (matrixTableBody) {
+              var pts = resData.comparison_points || [];
+              if (pts.length > 0) {
+                matrixTableBody.innerHTML = pts.map(function (p) {
+                  var isOk = p.is_match;
+                  var pill = isOk
+                    ? '<span class="check-pill match">✓ Khớp chuẩn</span>'
+                    : '<span class="check-pill diff">⚠ ' + esc(p.note || "Khác biệt") + '</span>';
+                  return (
+                    "<tr>" +
+                    "<td><b>" + esc(p.criteria || p.label) + "</b></td>" +
+                    "<td>" + esc(p.on_label || p.extracted || "-") + "</td>" +
+                    "<td>" + esc(p.official_record || p.official || "-") + "</td>" +
+                    "<td>" + pill + "</td>" +
+                    "</tr>"
+                  );
+                }).join("");
+              } else {
+                matrixTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--soft);">Đã hoàn tất đối chiếu thông tin.</td></tr>';
+              }
+            }
+
+            // 4. HỒ SƠ OCOP & LỜI KHUYÊN (Tab 3: Official & Advice)
+            var loc = resData.local_ocop_record || {};
+            var ext = resData.extracted || {};
+
+            if (offCertStatus) {
+              if (loc.is_certified) {
+                offCertStatus.className = "check-pill match";
+                offCertStatus.textContent = "✓ Đã chứng nhận OCOP";
+              } else {
+                offCertStatus.className = "check-pill diff";
+                offCertStatus.textContent = "⚠ Chưa có hồ sơ công nhận";
+              }
+            }
+            if (offStars) {
+              offStars.textContent = loc.official_stars
+                ? ("★".repeat(loc.official_stars) + " OCOP " + loc.official_stars + " SAO")
+                : (loc.is_certified ? "Đang xác thực sao" : "Chưa được cấp sao");
+            }
+            if (offProduct) {
+              offProduct.textContent = loc.official_product_name || (loc.is_certified ? (ext.product_name || "-") : "Chưa có tên trong danh mục OCOP");
+            }
+            if (offAuthority) {
+              offAuthority.textContent = loc.certifying_authority || "Hội đồng OCOP cấp tỉnh / huyện";
+            }
+            if (offLocation) {
+              var locParts = [loc.district, loc.province].filter(Boolean);
+              offLocation.textContent = locParts.length ? locParts.join(", ") : (ext.location || "Chưa xác định địa bàn");
+            }
+            if (offDetails) {
+              offDetails.textContent = loc.recognition_details || "Theo quyết định công nhận OCOP của địa phương";
+            }
+
+            if (consumerAdviceText) {
+              consumerAdviceText.textContent = resData.consumer_advice || "Người tiêu dùng nên kiểm tra kỹ tem niêm phong, quét mã QR trên bao bì để dẫn về cổng thông tin truy xuất nguồn gốc chính thống của tỉnh.";
+            }
+
+            // Default to tab narrative
+            switchTab("narrative");
+          }
+
+          // Kiểm tra ảnh khác
+          if (btnCheckAnother) {
+            btnCheckAnother.addEventListener("click", function () {
+              reset();
+            });
+          }
+
+          // Event Listeners for Upload / Camera
+          [cam, lib].forEach(function (inp) {
+            inp.addEventListener("change", function () {
+              load(inp.files && inp.files[0], false);
+              inp.value = "";
+            });
+          });
+
+          if (btnAiScan) {
+            btnAiScan.addEventListener("click", function () {
+              runAiVerification();
+            });
+          }
+
+          if (clr) {
+            clr.addEventListener("click", function () {
+              reset();
+            });
+          }
+
+          if (shot) {
+            shot.addEventListener("dragover", function (e) {
+              e.preventDefault();
+            });
+
+            shot.addEventListener("drop", function (e) {
+              e.preventDefault();
+              load(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0], false);
+            });
+          }
+
+          if (fab && snap && "IntersectionObserver" in window) {
+            new IntersectionObserver(
+              function (en) {
+                fab.hidden = en[0].isIntersecting;
+              },
+              { threshold: 0.12 },
+            ).observe(snap);
+          }
+        })();
+
+
+        /* ---------- Liquid glass: the specular highlight follows the pointer ---------- */
+
+        (function () {
+          if (reduce) return;
+
+          var cards = ".claim,.snap-card,.sim,.lab,.pocket,.step";
+
+          var btns = ".btn,.bigbtn,.tab,.vbtn";
+
+          function aim(e) {
+            if (!e.target.closest) return;
+
+            [cards, btns].forEach(function (sel) {
+              var el = e.target.closest(sel);
+
+              if (!el) return;
+
+              var r = el.getBoundingClientRect();
+
+              el.style.setProperty("--mx", e.clientX - r.left + "px");
+
+              el.style.setProperty("--my", e.clientY - r.top + "px");
+            });
+          }
+
+          document.addEventListener("pointermove", aim, { passive: true });
+
+          document.addEventListener("pointerdown", aim, { passive: true });
+        })();
+
+        /* ---------- Copy WISE card ---------- */
+
+        (function () {
+          var btn = $("copyCard"),
+            state = $("copyState"),
+            list = $("cardList");
+
+          if (!btn) return;
+
+          btn.addEventListener("click", function () {
+            var lines = ["THẺ WISE: 30 giây trước khi chia sẻ"];
+
+            Array.prototype.forEach.call(list.children, function (li) {
+              lines.push(
+                li.children[0].textContent + " · " + li.children[1].textContent,
+              );
+            });
+
+            lines.push("RightWISE · Trust Facts, Choose Wisely.");
+
+            var text = lines.join("\n");
+
+            function fallback() {
+              try {
+                var r = document.createRange();
+                r.selectNodeContents(list);
+
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(r);
+              } catch (err) {}
+
+              state.textContent =
+                "Không chép tự động được. Danh sách đã được chọn, hãy chép thủ công.";
+            }
+
+            try {
+              navigator.clipboard.writeText(text).then(function () {
+                state.textContent = "Đã chép thẻ WISE.";
+              }, fallback);
+            } catch (err) {
+              fallback();
+            }
+          });
+        })();
+      })();
+    </script>
+  </body>
+</html>

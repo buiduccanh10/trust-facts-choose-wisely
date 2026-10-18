@@ -1364,56 +1364,65 @@
       /* Photo check, placed first on the page. Large type and targets for older users. */
 
       .snap {
-        padding-block: clamp(18px, 4vw, 40px) clamp(28px, 5vw, 56px);
+        padding-block: clamp(14px, 2.2vw, 22px);
         background: linear-gradient(180deg, var(--mint) 0%, var(--pale) 100%);
       }
 
       .snap-card {
         display: grid;
-        gap: 22px;
+        gap: 12px;
         min-width: 0;
-        padding: clamp(18px, 4vw, 40px);
+        padding: clamp(14px, 2.2vw, 22px);
         background: var(--white);
         border: 2px solid var(--forest);
-        border-radius: 32px 32px 32px 8px;
-        box-shadow: 8px 8px 0 var(--fresh);
-        font-size: 1.125rem;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(20, 83, 45, 0.08);
+        font-size: 1rem;
+      }
+
+      .snap-header-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
 
       .snap-head {
         display: grid;
-        gap: 12px;
+        gap: 4px;
       }
 
       .snap-title {
-        font: 800 clamp(1.85rem, 6.4vw, 3.2rem)/1.18 var(--display);
+        font: 800 clamp(1.25rem, 2.8vw, 1.7rem)/1.2 var(--display);
         letter-spacing: -0.02em;
         color: var(--forest);
-        text-wrap: balance;
+        margin: 0;
       }
 
       .snap-lead {
-        font-size: 1.15rem;
-        line-height: 1.6;
+        font-size: 0.92rem;
+        line-height: 1.45;
+        color: var(--soft);
+        margin: 0;
       }
 
       .stepper {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
+        gap: 6px;
+        margin-top: 2px;
       }
 
       .stepper li {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         min-width: 0;
-        padding: 8px 12px;
-        border: 2px solid transparent;
+        padding: 5px 10px;
+        border: 1.5px solid transparent;
         border-radius: 999px;
         background: var(--pale);
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.82rem;
         line-height: 1.2;
         color: var(--forest);
       }
@@ -1422,11 +1431,11 @@
         flex: none;
         display: grid;
         place-items: center;
-        width: 32px;
-        height: 32px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background: var(--mint);
-        font: 800 1.05rem/1 var(--display);
+        font: 800 0.78rem/1 var(--display);
       }
 
       .stepper li.now {
@@ -1446,24 +1455,18 @@
       @media (max-width: 539px) {
         .stepper li {
           flex-direction: column;
-          gap: 4px;
-          padding: 8px 4px;
-          border-radius: 18px;
+          gap: 2px;
+          padding: 4px;
+          border-radius: 12px;
           text-align: center;
-          font-size: 0.92rem;
+          font-size: 0.75rem;
         }
       }
 
       .pick {
         display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        gap: 14px;
-      }
-
-      @media (min-width: 700px) {
-        .pick {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
       }
 
       .bigbtn {
@@ -1471,13 +1474,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 14px;
+        gap: 8px;
         width: 100%;
-        min-height: 76px;
-        padding: 12px 20px;
-        border: 3px solid var(--forest);
-        border-radius: 22px;
-        font: 700 1.3rem/1.25 var(--body);
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 2px solid var(--forest);
+        border-radius: 12px;
+        font: 700 0.92rem/1.2 var(--body);
         text-align: center;
         text-decoration: none;
         cursor: pointer;
@@ -1488,11 +1491,11 @@
 
       .bigbtn svg {
         flex: none;
-        width: 34px;
-        height: 34px;
+        width: 20px;
+        height: 20px;
         fill: none;
         stroke: currentColor;
-        stroke-width: 2.4;
+        stroke-width: 2.2;
         stroke-linecap: round;
         stroke-linejoin: round;
       }
@@ -1517,28 +1520,19 @@
       }
 
       .bigbtn.sm {
-        min-height: 64px;
-        font-size: 1.15rem;
+        min-height: 40px;
+        font-size: 0.85rem;
+        padding: 6px 10px;
       }
 
       .bigbtn:focus-within {
-        outline: 4px solid var(--forest);
-        outline-offset: 4px;
+        outline: 3px solid var(--forest);
+        outline-offset: 2px;
       }
 
       .bigbtn[aria-disabled="true"] {
         opacity: 0.45;
         cursor: default;
-      }
-
-      .bigbtn .two {
-        display: grid;
-        gap: 2px;
-        justify-items: center;
-      }
-
-      .bigbtn small {
-        font: 500 0.9rem/1.3 var(--body);
       }
 
       .sr {
@@ -1551,35 +1545,38 @@
       }
 
       .shot {
+        position: relative;
         display: grid;
         place-items: center;
         min-width: 0;
-        min-height: 170px;
+        width: 100%;
+        box-sizing: border-box;
+        height: 190px;
         overflow: hidden;
-        border: 3px dashed var(--line-strong);
-        border-radius: 26px;
+        border: 2px dashed var(--line-strong);
+        border-radius: 16px;
         background: var(--pale);
       }
 
       .shot.has {
-        min-height: 0;
+        height: 190px;
         border-style: solid;
         border-color: var(--forest);
-        background: var(--white);
+        background: #0f172a;
       }
 
       .ph {
         display: grid;
-        gap: 6px;
+        gap: 4px;
         justify-items: center;
-        padding: 22px 18px;
+        padding: 16px 14px;
         text-align: center;
         color: var(--forest);
       }
 
       .ph svg {
-        width: 48px;
-        height: 48px;
+        width: 38px;
+        height: 38px;
         fill: none;
         stroke: var(--forest);
         stroke-width: 2.2;
@@ -1588,34 +1585,38 @@
       }
 
       .ph b {
-        font: 700 1.15rem/1.3 var(--display);
+        font: 700 0.98rem/1.3 var(--display);
       }
 
       .ph span {
-        max-width: 34ch;
-        font-size: 1rem;
-        line-height: 1.5;
+        max-width: 30ch;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        color: var(--soft);
       }
 
       .view {
         width: 100%;
-        max-height: min(62vh, 540px);
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
       }
 
       .view img {
         display: block;
-        width: 100%;
-        max-width: none;
-        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
       }
 
       .pmeta {
-        min-height: 1.4em;
-        font: 500 0.85rem/1.5 var(--mono);
-        color: var(--forest);
+        min-height: 1.2em;
+        font: 500 0.78rem/1.3 var(--mono);
+        color: var(--soft);
         overflow-wrap: anywhere;
+        margin: 0;
       }
 
       .after {
@@ -2539,108 +2540,6 @@
       }
 
       /* ---------- Gemini AI OCOP Verification Styles ---------- */
-      .ai-toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 18px;
-        background: var(--pale);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        margin-block: 4px 10px;
-      }
-      .ai-status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 14px;
-        background: var(--white);
-        border: 1px solid var(--line-strong);
-        border-radius: 999px;
-        font: 600 0.88rem/1.2 var(--mono);
-        color: var(--forest);
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .ai-status-pill:hover {
-        background: var(--mint);
-        border-color: var(--forest);
-      }
-      .ai-status-pill .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #16a34a;
-        box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
-      }
-      .ai-status-pill.needs-key .dot {
-        background: #f59e0b;
-        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
-      }
-      .cat-picker {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.92rem;
-        font-weight: 500;
-        color: var(--forest);
-      }
-      .cat-picker select {
-        padding: 6px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--line-strong);
-        background: var(--white);
-        font: inherit;
-        color: inherit;
-        outline: none;
-        cursor: pointer;
-      }
-      .quick-samples {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-block: 6px 12px;
-      }
-      .quick-label {
-        font: 600 0.82rem/1.2 var(--mono);
-        color: var(--forest);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-      .quick-chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .quick-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: var(--white);
-        border: 1px solid var(--line);
-        font-size: 0.88rem;
-        font-weight: 500;
-        color: var(--soft);
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .quick-chip:hover {
-        border-color: var(--forest);
-        color: var(--forest);
-        background: var(--pale);
-        transform: translateY(-1px);
-      }
-      .quick-chip.warn {
-        border-color: #fca5a5;
-        color: #991b1b;
-      }
-      .quick-chip.warn:hover {
-        background: #fee2e2;
-      }
       .ai-action-bar {
         margin-top: 14px;
         display: flex;
@@ -2705,262 +2604,421 @@
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
-      /* Comparison & Results */
-      .ai-results-panel {
-        margin-top: 24px;
-        padding: 24px;
-        background: var(--pale);
-        border: 2px solid var(--forest);
-        border-radius: 24px;
+      /* Workspace 2-Column Split Dashboard */
+      .snap-workspace {
         display: grid;
-        gap: 20px;
+        grid-template-columns: minmax(280px, 340px) 1fr;
+        gap: 16px;
+        align-items: stretch;
       }
-      .verdict-banner {
+
+      @media (max-width: 899px) {
+        .snap-workspace {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Left Column: Media & Controls */
+      .snap-col-media {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        padding: 16px 20px;
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      /* Media Controls when image loaded */
+      .media-controls {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .media-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--pale);
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .media-toolbar .pmeta {
+        flex: 1 1 0;
+        min-width: 0;
+        font: 500 0.8rem/1.3 var(--mono);
+        color: var(--soft);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .btn-trash {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        background: var(--white);
+        color: #dc2626;
+        cursor: pointer;
+        padding: 0;
+        flex: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-trash:hover {
+        background: #fee2e2;
+        border-color: #ef4444;
+        color: #b91c1c;
+        transform: translateY(-1px);
+      }
+
+      .btn-scan-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 40px;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 12px;
+        background: var(--forest);
+        color: var(--white);
+        font: 700 0.94rem/1.2 var(--body);
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(20, 83, 45, 0.22);
+        transition: all 0.2s;
+      }
+
+      .btn-scan-primary:hover {
+        background: var(--fresh);
+        color: var(--forest);
+        transform: translateY(-1px);
+      }
+
+      /* Right Column: Results & OCOP Dashboard */
+      .snap-col-results {
+        min-width: 0;
+        width: 100%;
+      }
+
+      /* Results Empty State */
+      .results-empty-state {
+        height: 100%;
+        box-sizing: border-box;
+        background: rgba(240, 253, 244, 0.55);
+        border: 1.5px dashed #86efac;
         border-radius: 16px;
-        border: 2px solid transparent;
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
       }
-      .verdict-banner.success {
-        background: #ecfdf5;
-        border-color: #059669;
-        color: #065f46;
+
+      .empty-icon {
+        font-size: 1.6rem;
+        line-height: 1;
       }
-      .verdict-banner.danger {
-        background: #fef2f2;
-        border-color: #dc2626;
-        color: #991b1b;
+
+      .results-empty-state h4 {
+        margin: 0;
+        font: 800 1.1rem/1.2 var(--display);
+        color: var(--forest);
       }
-      .verdict-banner.warning {
-        background: #fffbeb;
-        border-color: #d97706;
-        color: #92400e;
+
+      .empty-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 6px;
+        font-size: 0.86rem;
+        line-height: 1.4;
+        color: #334155;
       }
+
+      .empty-features li {
+        position: relative;
+        padding-left: 18px;
+      }
+
+      .empty-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #16a34a;
+        font-weight: 800;
+      }
+
+      .empty-features b {
+        color: var(--forest);
+      }
+
+      .empty-hint {
+        margin-top: 4px;
+        font-size: 0.8rem;
+        font-style: italic;
+        color: var(--soft);
+      }
+
+      /* AI Results Dashboard */
+      .ai-results-dashboard {
+        display: grid;
+        gap: 10px;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Verdict Banner */
+      .verdict-banner {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1.5px solid transparent;
+      }
+
+      .verdict-banner.success { background: #ecfdf5; border-color: #059669; color: #065f46; }
+      .verdict-banner.danger { background: #fef2f2; border-color: #dc2626; color: #991b1b; }
+      .verdict-banner.warning { background: #fffbeb; border-color: #d97706; color: #92400e; }
+
       .verdict-top {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
       }
+
       .verdict-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        font: 800 1.25rem/1.2 var(--display);
+        gap: 6px;
+        font: 800 1.1rem/1.2 var(--display);
         letter-spacing: -0.01em;
       }
+
       .match-score-pill {
-        font: 700 0.88rem/1.2 var(--mono);
-        padding: 4px 10px;
+        font: 700 0.8rem/1.2 var(--mono);
+        padding: 3px 8px;
         border-radius: 999px;
         background: rgba(0,0,0,0.06);
+        flex: none;
       }
+
       .verdict-explain {
-        font-size: 1.05rem;
-        line-height: 1.5;
+        font-size: 0.86rem;
+        line-height: 1.4;
         margin: 0;
       }
-      /* Comparison Grid */
-      .compare-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-      }
-      .compare-card {
-        background: var(--white);
-        border: 1px solid var(--line-strong);
-        border-radius: 18px;
-        padding: 18px;
-        display: grid;
-        gap: 14px;
-      }
-      .compare-card-head {
+
+      /* Segmented Tab Bar */
+      .results-tab-bar {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--line);
-        padding-bottom: 10px;
+        gap: 4px;
+        background: var(--pale);
+        padding: 3px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
       }
-      .compare-card-head h4 {
-        margin: 0;
-        font: 700 1.05rem/1.2 var(--display);
-        color: var(--forest);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .compare-tag {
-        font: 600 0.76rem/1.2 var(--mono);
-        padding: 2px 8px;
-        border-radius: 6px;
-        text-transform: uppercase;
-      }
-      .compare-tag.user { background: #e0f2fe; color: #0369a1; }
-      .compare-tag.cert { background: #fef3c7; color: #b45309; }
-      .compare-img-wrap {
-        width: 100%;
-        max-height: 240px;
-        border-radius: 12px;
-        overflow: hidden;
-        background: #f3f4f6;
+
+      .tab-btn {
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: transparent;
+        font: 700 0.82rem/1.2 var(--body);
+        color: var(--soft);
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--line);
+        gap: 5px;
+        transition: all 0.15s ease;
       }
-      .compare-img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+
+      .tab-btn:hover {
+        color: var(--forest);
+      }
+
+      .tab-btn.active {
+        background: var(--white);
+        color: var(--forest);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      }
+
+      /* Tab Content Area (Bounded, in-frame scroll) */
+      .results-tab-content {
+        height: 200px;
+        max-height: 220px;
+        overflow-y: auto;
+        padding: 12px 14px;
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--line-strong) transparent;
+      }
+
+      .results-tab-content::-webkit-scrollbar {
+        width: 6px;
+      }
+      .results-tab-content::-webkit-scrollbar-thumb {
+        background: var(--line-strong);
+        border-radius: 4px;
+      }
+
+      .tab-pane {
+        display: none;
+      }
+
+      .tab-pane.active {
         display: block;
       }
-      .extracted-list {
-        display: grid;
-        gap: 8px;
-        font-size: 0.95rem;
+
+      .narrative-body {
+        font-size: 0.92rem;
+        line-height: 1.65;
+        color: #1e293b;
       }
-      .extracted-row {
+
+      .narrative-body p {
+        margin: 0 0 8px;
+      }
+
+      .narrative-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Official Record Details Grid */
+      .official-record-card {
+        background: var(--pale);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+      }
+
+      .official-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+        font-size: 0.84rem;
+      }
+
+      .official-item {
         display: flex;
         justify-content: space-between;
-        gap: 12px;
+        gap: 6px;
         border-bottom: 1px dashed var(--line);
-        padding-bottom: 4px;
+        padding-bottom: 3px;
       }
-      .extracted-row b {
+
+      .official-item.full {
+        grid-column: 1 / -1;
+      }
+
+      .official-item .lbl {
         color: var(--soft);
         font-weight: 600;
         flex: none;
       }
-      .extracted-row span {
-        text-align: right;
-        color: var(--forest);
-        font-weight: 500;
+
+      .official-item .stars-val {
+        color: #d97706;
+        font-weight: 800;
       }
-      /* Comparison Checklist Table */
+
+      .official-item .val-bold {
+        font-weight: 700;
+        color: var(--forest);
+      }
+
+      /* Matrix Table */
       .matrix-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 0.95rem;
-        background: var(--white);
-        border-radius: 14px;
-        overflow: hidden;
-        border: 1px solid var(--line);
+        font-size: 0.82rem;
       }
+
       .matrix-table th {
         background: var(--pale);
         text-align: left;
-        padding: 10px 14px;
-        font: 700 0.85rem/1.2 var(--mono);
+        padding: 6px 8px;
+        font: 700 0.78rem/1.2 var(--mono);
         color: var(--forest);
-        text-transform: uppercase;
         border-bottom: 1px solid var(--line);
       }
+
       .matrix-table td {
-        padding: 10px 14px;
+        padding: 6px 8px;
         border-bottom: 1px solid var(--line);
         vertical-align: middle;
       }
+
       .matrix-table tr:last-child td {
         border-bottom: none;
       }
+
       .check-pill {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        padding: 3px 8px;
+        gap: 3px;
+        padding: 2px 6px;
         border-radius: 999px;
-        font: 700 0.8rem/1 var(--mono);
+        font: 700 0.75rem/1 var(--mono);
+        white-space: nowrap;
       }
+
       .check-pill.match { background: #dcfce7; color: #15803d; }
       .check-pill.diff { background: #fee2e2; color: #b91c1c; }
-      /* Modal */
-      .ai-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.55);
-        backdrop-filter: blur(4px);
-        display: grid;
-        place-items: center;
-        z-index: 1000;
-        padding: 16px;
-      }
-      .ai-modal {
-        background: var(--white);
-        border: 2px solid var(--forest);
-        border-radius: 24px;
-        padding: clamp(20px, 4vw, 32px);
-        max-width: 540px;
-        width: 100%;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-        display: grid;
-        gap: 16px;
-      }
-      .ai-modal h3 {
-        font: 800 1.4rem/1.2 var(--display);
-        color: var(--forest);
-        margin: 0;
-      }
-      .ai-modal input[type="text"], .ai-modal input[type="password"] {
-        width: 100%;
-        padding: 12px 16px;
-        border: 2px solid var(--line-strong);
-        border-radius: 12px;
-        font: 500 0.95rem/1.4 var(--mono);
-        color: var(--forest);
-        outline: none;
-      }
-      .ai-modal input:focus {
-        border-color: var(--forest);
-      }
-      .comparison-narrative-card {
-        background: var(--white);
-        border: 2px solid var(--forest);
-        border-radius: 20px;
-        padding: 22px 24px;
-        box-shadow: 0 4px 16px rgba(20, 83, 45, 0.08);
-      }
-      .narrative-head {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--mint);
-        margin-bottom: 14px;
-      }
-      .narrative-head h4 {
-        margin: 0;
-        font: 800 1.25rem/1.2 var(--display);
-        color: var(--forest);
-      }
-      .narrative-body {
-        font-size: 1.05rem;
-        line-height: 1.8;
-        color: #1e293b;
-      }
-      .narrative-body p {
-        margin-bottom: 12px;
-      }
-      .narrative-body p:last-child {
-        margin-bottom: 0;
-      }
+
+      /* Advice Card */
       .advice-card {
         background: #f0fdf4;
         border: 1px solid #86efac;
-        border-radius: 16px;
-        padding: 16px 20px;
-        display: grid;
-        gap: 8px;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 0.84rem;
+        line-height: 1.45;
         color: #166534;
       }
+
       .advice-card b {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 1.05rem;
+        display: block;
+        margin-bottom: 2px;
+        font-size: 0.86rem;
       }
+
+      .advice-card p {
+        margin: 0;
+      }
+
+      .results-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
 
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -3008,410 +3066,224 @@
     <main id="top">
       <section class="snap" id="kiem-tra-anh" aria-labelledby="snapTitle">
         <div class="wrap">
-          <div class="snap-card">
-            <div class="snap-head">
-              <span class="eyebrow">Thẩm định OCOP bằng AI</span>
-
-              <h2 class="snap-title" id="snapTitle">
-                Kiểm tra nhãn mác & Tra cứu chứng chỉ OCOP địa phương
-              </h2>
-
-              <p class="snap-lead">
-                Chụp hoặc tải ảnh bao bì sản phẩm lên. Gemini AI sẽ đọc nhãn, tra cứu dữ liệu OCOP chính thức của tỉnh/huyện và đối chiếu chứng chỉ chi tiết.
-              </p>
-            </div>
-
-            <ol class="stepper" id="stepper" aria-label="Ba bước kiểm tra ảnh">
-              <li class="now" data-s="1"><b>1</b><span>Chụp / Tải ảnh</span></li>
-
-              <li data-s="2"><b>2</b><span>Gemini phân tích</span></li>
-
-              <li data-s="3"><b>3</b><span>Đối chiếu OCOP</span></li>
-            </ol>
-
-            <!-- Gemini AI Status & Category Selector -->
-            <div class="ai-toolbar">
-              <button type="button" class="ai-status-pill" id="aiConfigBtn" title="Bấm để xem/cấu hình Gemini API Key">
-                <span class="dot" id="aiStatusDot"></span>
-                <span id="aiStatusText">Gemini 3.8 Flash (Sẵn sàng)</span>
-                <span style="font-size: 1rem;">⚙️</span>
-              </button>
-
-              <div class="cat-picker">
-                <label for="aiCategory">Gợi ý ngành hàng:</label>
-                <select id="aiCategory">
-                  <option value="all" selected>Tự động nhận diện</option>
-                  <option value="bánh gai">Bánh gai / Bánh gấc</option>
-                  <option value="trà / chè">Trà / Chè</option>
-                  <option value="gạo">Gạo đặc sản</option>
-                  <option value="nước mắm">Nước mắm truyền thống</option>
-                  <option value="mật ong">Mật ong tự nhiên</option>
-                  <option value="nông sản khô">Hành tỏi khô</option>
-                  <option value="bánh kẹo">Bánh kẹo truyền thống</option>
-                  <option value="khác">Nông sản / Thực phẩm khác</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="pick">
-              <label class="bigbtn main" for="photoCam">
-                <svg viewBox="0 0 48 48" aria-hidden="true">
-                  <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
-                  <circle cx="24" cy="26" r="7" />
-                </svg>
-
-                <span>Chụp ảnh bao bì ngay</span>
-
-                <input
-                  class="sr"
-                  type="file"
-                  id="photoCam"
-                  accept="image/*"
-                  capture="environment"
-                />
-              </label>
-
-              <label class="bigbtn alt" for="photoLib">
-                <svg viewBox="0 0 48 48" aria-hidden="true">
-                  <rect x="6" y="9" width="36" height="30" rx="3" />
-                  <circle cx="17" cy="20" r="3" />
-                  <path d="M6 34l10-9 8 7 6-5 12 9" />
-                </svg>
-
-                <span>Tải ảnh từ máy / điện thoại</span>
-
-                <input class="sr" type="file" id="photoLib" accept="image/*" />
-              </label>
-            </div>
-
-            <div class="shot" id="shot">
-              <div class="ph" id="photoPh">
-                <svg viewBox="0 0 48 48" aria-hidden="true">
-                  <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
-                  <circle cx="24" cy="26" r="7" />
-                </svg>
-
-                <b>Ảnh bao bì của bạn sẽ hiện ở đây</b>
-
-                <span
-                  >Chụp trực tiếp từ điện thoại hoặc tải ảnh nhãn mác sản phẩm OCOP lên để Gemini Vision phân tích và đối chiếu.</span
-                >
+          <div class="snap-card" id="snapCard">
+            <!-- Header Row -->
+            <div class="snap-header-row">
+              <div class="snap-head">
+                <span class="eyebrow">Thẩm định OCOP</span>
+                <h2 class="snap-title" id="snapTitle">
+                  Kiểm tra nhãn mác & Tra cứu chứng chỉ OCOP địa phương
+                </h2>
+                <p class="snap-lead">
+                  Chụp hoặc tải ảnh bao bì sản phẩm. Hệ thống sẽ tự động đọc nhãn mác, tra cứu dữ liệu OCOP chính thức của tỉnh/huyện và đối chiếu chứng chỉ chi tiết.
+                </p>
               </div>
 
-              <div class="view" id="photoView" hidden>
-                <img id="photoImg" alt="Ảnh bạn vừa chọn để kiểm tra" />
-              </div>
+              <ol class="stepper" id="stepper" aria-label="Ba bước kiểm tra ảnh">
+                <li class="now" data-s="1"><b>1</b><span>Chụp / Tải ảnh</span></li>
+                <li data-s="2"><b>2</b><span>Phân tích nhãn mác</span></li>
+                <li data-s="3"><b>3</b><span>Đối chiếu OCOP</span></li>
+              </ol>
+            </div>
 
-              <!-- AI Scanning Overlay -->
-              <div class="ai-scanner" id="aiScanner" hidden>
-                <div class="scan-laser"></div>
-                <div class="scan-box">
-                  <div class="spinner"></div>
-                  <div>
-                    <b style="display:block; color:var(--forest); font-size:1.05rem;">Gemini 3.8 Flash đang thẩm định...</b>
-                    <span style="font-size:0.88rem; color:var(--soft);">Đọc chữ tiếng Việt & đối chiếu chứng chỉ OCOP địa phương</span>
+            <!-- Workspace: 2-Column Split Dashboard (All in one screen) -->
+            <div class="snap-workspace" id="snapWorkspace">
+
+              <!-- CỘT TRÁI: Ảnh bao bì & Thao tác -->
+              <div class="snap-col-media">
+                <div class="shot" id="shot">
+                  <div class="ph" id="photoPh">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
+                      <circle cx="24" cy="26" r="7" />
+                    </svg>
+                    <b>Kéo thả hoặc tải ảnh nhãn mác</b>
+                    <span>Chụp trực tiếp từ điện thoại hoặc tải ảnh JPG, PNG, WebP</span>
+                  </div>
+
+                  <div class="view" id="photoView" hidden>
+                    <img id="photoImg" alt="Ảnh nhãn bao bì bạn vừa chọn" />
+                  </div>
+
+                  <!-- AI Scanning Overlay -->
+                  <div class="ai-scanner" id="aiScanner" hidden>
+                    <div class="scan-laser"></div>
+                    <div class="scan-box">
+                      <div class="spinner"></div>
+                      <div>
+                        <b style="display:block; color:var(--forest); font-size:1.02rem;">Đang phân tích & đối chiếu...</b>
+                        <span style="font-size:0.84rem; color:var(--soft);">Đọc thông tin nhãn & đối chiếu hồ sơ OCOP</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <p class="pmeta" id="photoMeta" aria-live="polite"></p>
+                <!-- 2 Nút tải ảnh (Hiện khi chưa có ảnh) -->
+                <div class="pick" id="snapPickRow">
+                  <label class="bigbtn main" for="photoCam">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M6 15h8l3-5h14l3 5h8v22H6z" />
+                      <circle cx="24" cy="26" r="7" />
+                    </svg>
+                    <span>Chụp ảnh bao bì</span>
+                    <input class="sr" type="file" id="photoCam" accept="image/*" capture="environment" />
+                  </label>
 
-            <div class="after" id="snapAfter" hidden>
-              <div class="blk" style="padding-bottom: 8px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                  <div class="zoombar">
-                    <button type="button" class="bigbtn alt sm" id="zIn">
-                      <svg viewBox="0 0 48 48" aria-hidden="true">
-                        <path d="M24 11v26M11 24h26" /></svg
-                      ><span>Phóng to</span>
-                    </button>
+                  <label class="bigbtn alt" for="photoLib">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                      <rect x="6" y="9" width="36" height="30" rx="3" />
+                      <circle cx="17" cy="20" r="3" />
+                      <path d="M6 34l10-9 8 7 6-5 12 9" />
+                    </svg>
+                    <span>Tải ảnh từ máy</span>
+                    <input class="sr" type="file" id="photoLib" accept="image/*" />
+                  </label>
+                </div>
 
-                    <button
-                      type="button"
-                      class="bigbtn alt sm"
-                      id="zOut"
-                      aria-disabled="true"
-                    >
-                      <svg viewBox="0 0 48 48" aria-hidden="true">
-                        <path d="M11 24h26" /></svg
-                      ><span>Thu nhỏ</span>
+                <!-- Thanh điều khiển khi đã có ảnh -->
+                <div class="media-controls" id="snapAfter" hidden>
+                  <div class="media-toolbar">
+                    <p class="pmeta" id="photoMeta" aria-live="polite"></p>
+
+                    <button type="button" class="btn-trash" id="photoClear" title="Bỏ chọn ảnh" aria-label="Bỏ chọn ảnh">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
                     </button>
                   </div>
 
-                  <p class="pmeta" id="zLevel" aria-live="polite" style="margin:0;">
-                    Đang xem ở mức 1×.
-                  </p>
-
-                  <button type="button" class="bigbtn alt sm" id="photoClear">
-                    Bỏ ảnh này, chụp lại
-                  </button>
-                </div>
-
-                <div class="ai-action-bar">
-                  <button type="button" class="bigbtn main btn-ai-scan" id="btnAiScan" style="width:100%; justify-content:center;">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <button type="button" class="btn-scan-primary" id="btnAiScan">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/>
                     </svg>
-                    <span>Phân tích & Đối chiếu OCOP bằng Gemini AI</span>
+                    <span>Phân tích & Đối chiếu OCOP</span>
                   </button>
                 </div>
               </div>
 
-              <!-- AI VERIFICATION RESULTS & DETAILED OCOP COMPARISON -->
-              <div class="ai-results-panel" id="aiResultsPanel" hidden>
-                <!-- 1. Verdict Banner -->
-                <div class="verdict-banner success" id="verdictBanner">
-                  <div class="verdict-top">
-                    <div class="verdict-badge" id="aiVerdictBadge">
-                      <span>✅</span><span>ĐANG PHÂN TÍCH...</span>
-                    </div>
-                    <span class="match-score-pill" id="aiMatchScore">Độ tin cậy: 95%</span>
-                  </div>
-                  <p class="verdict-explain" id="aiVerdictExplain" style="margin:0; font-weight:500;">
-                    Đang chờ phân tích thông tin...
-                  </p>
+              <!-- CỘT PHẢI: Kết quả phân tích & Hồ sơ OCOP đối chiếu -->
+              <div class="snap-col-results" id="snapColResults">
+
+                <!-- Trạng thái chờ / Hướng dẫn ban đầu -->
+                <div class="results-empty-state" id="resultsEmptyState">
+                  <div class="empty-icon">🔍</div>
+                  <h4>Hệ thống thẩm định OCOP tự động</h4>
+                  <ul class="empty-features">
+                    <li><b>Đọc chữ OCR tiếng Việt:</b> Tự động đọc tên cơ sở, sản phẩm, địa chỉ sản xuất và số sao tự in trên bao bì.</li>
+                    <li><b>Tra cứu hồ sơ OCOP địa phương:</b> Đối chiếu với danh mục quyết định công nhận OCOP chính thức của UBND tỉnh/huyện.</li>
+                    <li><b>Phát hiện gian lận:</b> Cảnh báo nâng khống sao OCOP, mạo danh nhãn hiệu hoặc sai lệch địa bàn sản xuất.</li>
+                  </ul>
+                  <div class="empty-hint">Chụp hoặc tải ảnh nhãn mác ở khung bên trái để bắt đầu thẩm định.</div>
                 </div>
 
-                <!-- 2. VĂN BẢN ĐỐI CHIẾU CHI TIẾT (OCOP NARRATIVE CARD) -->
-                <div class="comparison-narrative-card" id="narrativeCard">
-                  <div class="narrative-head">
-                    <span style="font-size: 1.5rem;">📜</span>
-                    <div>
-                      <h4 style="margin:0; font:800 1.22rem/1.2 var(--display); color:var(--forest);">Văn bản đối chiếu chứng chỉ OCOP địa phương</h4>
-                      <span style="font-size:0.85rem; color:var(--soft);">Báo cáo phân tích chuyên sâu do Gemini AI đối chiếu từ dữ liệu công nhận OCOP các tỉnh thành</span>
-                    </div>
-                  </div>
-                  <div class="narrative-body" id="aiComparisonNarrative">
-                    Đang tạo văn bản đối chiếu...
-                  </div>
-                </div>
-
-                <!-- 3. Side-by-Side: Thông tin nhãn vs Hồ sơ OCOP địa phương -->
-                <div class="compare-grid">
-                  <!-- Cột Trái: Thông tin đọc từ nhãn bao bì -->
-                  <div class="compare-card">
-                    <div class="compare-card-head">
-                      <h4><span>📸</span> Đọc từ nhãn bao bì (Ảnh của bạn)</h4>
-                      <span class="compare-tag user">OCR Phân tích</span>
-                    </div>
-                    <div class="compare-img-wrap">
-                      <img id="userCompareImg" alt="Ảnh nhãn bạn chụp" />
-                    </div>
-                    <div class="extracted-list">
-                      <div class="extracted-row">
-                        <b>Cơ sở / Thương hiệu:</b>
-                        <span id="extBrand" class="mono">-</span>
+                <!-- Bảng kết quả (Hiện khi phân tích xong) -->
+                <div class="ai-results-dashboard" id="aiResultsPanel" hidden>
+                  
+                  <!-- 1. Verdict Banner -->
+                  <div class="verdict-banner success" id="verdictBanner">
+                    <div class="verdict-top">
+                      <div class="verdict-badge" id="aiVerdictBadge">
+                        <span>✅</span><span>ĐANG PHÂN TÍCH...</span>
                       </div>
-                      <div class="extracted-row">
-                        <b>Loại sản phẩm:</b>
-                        <span id="extProduct">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Địa chỉ in trên nhãn:</b>
-                        <span id="extLocation">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Sao OCOP in trên nhãn:</b>
-                        <span id="extStars">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Logo OCOP & Mã QR:</b>
-                        <span id="extQrStatus">-</span>
-                      </div>
+                      <span class="match-score-pill" id="aiMatchScore">Độ tin cậy: 95%</span>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--soft); background: var(--pale); padding: 8px 12px; border-radius: 8px;">
-                      <b>Văn bản chính đọc được:</b>
-                      <p id="extRawText" style="margin-top: 4px; font-style: italic; max-height: 80px; overflow-y: auto;"></p>
-                    </div>
+                    <p class="verdict-explain" id="aiVerdictExplain">Đang chờ phân tích thông tin...</p>
                   </div>
 
-                  <!-- Cột Phải: Hồ sơ OCOP địa phương -->
-                  <div class="compare-card">
-                    <div class="compare-card-head">
-                      <h4><span>🏛️</span> Hồ sơ OCOP địa phương</h4>
-                      <span class="compare-tag cert">Đối chiếu chính thức</span>
-                    </div>
-                    <div style="background: var(--pale); border-radius: 12px; padding: 16px; border: 1px solid var(--line); display: grid; gap: 10px;">
-                      <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-weight: 600; color: var(--forest); font-size: 0.95rem;">Tình trạng chứng nhận:</span>
-                        <span id="offCertStatus" class="check-pill match" style="font-size: 0.85rem;">Đã chứng nhận</span>
-                      </div>
-                      <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-weight: 600; color: var(--forest); font-size: 0.95rem;">Xếp hạng OCOP:</span>
-                        <span id="offStars" style="font-size: 1.1rem; color: #d97706; font-weight: 800;">-</span>
-                      </div>
-                    </div>
-                    <div class="extracted-list">
-                      <div class="extracted-row">
-                        <b>Sản phẩm chính thức:</b>
-                        <span id="offProduct" style="font-weight: 700; color: var(--forest);">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Cơ quan cấp chứng nhận:</b>
-                        <span id="offAuthority" style="font-weight: 600;">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Địa bàn cấp OCOP:</b>
-                        <span id="offLocation">-</span>
-                      </div>
-                      <div class="extracted-row">
-                        <b>Đợt / Quyết định:</b>
-                        <span id="offDetails">-</span>
-                      </div>
-                    </div>
+                  <!-- 2. Segmented Tabs -->
+                  <div class="results-tab-bar" role="tablist">
+                    <button type="button" class="tab-btn active" id="tabBtnNarrative" role="tab" aria-selected="true">
+                      Văn bản đối chiếu
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnMatrix" role="tab" aria-selected="false">
+                      Bảng 4 tiêu chí
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnOfficial" role="tab" aria-selected="false">
+                      Hồ sơ OCOP & Lời khuyên
+                    </button>
                   </div>
-                </div>
 
-                <!-- 4. Bảng đối chiếu tiêu chí (Comparison Matrix) -->
-                <div style="display: grid; gap: 10px;">
-                  <h4 style="margin:0; font: 700 1.05rem/1.2 var(--display); color: var(--forest);">
-                    📋 Bảng đối chiếu 4 tiêu chí xác thực OCOP
-                  </h4>
-                  <div style="overflow-x: auto;">
-                    <table class="matrix-table" id="matrixTable">
-                      <thead>
-                        <tr>
-                          <th>Tiêu chí</th>
-                          <th>Trên nhãn của bạn</th>
-                          <th>Hồ sơ OCOP địa phương</th>
-                          <th>Đánh giá</th>
-                        </tr>
-                      </thead>
-                      <tbody id="matrixTableBody">
-                        <!-- Dynamically rendered rows -->
-                      </tbody>
-                    </table>
+                  <!-- 3. Tab Content Panes -->
+                  <div class="results-tab-content">
+                    
+                    <!-- TAB 1: VĂN BẢN ĐỐI CHIẾU CHI TIẾT -->
+                    <div class="tab-pane active" id="tabPaneNarrative" role="tabpanel">
+                      <div class="narrative-body" id="aiComparisonNarrative">
+                        Đang tạo văn bản đối chiếu...
+                      </div>
+                    </div>
+
+                    <!-- TAB 2: BẢNG 4 TIÊU CHÍ -->
+                    <div class="tab-pane" id="tabPaneMatrix" role="tabpanel" hidden>
+                      <table class="matrix-table" id="matrixTable">
+                        <thead>
+                          <tr>
+                            <th>Tiêu chí</th>
+                            <th>Trên nhãn của bạn</th>
+                            <th>Hồ sơ OCOP địa phương</th>
+                            <th>Đánh giá</th>
+                          </tr>
+                        </thead>
+                        <tbody id="matrixTableBody">
+                          <!-- Dynamic rows rendered by JS -->
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- TAB 3: HỒ SƠ OCOP & LỜI KHUYÊN -->
+                    <div class="tab-pane" id="tabPaneOfficial" role="tabpanel" hidden>
+                      <div class="official-record-card">
+                        <div class="official-grid">
+                          <div class="official-item">
+                            <span class="lbl">Tình trạng OCOP:</span>
+                            <span id="offCertStatus" class="check-pill match">Đã chứng nhận</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Xếp hạng:</span>
+                            <span id="offStars" class="stars-val">-</span>
+                          </div>
+                          <div class="official-item full">
+                            <span class="lbl">Sản phẩm chính thức:</span>
+                            <span id="offProduct" class="val-bold">-</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Cơ quan công nhận:</span>
+                            <span id="offAuthority">-</span>
+                          </div>
+                          <div class="official-item">
+                            <span class="lbl">Địa bàn OCOP:</span>
+                            <span id="offLocation">-</span>
+                          </div>
+                          <div class="official-item full">
+                            <span class="lbl">Đợt / Quyết định:</span>
+                            <span id="offDetails">-</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="advice-card" id="consumerAdviceBox">
+                        <b>💡 Lời khuyên kiểm chứng thực tế:</b>
+                        <p id="consumerAdviceText">Đang cập nhật lời khuyên...</p>
+                      </div>
+                    </div>
+
                   </div>
+
+                  <!-- Bottom Action -->
+                  <div class="results-actions">
+                    <button type="button" class="btn btn-ghost btn-sm" id="btnCheckAnother">
+                      Kiểm tra ảnh khác
+                    </button>
+                  </div>
+
                 </div>
 
-                <!-- 5. Lời khuyên kiểm chứng thực tế -->
-                <div class="advice-card" id="consumerAdviceBox">
-                  <b><span>💡</span> Lời khuyên kiểm chứng thực tế cho người tiêu dùng:</b>
-                  <p id="consumerAdviceText" style="margin:0; font-size: 0.95rem; line-height: 1.6;">
-                    Đang cập nhật lời khuyên...
-                  </p>
-                </div>
-
-                <div style="display: flex; justify-content: center; margin-top: 10px;">
-                  <button type="button" class="btn btn-ghost btn-sm" id="btnCheckAnother">
-                    Kiểm tra một ảnh khác
-                  </button>
-                </div>
               </div>
 
-
-              <div class="blk">
-                <h3><b>3</b>Tìm xem ảnh từ đâu ra</h3>
-
-                <div class="lookups" id="lookups">
-                  <a
-                    class="bigbtn main"
-                    href="https://lens.google.com/"
-                    target="_blank"
-                    rel="noopener"
-                    ><span class="two"
-                      ><span>Mở Google Lens</span
-                      ><small>Tìm bằng hình ảnh</small></span
-                    ></a
-                  >
-
-                  <a
-                    class="bigbtn alt"
-                    href="https://images.google.com/?hl=vi"
-                    target="_blank"
-                    rel="noopener"
-                    ><span class="two"
-                      ><span>Mở Google Hình ảnh</span
-                      ><small>Tìm ảnh giống trên Google</small></span
-                    ></a
-                  >
-
-                  <a
-                    class="bigbtn alt"
-                    href="https://tineye.com/"
-                    target="_blank"
-                    rel="noopener"
-                    ><span class="two"
-                      ><span>Mở TinEye</span
-                      ><small>Tìm ảnh gốc và ảnh cũ nhất</small></span
-                    ></a
-                  >
-                </div>
-
-                <ol class="steps3">
-                  <li>Bấm một nút ở trên. Trang mới sẽ mở ra.</li>
-
-                  <li>Bấm hình máy ảnh hoặc nút tải ảnh lên.</li>
-
-                  <li>Chọn lại đúng bức ảnh vừa chụp.</li>
-
-                  <li>
-                    Xem các kết quả cũ nhất trước. Nếu ảnh đã có từ lâu hoặc ở
-                    nơi khác, bài đăng có thể đang dùng sai ảnh.
-                  </li>
-                </ol>
-              </div>
-
-              <div class="blk">
-                <h3>Tự hỏi năm câu trước khi tin</h3>
-
-                <div
-                  class="chks"
-                  role="group"
-                  aria-label="Năm câu hỏi kiểm tra ảnh"
-                >
-                  <label class="chk" for="pc1"
-                    ><input type="checkbox" id="pc1" /><span
-                      ><b>Ai gửi ảnh này cho bạn?</b
-                      ><span
-                        >Người gửi lấy ảnh ở đâu? Họ có đáng tin không?</span
-                      ></span
-                    ></label
-                  >
-
-                  <label class="chk" for="pc2"
-                    ><input type="checkbox" id="pc2" /><span
-                      ><b>Ảnh chụp ở đâu, khi nào?</b
-                      ><span>Có khớp với điều người ta kể không?</span></span
-                    ></label
-                  >
-
-                  <label class="chk" for="pc3"
-                    ><input type="checkbox" id="pc3" /><span
-                      ><b>Ảnh có chỗ nào lạ không?</b
-                      ><span
-                        >Nhìn kỹ viền, bóng đổ và chữ trong ảnh.</span
-                      ></span
-                    ></label
-                  >
-
-                  <label class="chk" for="pc4"
-                    ><input type="checkbox" id="pc4" /><span
-                      ><b>Ảnh này đã có từ trước chưa?</b
-                      ><span>Dùng bước 3 để tìm.</span></span
-                    ></label
-                  >
-
-                  <label class="chk" for="pc5"
-                    ><input type="checkbox" id="pc5" /><span
-                      ><b>Ảnh có chứng minh được điều người ta nói không?</b
-                      ><span
-                        >Một bức ảnh đẹp chưa chứng minh được sản phẩm an toàn
-                        hay đạt chuẩn.</span
-                      ></span
-                    ></label
-                  >
-                </div>
-
-                <p class="pprog" id="pprog" aria-live="polite"></p>
-              </div>
             </div>
-
-            <p class="private">
-              Ảnh chỉ nằm trên thiết bị của bạn. Trang không tải ảnh lên đâu cả,
-              cho đến khi bạn tự tải ảnh lên một công cụ ở bước 3.
-            </p>
           </div>
         </div>
       </section>
@@ -4725,21 +4597,18 @@
             img = $("photoImg");
 
           var after = $("snapAfter"),
-            zIn = $("zIn"),
-            zOut = $("zOut"),
-            zLevel = $("zLevel"),
+            snapPickRow = $("snapPickRow"),
             clr = $("photoClear"),
-            meta = $("photoMeta"),
-            prog = $("pprog");
+            meta = $("photoMeta");
 
           var stepper = $("stepper"),
-            lookups = $("lookups"),
             fab = $("fab"),
             snap = $("kiem-tra-anh");
 
           // AI Verification Elements
           var btnAiScan = $("btnAiScan"),
             aiScanner = $("aiScanner"),
+            resultsEmptyState = $("resultsEmptyState"),
             aiResultsPanel = $("aiResultsPanel"),
             verdictBanner = $("verdictBanner"),
             aiVerdictBadge = $("aiVerdictBadge"),
@@ -4747,13 +4616,13 @@
             aiVerdictExplain = $("aiVerdictExplain"),
             aiComparisonNarrative = $("aiComparisonNarrative");
 
-          var userCompareImg = $("userCompareImg"),
-            extBrand = $("extBrand"),
-            extProduct = $("extProduct"),
-            extLocation = $("extLocation"),
-            extStars = $("extStars"),
-            extQrStatus = $("extQrStatus"),
-            extRawText = $("extRawText");
+          // Tab Controls
+          var tabBtnNarrative = $("tabBtnNarrative"),
+            tabBtnMatrix = $("tabBtnMatrix"),
+            tabBtnOfficial = $("tabBtnOfficial"),
+            tabPaneNarrative = $("tabPaneNarrative"),
+            tabPaneMatrix = $("tabPaneMatrix"),
+            tabPaneOfficial = $("tabPaneOfficial");
 
           var offCertStatus = $("offCertStatus"),
             offProduct = $("offProduct"),
@@ -4766,28 +4635,18 @@
             consumerAdviceText = $("consumerAdviceText"),
             btnCheckAnother = $("btnCheckAnother");
 
-          var aiConfigBtn = $("aiConfigBtn"),
-            aiStatusDot = $("aiStatusDot"),
-            aiStatusText = $("aiStatusText"),
-            aiCategory = $("aiCategory");
-
-          var aiConfigModal = $("aiConfigModal"),
-            closeModalBtn = $("closeModalBtn"),
-            btnCancelModal = $("btnCancelModal"),
-            btnSaveKey = $("btnSaveKey"),
-            btnTestKey = $("btnTestKey"),
-            inputApiKey = $("inputApiKey"),
-            keyTestResult = $("keyTestResult");
-
           if (!cam || !img) return;
 
-          var API_BASE = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
-            ? ""
-            : "http://localhost:8000";
+          var API_BASE = "";
+          if (window.location.protocol === "file:") {
+            API_BASE = "http://localhost:8000";
+          } else if ((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && window.location.port !== "8000") {
+            API_BASE = "http://localhost:8000";
+          } else {
+            API_BASE = "";
+          }
 
-          var LEVELS = [1, 1.5, 2, 3, 4],
-            zi = 0,
-            url = null,
+          var url = null,
             currentFile = null,
             currentApiKey = localStorage.getItem("rightwise_gemini_key") || "";
 
@@ -4816,14 +4675,26 @@
             });
           }
 
-          function applyZoom() {
-            var z = LEVELS[zi];
-            img.style.width = z * 100 + "%";
-            zLevel.textContent =
-              "Đang xem ở mức " + String(z).replace(".", ",") + "×.";
-            zIn.setAttribute("aria-disabled", String(zi === LEVELS.length - 1));
-            zOut.setAttribute("aria-disabled", String(zi === 0));
+          function switchTab(name) {
+            var tabMap = [
+              { btn: tabBtnNarrative, pane: tabPaneNarrative, id: "narrative" },
+              { btn: tabBtnMatrix, pane: tabPaneMatrix, id: "matrix" },
+              { btn: tabBtnOfficial, pane: tabPaneOfficial, id: "official" }
+            ];
+
+            tabMap.forEach(function (t) {
+              if (!t.btn || !t.pane) return;
+              var isMatch = t.id === name;
+              t.btn.classList.toggle("active", isMatch);
+              t.btn.setAttribute("aria-selected", String(isMatch));
+              t.pane.classList.toggle("active", isMatch);
+              t.pane.hidden = !isMatch;
+            });
           }
+
+          if (tabBtnNarrative) tabBtnNarrative.addEventListener("click", function () { switchTab("narrative"); });
+          if (tabBtnMatrix) tabBtnMatrix.addEventListener("click", function () { switchTab("matrix"); });
+          if (tabBtnOfficial) tabBtnOfficial.addEventListener("click", function () { switchTab("official"); });
 
           function reset() {
             if (url) {
@@ -4832,24 +4703,26 @@
             }
             currentFile = null;
             img.removeAttribute("src");
+            img.style.transform = "";
 
             view.hidden = true;
             after.hidden = true;
+            if (snapPickRow) snapPickRow.hidden = false;
             ph.hidden = false;
             if (aiScanner) aiScanner.hidden = true;
             if (aiResultsPanel) aiResultsPanel.hidden = true;
+            if (resultsEmptyState) resultsEmptyState.hidden = false;
+            if (meta) meta.textContent = "";
 
             shot.classList.remove("has");
-            zi = 0;
-            applyZoom();
             stage(1, 0);
+            switchTab("narrative");
           }
 
           function load(f, autoScan) {
             if (!f) return;
             if (!/^image\//.test(f.type) && !f.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
-              meta.textContent =
-                "Tệp này không phải ảnh. Hãy chọn một tệp ảnh JPG hoặc PNG.";
+              if (meta) meta.textContent = "Tệp này không phải ảnh. Hãy chọn một tệp ảnh JPG, PNG hoặc WebP.";
               return;
             }
 
@@ -4857,16 +4730,22 @@
             currentFile = f;
             url = URL.createObjectURL(f);
 
-            var name = f.name || "Ảnh vừa chụp",
+            var name = f.name || "Ảnh vừa chọn",
               size = f.size ? bytes(f.size) : "";
 
-            meta.textContent = "Đang mở ảnh...";
+            if (meta) meta.textContent = "Đang mở ảnh...";
 
             img.onload = function () {
-              meta.textContent =
-                name +
-                (img.naturalWidth ? " · " + img.naturalWidth + "×" + img.naturalHeight + " px" : "") +
-                (size ? " · " + size : "");
+              if (meta) {
+                var shortName = name.length > 22
+                  ? (name.slice(0, 10) + "…" + (name.lastIndexOf(".") > 0 ? name.slice(name.lastIndexOf(".")) : ""))
+                  : name;
+                meta.textContent =
+                  shortName +
+                  (img.naturalWidth ? " · " + img.naturalWidth + "×" + img.naturalHeight + " px" : "") +
+                  (size ? " · " + size : "");
+                meta.title = name;
+              }
               if (autoScan) {
                 runAiVerification();
               }
@@ -4874,68 +4753,26 @@
 
             img.onerror = function () {
               reset();
-              meta.textContent =
-                "Không mở được ảnh này. Hãy thử một ảnh JPG hoặc PNG khác.";
+              if (meta) meta.textContent = "Không mở được ảnh này. Hãy thử ảnh khác.";
             };
 
             img.src = url;
-            if (userCompareImg) userCompareImg.src = url;
 
             ph.hidden = true;
             view.hidden = false;
             after.hidden = false;
+            if (snapPickRow) snapPickRow.hidden = true;
             if (aiResultsPanel) aiResultsPanel.hidden = true;
+            if (resultsEmptyState) resultsEmptyState.hidden = false;
 
             shot.classList.add("has");
-            zi = 0;
-            applyZoom();
             stage(2, 1);
-
-            if (shot.scrollIntoView)
-              shot.scrollIntoView({
-                behavior: reduce ? "auto" : "smooth",
-                block: "center",
-              });
-          }
-
-          // Check Backend & Gemini API Status
-          function checkApiStatus() {
-            if (!aiStatusText) return;
-            fetch(API_BASE + "/api/health")
-              .then(function (r) { return r.json(); })
-              .then(function (data) {
-                if (currentApiKey) {
-                  aiStatusText.textContent = "Gemini API: Đã có Key người dùng (0đ)";
-                  aiStatusPillActive(true);
-                } else if (data.gemini_api_configured) {
-                  aiStatusText.textContent = "Gemini API: Sẵn sàng trên Server (Free)";
-                  aiStatusPillActive(true);
-                } else {
-                  aiStatusText.textContent = "Gemini API (Demo / Nhập Key miễn phí)";
-                  aiStatusPillActive(false);
-                }
-              })
-              .catch(function () {
-                aiStatusText.textContent = "Gemini API (Bấm để cài Key)";
-                aiStatusPillActive(!!currentApiKey);
-              });
-          }
-
-          function aiStatusPillActive(isActive) {
-            if (!aiConfigBtn) return;
-            if (isActive) {
-              aiConfigBtn.classList.remove("needs-key");
-              if (aiStatusDot) aiStatusDot.style.background = "#16a34a";
-            } else {
-              aiConfigBtn.classList.add("needs-key");
-              if (aiStatusDot) aiStatusDot.style.background = "#f59e0b";
-            }
           }
 
           // Core AI Verification execution
           function runAiVerification() {
             if (!currentFile) {
-              meta.textContent = "Vui lòng chụp ảnh hoặc chọn ảnh nhãn mác trước.";
+              if (meta) meta.textContent = "Vui lòng chụp ảnh hoặc chọn ảnh nhãn mác trước.";
               return;
             }
 
@@ -4948,9 +4785,6 @@
 
             var formData = new FormData();
             formData.append("file", currentFile);
-            if (aiCategory && aiCategory.value) {
-              formData.append("category", aiCategory.value);
-            }
             if (currentApiKey) {
               formData.append("api_key", currentApiKey);
             }
@@ -4977,10 +4811,7 @@
                   btnAiScan.removeAttribute("aria-disabled");
                   btnAiScan.style.opacity = "1";
                 }
-                alert(
-                  "Không thể kết nối hoặc xảy ra lỗi: " + err.message +
-                  "\n\nBạn có thể bấm biểu tượng ⚙️ trên thanh công cụ để nhập Gemini API Key miễn phí từ Google AI Studio (aistudio.google.com)."
-                );
+                alert("Không thể kết nối hoặc xảy ra lỗi phân tích: " + err.message);
               });
           }
 
@@ -4992,6 +4823,7 @@
             }
 
             if (!aiResultsPanel) return;
+            if (resultsEmptyState) resultsEmptyState.hidden = true;
             aiResultsPanel.hidden = false;
             stage(3, 2);
 
@@ -5007,14 +4839,14 @@
               if (aiVerdictBadge) {
                 aiVerdictBadge.innerHTML = "<span>" + icon + "</span><span>" + esc(title) + "</span>";
               }
-              var conf = v.confidence_score ? ("Độ tin cậy: " + v.confidence_score + "%") : "Thẩm định AI";
+              var conf = v.confidence_score ? ("Độ tin cậy: " + v.confidence_score + "%") : "Thẩm định OCOP";
               if (aiMatchScore) aiMatchScore.textContent = conf;
               if (aiVerdictExplain) {
                 aiVerdictExplain.textContent = v.title ? (v.title + (v.code ? (" · Phân loại: " + v.code) : "")) : "";
               }
             }
 
-            // 2. VĂN BẢN ĐỐI CHIẾU CHI TIẾT (OCOP NARRATIVE CARD)
+            // 2. VĂN BẢN ĐỐI CHIẾU CHI TIẾT (Tab 1: Narrative)
             if (aiComparisonNarrative) {
               var narrativeText = resData.comparison_text || "";
               if (narrativeText) {
@@ -5029,29 +4861,33 @@
               }
             }
 
-            // 3. Extracted Data from User Label (Left Card)
-            var ext = resData.extracted || {};
-            if (userCompareImg) userCompareImg.src = url || img.src;
-            if (extBrand) extBrand.textContent = ext.brand || "Không đọc rõ trên nhãn";
-            if (extProduct) extProduct.textContent = ext.product_name || "Chưa xác định";
-            if (extLocation) extLocation.textContent = ext.location || "Không ghi địa chỉ cụ thể";
-            if (extStars) {
-              extStars.textContent = ext.claimed_stars
-                ? ("★".repeat(ext.claimed_stars) + " " + ext.claimed_stars + " sao OCOP")
-                : "Không ghi số sao";
-            }
-            if (extQrStatus) {
-              var q = [];
-              if (ext.has_ocop_logo) q.push("Có logo OCOP");
-              if (ext.has_qr_code) q.push("Có mã QR/Tem điện tử");
-              extQrStatus.textContent = q.length ? q.join(" · ") : "Không phát hiện logo/mã QR";
-            }
-            if (extRawText) {
-              extRawText.textContent = ext.raw_text_summary || "Không có đoạn văn bản trích xuất.";
+            // 3. BẢNG 4 TIÊU CHÍ (Tab 2: Matrix)
+            if (matrixTableBody) {
+              var pts = resData.comparison_points || [];
+              if (pts.length > 0) {
+                matrixTableBody.innerHTML = pts.map(function (p) {
+                  var isOk = p.is_match;
+                  var pill = isOk
+                    ? '<span class="check-pill match">✓ Khớp chuẩn</span>'
+                    : '<span class="check-pill diff">⚠ ' + esc(p.note || "Khác biệt") + '</span>';
+                  return (
+                    "<tr>" +
+                    "<td><b>" + esc(p.criteria || p.label) + "</b></td>" +
+                    "<td>" + esc(p.on_label || p.extracted || "-") + "</td>" +
+                    "<td>" + esc(p.official_record || p.official || "-") + "</td>" +
+                    "<td>" + pill + "</td>" +
+                    "</tr>"
+                  );
+                }).join("");
+              } else {
+                matrixTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--soft);">Đã hoàn tất đối chiếu thông tin.</td></tr>';
+              }
             }
 
-            // 4. Official Certified Product Record (Right Card)
+            // 4. HỒ SƠ OCOP & LỜI KHUYÊN (Tab 3: Official & Advice)
             var loc = resData.local_ocop_record || {};
+            var ext = resData.extracted || {};
+
             if (offCertStatus) {
               if (loc.is_certified) {
                 offCertStatus.className = "check-pill match";
@@ -5080,54 +4916,18 @@
               offDetails.textContent = loc.recognition_details || "Theo quyết định công nhận OCOP của địa phương";
             }
 
-            // 5. Comparison Matrix Table
-            if (matrixTableBody) {
-              var pts = resData.comparison_points || [];
-              if (pts.length > 0) {
-                matrixTableBody.innerHTML = pts.map(function (p) {
-                  var isOk = p.is_match;
-                  var pill = isOk
-                    ? '<span class="check-pill match">✓ Khớp chuẩn</span>'
-                    : '<span class="check-pill diff">⚠ ' + esc(p.note || "Khác biệt") + '</span>';
-                  return (
-                    "<tr>" +
-                    "<td><b>" + esc(p.criteria || p.label) + "</b></td>" +
-                    "<td>" + esc(p.on_label || p.extracted || "-") + "</td>" +
-                    "<td>" + esc(p.official_record || p.official || "-") + "</td>" +
-                    "<td>" + pill + "</td>" +
-                    "</tr>"
-                  );
-                }).join("");
-              } else {
-                matrixTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--soft);">Đã hoàn tất đối chiếu thông tin.</td></tr>';
-              }
-            }
-
-            // 6. Consumer Advice Box
             if (consumerAdviceText) {
               consumerAdviceText.textContent = resData.consumer_advice || "Người tiêu dùng nên kiểm tra kỹ tem niêm phong, quét mã QR trên bao bì để dẫn về cổng thông tin truy xuất nguồn gốc chính thống của tỉnh.";
             }
 
-            // Scroll to results
-            if (aiResultsPanel.scrollIntoView) {
-              aiResultsPanel.scrollIntoView({
-                behavior: reduce ? "auto" : "smooth",
-                block: "start"
-              });
-            }
+            // Default to tab narrative
+            switchTab("narrative");
           }
 
           // Kiểm tra ảnh khác
           if (btnCheckAnother) {
             btnCheckAnother.addEventListener("click", function () {
               reset();
-              meta.textContent = "";
-              if (shot && shot.scrollIntoView) {
-                shot.scrollIntoView({
-                  behavior: reduce ? "auto" : "smooth",
-                  block: "center"
-                });
-              }
             });
           }
 
@@ -5145,128 +4945,22 @@
             });
           }
 
-          zIn.addEventListener("click", function () {
-            if (zi < LEVELS.length - 1) {
-              zi++;
-              applyZoom();
-            }
-          });
-
-          zOut.addEventListener("click", function () {
-            if (zi > 0) {
-              zi--;
-              applyZoom();
-            }
-          });
-
-          clr.addEventListener("click", function () {
-            reset();
-            meta.textContent = "";
-            if (snap.scrollIntoView)
-              snap.scrollIntoView({
-                behavior: reduce ? "auto" : "smooth",
-                block: "start",
-              });
-          });
-
-          lookups.addEventListener("click", function (e) {
-            if (e.target.closest("a")) stage(3, 2);
-          });
-
-          shot.addEventListener("dragover", function (e) {
-            e.preventDefault();
-          });
-
-          shot.addEventListener("drop", function (e) {
-            e.preventDefault();
-            load(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0], false);
-          });
-
-          // Modal Handlers
-          if (aiConfigBtn && aiConfigModal) {
-            aiConfigBtn.addEventListener("click", function () {
-              aiConfigModal.hidden = false;
-              if (inputApiKey) inputApiKey.value = currentApiKey;
-              if (keyTestResult) keyTestResult.textContent = "";
+          if (clr) {
+            clr.addEventListener("click", function () {
+              reset();
             });
           }
 
-          function closeModal() {
-            if (aiConfigModal) aiConfigModal.hidden = true;
-          }
+          if (shot) {
+            shot.addEventListener("dragover", function (e) {
+              e.preventDefault();
+            });
 
-          if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-          if (btnCancelModal) btnCancelModal.addEventListener("click", closeModal);
-
-          if (btnSaveKey) {
-            btnSaveKey.addEventListener("click", function () {
-              var val = (inputApiKey ? inputApiKey.value : "").trim();
-              currentApiKey = val;
-              if (val) {
-                localStorage.setItem("rightwise_gemini_key", val);
-              } else {
-                localStorage.removeItem("rightwise_gemini_key");
-              }
-              checkApiStatus();
-              closeModal();
+            shot.addEventListener("drop", function (e) {
+              e.preventDefault();
+              load(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0], false);
             });
           }
-
-          if (btnTestKey) {
-            btnTestKey.addEventListener("click", function () {
-              var val = (inputApiKey ? inputApiKey.value : "").trim();
-              if (!val) {
-                keyTestResult.style.color = "#dc2626";
-                keyTestResult.textContent = "Chưa nhập API key.";
-                return;
-              }
-              keyTestResult.style.color = "#2563eb";
-              keyTestResult.textContent = "Đang kiểm tra kết nối Google AI Studio...";
-
-              // Test key via Gemini REST endpoint
-              fetch("https://generativelanguage.googleapis.com/v1beta/models?key=" + encodeURIComponent(val))
-                .then(function (res) {
-                  if (res.ok) {
-                    keyTestResult.style.color = "#16a34a";
-                    keyTestResult.textContent = "✅ Kết nối thành công! Key hợp lệ và sẵn sàng sử dụng.";
-                  } else {
-                    return res.json().then(function (err) {
-                      keyTestResult.style.color = "#dc2626";
-                      keyTestResult.textContent = "❌ Key không hợp lệ: " + (err.error ? err.error.message : "Vui lòng kiểm tra lại");
-                    });
-                  }
-                })
-                .catch(function (err) {
-                  keyTestResult.style.color = "#dc2626";
-                  keyTestResult.textContent = "❌ Lỗi mạng: " + err.message;
-                });
-            });
-          }
-
-          var boxes = [1, 2, 3, 4, 5].map(function (i) {
-            return $("pc" + i);
-          });
-
-          function count() {
-            var n = boxes.filter(function (b) {
-              return b && b.checked;
-            }).length;
-
-            prog.textContent =
-              n +
-              "/5 câu đã xem xét" +
-              (n === 5
-                ? ". Bây giờ hãy quyết định: đủ căn cứ thì tin, chưa đủ thì chờ."
-                : "");
-          }
-
-          boxes.forEach(function (b) {
-            if (b) b.addEventListener("change", count);
-          });
-
-          count();
-          applyZoom();
-          checkApiStatus();
 
           if (fab && snap && "IntersectionObserver" in window) {
             new IntersectionObserver(
@@ -5356,48 +5050,5 @@
         })();
       })();
     </script>
-    <!-- Modal Cài đặt Gemini API Key -->
-    <div class="ai-modal-overlay" id="aiConfigModal" hidden>
-      <div class="ai-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-          <div>
-            <span class="eyebrow">Google AI Studio</span>
-            <h3 id="modalTitle" style="margin-top: 4px;">Cài đặt Gemini API Key</h3>
-          </div>
-          <button type="button" id="closeModalBtn" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--soft);">✕</button>
-        </div>
-
-        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 12px; padding: 12px; font-size: 0.9rem; color: #166534; line-height: 1.5;">
-          <b>⭐ Hoàn toàn MIỄN PHÍ 100% (Không cần thẻ tín dụng):</b><br/>
-          Google cung cấp Free Tier <b>15 lượt gọi / phút</b>, tối đa <b>1.500 lượt / ngày</b>.
-          <ol style="margin: 8px 0 0 16px; padding: 0; list-style: decimal;">
-            <li>Truy cập <a href="https://aistudio.google.com/" target="_blank" rel="noopener" style="text-decoration: underline; font-weight:700;">Google AI Studio</a> và đăng nhập Gmail.</li>
-            <li>Bấm <b>"Get API key"</b> / <b>"Create API key"</b> (mất 30 giây).</li>
-            <li>Dán key vào ô bên dưới và bấm Lưu.</li>
-          </ol>
-        </div>
-
-        <div style="display: grid; gap: 6px;">
-          <label for="inputApiKey" style="font-weight: 600; font-size: 0.95rem; color: var(--forest);">
-            Gemini API Key của bạn:
-          </label>
-          <input type="password" id="inputApiKey" placeholder="AIzaSy..." autocomplete="off" />
-          <span style="font-size: 0.8rem; color: var(--soft);">
-            Key được lưu an toàn trong trình duyệt (localStorage) và chỉ dùng khi gửi ảnh kiểm tra.
-          </span>
-        </div>
-
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px;">
-          <button type="button" class="btn btn-ghost btn-sm" id="btnTestKey">
-            Kiểm tra kết nối
-          </button>
-          <div class="ai-modal-actions">
-            <button type="button" class="btn btn-ghost btn-sm" id="btnCancelModal">Đóng</button>
-            <button type="button" class="btn btn-primary btn-sm" id="btnSaveKey">Lưu cấu hình</button>
-          </div>
-        </div>
-        <p id="keyTestResult" style="margin:0; font-size: 0.88rem; font-weight:600;" aria-live="polite"></p>
-      </div>
-    </div>
   </body>
 </html>

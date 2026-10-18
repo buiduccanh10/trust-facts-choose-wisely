@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Secrets (configured via Vercel Dashboard / CLI)
+.env
+backend/.env
+.env.local
+
+# Git & editors
+.git/
+.github/
+.vscode/
+.idea/
+.DS_Store
+
+# Scratch scripts
+rules.txt

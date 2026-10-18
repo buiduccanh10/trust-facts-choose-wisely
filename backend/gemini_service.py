@@ -109,7 +109,7 @@ def extract_json_from_response(text: str) -> Dict[str, Any]:
 
 class GeminiOCOPService:
     def __init__(self):
-        self.preferred_models = ["gemini-3.8-flash", "gemini-flash-latest", "gemini-2.0-flash"]
+        self.preferred_models = ["gemini-flash-latest", "gemini-3.5-flash", "gemini-3.8-flash"]
 
     def get_api_key(self, client_key: Optional[str] = None) -> str:
         key = (client_key or os.getenv("GEMINI_API_KEY", "")).strip()
@@ -189,7 +189,7 @@ class GeminiOCOPService:
             import base64
 
             b64_img = base64.b64encode(clean_jpeg_bytes).decode("utf-8")
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={api_key}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
             payload = {
                 "contents": [{
                     "parts": [
@@ -208,7 +208,7 @@ class GeminiOCOPService:
                     data = resp.json()
                     raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
                     result = extract_json_from_response(raw_text)
-                    result["_model_used"] = "gemini-3.8-flash (REST)"
+                    result["_model_used"] = "gemini-flash-latest (REST)"
                     result["_success"] = True
                     return result
                 else:

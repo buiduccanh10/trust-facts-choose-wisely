@@ -1,0 +1,26 @@
+# Environments & Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment secrets
+.env
+backend/.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

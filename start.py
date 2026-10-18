@@ -29,13 +29,6 @@ def main():
     print("🌾 RightWISE - Nông sản & OCOP AI Verification (Cách 1: Gemini Free Tier)")
     print("=" * 65)
     print(f"🚀 Ứng dụng đang chạy tại:   http://localhost:{port}/")
-    print(f"📖 API Documentation:       http://localhost:{port}/docs")
-    print(f"⚡ Trạng thái Gemini API:    {'✅ Đã cấu hình' if has_key else '💡 Demo mô phỏng (Có thể nhập key trực tiếp trên web)'}")
-    print("-" * 65)
-    print("⭐ Hướng dẫn lấy Gemini API Key MIỄN PHÍ 100%:")
-    print("   1. Vào https://aistudio.google.com/ (Đăng nhập Gmail)")
-    print("   2. Bấm 'Create API Key' (0đ, không cần thẻ tín dụng)")
-    print("   3. Dán vào ô Cài đặt (⚙️) trên Web hoặc file backend/.env")
     print("=" * 65 + "\n")
 
     uvicorn.run("backend.main:app", host=host, port=port, reload=True)
