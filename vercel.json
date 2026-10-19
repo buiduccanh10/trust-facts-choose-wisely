@@ -17,6 +17,10 @@
     {
       "source": "/verify",
       "destination": "/api/index.py"
+    },
+    {
+      "source": "/verify-url",
+      "destination": "/api/index.py"
     }
   ]
 }

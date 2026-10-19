@@ -8,7 +8,8 @@ import sys
 import os
 from pathlib import Path
 from typing import Optional
-from fastapi import FastAPI, File, UploadFile, Form, Header, HTTPException
+from pydantic import BaseModel
+from fastapi import FastAPI, File, UploadFile, Form, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -95,6 +96,56 @@ async def verify_label(
         raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi phân tích Gemini AI: {str(e)}")
+
+@app.post("/verify-url")
+@app.post("/api/verify-url")
+async def verify_url(
+    request: Request,
+    url: Optional[str] = Form(None),
+    api_key: Optional[str] = Form(None),
+    model: Optional[str] = Form(None),
+    x_gemini_key: Optional[str] = Header(None)
+):
+    """
+    Thẩm định OCOP qua đường link bài viết / bài đăng bán hàng / trang sản phẩm.
+    Hỗ trợ cả JSON body (fetch) và Form data (POST).
+    """
+    target_url = url
+    client_key = api_key
+    model_name = model
+
+    content_type = request.headers.get("content-type", "").lower()
+    if "application/json" in content_type:
+        try:
+            body = await request.json()
+            if isinstance(body, dict):
+                target_url = body.get("url") or target_url
+                client_key = body.get("api_key") or client_key
+                model_name = body.get("model") or model_name
+        except Exception:
+            pass
+
+    client_key = client_key or x_gemini_key
+    model_name = model_name or "gemini-flash-latest"
+
+    if not target_url or not target_url.strip():
+        raise HTTPException(status_code=400, detail="Vui lòng cung cấp đường dẫn (URL) bài viết hoặc sản phẩm.")
+
+    try:
+        result = await gemini_service.verify_url_ocop(
+            url=target_url.strip(),
+            client_api_key=client_key,
+            model_name=model_name
+        )
+        return {
+            "status": "success",
+            "data": result
+        }
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi thẩm định link: {str(e)}")
+
 
 # Phục vụ Frontend static files khi chạy trực tiếp qua Uvicorn / localhost
 if STATIC_DIR.exists():
