@@ -8,19 +8,19 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.py"
+      "destination": "/api/index.py?__path__=/api/$1"
     },
     {
       "source": "/health",
-      "destination": "/api/index.py"
+      "destination": "/api/index.py?__path__=/health"
     },
     {
       "source": "/verify",
-      "destination": "/api/index.py"
+      "destination": "/api/index.py?__path__=/verify"
     },
     {
       "source": "/verify-url",
-      "destination": "/api/index.py"
+      "destination": "/api/index.py?__path__=/verify-url"
     }
   ]
 }

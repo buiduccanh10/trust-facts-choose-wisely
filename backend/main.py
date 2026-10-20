@@ -32,11 +32,15 @@ app = FastAPI(
 
 @app.middleware("http")
 async def vercel_path_rewrite_middleware(request: Request, call_next):
-    # On Vercel, serverless function rewrites may pass destination /api/index.py or /api/index
-    # Restore the original requested path from x-matched-path or x-forwarded-uri header
-    matched_path = request.headers.get("x-matched-path") or request.headers.get("x-forwarded-uri")
-    if matched_path and request.scope.get("path") in ("/api/index.py", "/api/index", "/api", "/index.py"):
-        path_only = matched_path.split("?")[0]
+    # On Vercel, serverless function rewrites pass destination /api/index.py with __path__ query param
+    # Restore the original requested path from __path__ query param or headers
+    path_override = (
+        request.query_params.get("__path__")
+        or request.headers.get("x-matched-path")
+        or request.headers.get("x-forwarded-uri")
+    )
+    if path_override and request.scope.get("path") in ("/api/index.py", "/api/index", "/api", "/index.py"):
+        path_only = path_override.split("?")[0]
         request.scope["path"] = path_only
     return await call_next(request)
 
