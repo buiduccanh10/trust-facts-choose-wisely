@@ -53,6 +53,18 @@ PUBLIC_DIR = BASE_DIR.parent / "public"
 DOCS_DIR = BASE_DIR.parent / "docs"
 STATIC_DIR = PUBLIC_DIR if (PUBLIC_DIR / "index.html").exists() else DOCS_DIR
 
+@app.api_route("/debug-scope", methods=["GET", "POST"])
+@app.api_route("/api/debug-scope", methods=["GET", "POST"])
+@app.api_route("/api/index.py", methods=["GET", "POST"])
+async def debug_scope(request: Request):
+    return {
+        "scope_path": request.scope.get("path"),
+        "raw_path": request.scope.get("raw_path", b"").decode("latin1", errors="ignore"),
+        "root_path": request.scope.get("root_path"),
+        "headers": dict(request.headers),
+        "url": str(request.url),
+    }
+
 @app.get("/health")
 @app.get("/api/health")
 async def health_check():
