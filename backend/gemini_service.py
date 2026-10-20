@@ -247,7 +247,7 @@ def extract_json_from_response(text: str) -> Dict[str, Any]:
 
 class GeminiOCOPService:
     def __init__(self):
-        self.preferred_models = ["gemini-flash-latest", "gemini-3.5-flash", "gemini-3.8-flash", "gemini-3.1-flash-lite"]
+        self.preferred_models = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.8-flash", "gemini-flash-latest"]
 
     def get_api_key(self, client_key: Optional[str] = None) -> str:
         key = (client_key or os.getenv("GEMINI_API_KEY", "")).strip()

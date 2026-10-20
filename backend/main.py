@@ -50,8 +50,8 @@ async def health_check():
     return {
         "status": "ok",
         "gemini_api_configured": has_key,
-        "model": "gemini-flash-latest",
-        "provider": "Google AI Studio Free Tier (0đ, 1.500 lượt/ngày)",
+        "model": "gemini-3.1-flash-lite",
+        "provider": "Google AI Studio Free Tier (500 lượt/ngày, 15 RPM)",
         "mode": "LIVE_AI_VERIFICATION"
     }
 
@@ -61,7 +61,7 @@ async def verify_label(
     file: UploadFile = File(...),
     category: Optional[str] = Form(None),
     api_key: Optional[str] = Form(None),
-    model: Optional[str] = Form("gemini-flash-latest"),
+    model: Optional[str] = Form("gemini-3.1-flash-lite"),
     x_gemini_key: Optional[str] = Header(None)
 ):
     """
@@ -86,7 +86,7 @@ async def verify_label(
             mime_type=mime_type,
             category_hint=category,
             client_api_key=client_key,
-            model_name=model or "gemini-flash-latest"
+            model_name=model or "gemini-3.1-flash-lite"
         )
         return {
             "status": "success",
@@ -126,7 +126,7 @@ async def verify_url(
             pass
 
     client_key = client_key or x_gemini_key
-    model_name = model_name or "gemini-flash-latest"
+    model_name = model_name or "gemini-3.1-flash-lite"
 
     if not target_url or not target_url.strip():
         raise HTTPException(status_code=400, detail="Vui lòng cung cấp đường dẫn (URL) bài viết hoặc sản phẩm.")
