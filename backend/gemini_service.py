@@ -290,7 +290,12 @@ class GeminiOCOPService:
         if category_hint and category_hint.lower() not in ["tất cả", "auto", "tự động", "all"]:
             prompt += f"\n\nLưu ý thêm từ người dùng: Sản phẩm có thể thuộc nhóm ngành hàng: {category_hint}."
 
-        models_to_try = [model_name] + [m for m in self.preferred_models if m != model_name] if model_name else self.preferred_models
+        primary_model = model_name or "gemini-3.1-flash-lite"
+        models_to_try = [primary_model]
+        for m in self.preferred_models:
+            if m != primary_model and m not in models_to_try:
+                models_to_try.append(m)
+        models_to_try = models_to_try[:2]
 
         last_error = None
         for m in models_to_try:
@@ -434,7 +439,12 @@ THÔNG TIN BÀI VIẾT / LINK SẢN PHẨM CẦN THẨM ĐỊNH:
 
 Hãy thực hiện thẩm định đối chiếu toàn diện các thông tin trên và trả về kết quả JSON theo đúng định dạng được yêu cầu."""
 
-        models_to_try = [model_name] + [m for m in self.preferred_models if m != model_name] if model_name else self.preferred_models
+        primary_model = model_name or "gemini-3.1-flash-lite"
+        models_to_try = [primary_model]
+        for m in self.preferred_models:
+            if m != primary_model and m not in models_to_try:
+                models_to_try.append(m)
+        models_to_try = models_to_try[:2]
 
         last_error = None
         for m in models_to_try:
