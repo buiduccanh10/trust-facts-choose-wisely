@@ -26,8 +26,19 @@ from gemini_service import gemini_service
 app = FastAPI(
     title="RightWISE - OCOP AI Verification API",
     description="Thẩm định nhãn mác & đối chiếu chứng chỉ OCOP địa phương bằng Gemini Vision (Google AI Studio Free Tier)",
-    version="2.0.0"
+    version="2.0.0",
+    redirect_slashes=False
 )
+
+@app.middleware("http")
+async def vercel_path_rewrite_middleware(request: Request, call_next):
+    # On Vercel, serverless function rewrites may pass destination /api/index.py or /api/index
+    # Restore the original requested path from x-matched-path or x-forwarded-uri header
+    matched_path = request.headers.get("x-matched-path") or request.headers.get("x-forwarded-uri")
+    if matched_path and request.scope.get("path") in ("/api/index.py", "/api/index", "/api", "/index.py"):
+        path_only = matched_path.split("?")[0]
+        request.scope["path"] = path_only
+    return await call_next(request)
 
 # CORS setup for web development
 app.add_middleware(
@@ -147,8 +158,9 @@ async def verify_url(
         raise HTTPException(status_code=500, detail=f"Lỗi thẩm định link: {str(e)}")
 
 
-# Phục vụ Frontend static files khi chạy trực tiếp qua Uvicorn / localhost
-if STATIC_DIR.exists():
+# Phục vụ Frontend static files khi chạy trực tiếp qua Uvicorn / localhost (trên Vercel đã có CDN tự phục vụ thư mục public)
+is_vercel = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV"))
+if not is_vercel and STATIC_DIR.exists():
     @app.get("/")
     async def serve_index():
         index_file = STATIC_DIR / "index.html"
