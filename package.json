@@ -1,0 +1,13 @@
+{
+  "name": "rightwise",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "scripts": {
+    "dev:web": "pnpm --filter @rightwise/web dev",
+    "dev:api": "pnpm --filter @rightwise/api start:dev",
+    "build:web": "pnpm --filter @rightwise/web build",
+    "build:api": "pnpm --filter @rightwise/api build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @rightwise/api test"
+  }
+}

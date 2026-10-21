@@ -1,122 +1,78 @@
-# RightWISE - Kiểm Chứng Nhãn Mác Nông Sản & OCOP Bằng Gemini AI (Free Tier)
+# RightWISE
 
-> **Trust Facts, Choose Wisely · Think Critically, Verify Confidently**  
-> Dự án giáo dục tư duy phản biện và xác thực nhãn mác sản phẩm nông sản, đặc sản OCOP Việt Nam sử dụng **Gemini 1.5 Flash Vision (Google AI Studio Free Tier)** và Cơ sở dữ liệu OCOP chính hãng.
+RightWISE helps shoppers inspect Vietnamese product labels and compare OCOP claims with evidence linked from official government domains. A result without sufficient evidence is reported as **unverified**, not as fake or authentic.
 
----
+## Workspace
 
-## 🌟 Tính Năng Nổi Bật (Cách 1: Gemini API Free Tier)
+- `apps/web`: Next.js App Router frontend. The original RightWISE visual style and marketing page are retained; the verification widget uses React and accessible Radix tabs.
+- `apps/api`: NestJS API, image normalization, URL safety checks, Vercel AI Gateway extraction/search, evidence matching, and 24-hour cache.
+- Deploy each directory as a separate Vercel project from this repository.
 
-1. **Hoàn toàn MIỄN PHÍ 100%**:
-   - Sử dụng **Google AI Studio Gemini API Free Tier**: **15 lượt gọi/phút**, tối đa **1.500 lượt gọi/ngày** (0đ, không cần thẻ tín dụng).
-   - Nhận diện chữ tiếng Việt, logo, nhãn mác cong/nhăn/nghiêng cực kỳ chính xác.
-2. **Đối chiếu thực tế trực quan (Side-by-Side)**:
-   - **Ảnh 2 (Ảnh bạn chụp / tải lên)**: AI đọc tên cơ sở, địa chỉ sản xuất, loại sản phẩm, số sao OCOP tự in.
-   - **Ảnh 1 (Hồ sơ & Giấy chứng nhận chính hãng)**: Tự động truy vấn CSDL OCOP chuẩn để lấy hình ảnh giấy chứng nhận, chủ thể được cấp phép, mã số OCOP và thời hạn hiệu lực.
-3. **Phát hiện dấu hiệu làm giả / làm nhái**:
-   - Cảnh báo tự ý nâng sao OCOP (ví dụ: sản phẩm chỉ đạt 4 sao nhưng nhãn tự in 5 sao).
-   - Cảnh báo mạo danh thương hiệu (tên giống cơ sở nổi tiếng nhưng địa chỉ ở nơi khác).
-   - Nhận diện nhãn thiếu mã truy xuất nguồn gốc QR code / mã vạch.
-4. **Bộ ảnh mẫu thực tế 1-Click**:
-   - Tích hợp sẵn ảnh chụp nhãn mác thực tế (Bánh gai Ninh Giang Nga Tới chuẩn 4 sao, Bánh gai nhái mập mờ, Chè Tân Cương Hảo Đạt 5 sao, Gạo ST25 Ông Cua 5 sao, Nước mắm Khải Hoàn Phú Quốc 5 sao) để thử nghiệm ngay lập tức.
-5. **Cài đặt API Key linh hoạt**:
-   - Có thể nhập key trực tiếp trên giao diện web (lưu trong `localStorage`) hoặc cấu hình file `backend/.env`.
+## Requirements and local development
 
----
+- Node.js 20.19+ (22 LTS recommended)
+- pnpm 12+
+- An AI Gateway key for live verification
+- Upstash Redis for a persistent 24-hour cache (required on Vercel)
 
-## 🏗️ Kiến Trúc Hệ Thống
-
-```
-trust-facts-choose-wisely/
-├── backend/
-│   ├── main.py               # FastAPI Server (API endpoints + phục vụ Static Frontend)
-│   ├── gemini_service.py     # Gemini Vision 1.5/2.0 Flash integration
-│   ├── db.py                 # Quản lý CSDL OCOP & Fuzzy Matcher (Rapidfuzz)
-│   ├── data/
-│   │   ├── ocop_database.json # CSDL sản phẩm OCOP chính hãng (Nga Tới, Tuyết Nga, Hảo Đạt, ...)
-│   │   ├── certified_images/  # Ảnh giấy chứng nhận & con dấu chính thức (Ảnh 1)
-│   │   └── sample_images/     # Ảnh chụp thực tế nhãn mác bao bì (Ảnh 2)
-│   ├── requirements.txt      # Thư viện Python
-│   └── .env.example          # Mẫu cấu hình môi trường
-├── docs/
-│   └── index.html            # Frontend hoàn chỉnh (RightWISE + AI Verification Suite)
-├── start.py                  # Script khởi chạy 1 lệnh duy nhất
-└── README.md
+```sh
+pnpm install
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
 ```
 
----
+Set `AI_GATEWAY_API_KEY` in `apps/api/.env`. Start the API and web app in separate terminals:
 
-## 🚀 Hướng Dẫn Cài Đặt & Chạy (3 Bước Đơn Giản)
-
-### Bước 1: Chuẩn bị môi trường Python
-
-```bash
-# Tạo môi trường ảo (nếu chưa có)
-python3 -m venv venv
-
-# Kích hoạt môi trường ảo
-source venv/bin/activate    # Trên macOS / Linux
-# venv\Scripts\activate     # Trên Windows
-
-# Cài đặt các thư viện cần thiết
-pip install -r backend/requirements.txt
+```sh
+pnpm dev:api
+pnpm dev:web
 ```
 
-### Bước 2: Lấy Gemini API Key Miễn Phí (Mất 30 giây)
+The API listens on `http://localhost:3000`; the web app listens on `http://localhost:3001`. API routes:
 
-1. Truy cập: **[Google AI Studio](https://aistudio.google.com/)**
-2. Đăng nhập bằng tài khoản Gmail của bạn.
-3. Bấm nút **"Create API Key"** (hoặc "Get API key").
-4. Cấu hình key bằng một trong hai cách:
-   - **Cách A (Khuyên dùng):** Mở web lên, bấm biểu tượng **⚙️ Cài đặt API** trên góc phải thanh công cụ và dán key vào.
-   - **Cách B:** Điền vào file `backend/.env`:
-     ```env
-     GEMINI_API_KEY=AIzaSy...
-     ```
+- `GET /api/v1/health`
+- `GET /api/v1/catalog/categories`
+- `POST /api/v1/verifications/image` (`multipart/form-data`, field `file`)
+- `POST /api/v1/verifications/url` (`application/json`, `{ "url": "https://..." }`)
 
-### Bước 3: Khởi chạy ứng dụng
+Run checks:
 
-Chạy lệnh:
-```bash
-python start.py
+```sh
+pnpm typecheck
+pnpm test
+pnpm build:api
+pnpm build:web
 ```
 
-Mở trình duyệt truy cập:
-👉 **http://localhost:8000/**
+## AI and evidence policy
 
-*(Tài liệu API Swagger UI có tại: http://localhost:8000/docs)*
+The default vision model is `inclusionai/ling-3.0-flash-vl-free`. The API enforces a model ID ending in `-free` and pins inference to Novita; it does not silently fall back to a paid model. When the free route is throttled or unavailable, verification returns a retry-later error. `AI_GATEWAY_API_KEY` stays in the NestJS deployment and is never exposed to the browser.
 
----
+The model only extracts label fields. Search is used only when a result is not cached; only result URLs under `gov.vn` or its subdomains are retained as evidence. Application code checks product, producer/brand, and OCOP star text before returning a verified result. The search result is supporting evidence, not a legal registry; users are directed to open and check the original source. No match means “unverified”, not “not certified”.
 
-## 🧪 Cách Thử Nghiệm
+Successful results are cached for 24 hours by SHA-256 fingerprint in Upstash Redis. Uploaded images and fetched page contents are processed in memory and are not persisted by the application. The cache stores the structured verification result and official evidence metadata. URL fetching only permits public HTTP(S) pages, revalidates redirects, rejects private IP ranges, limits response size/time, and strips active page content before extraction.
 
-1. Vào mục **"Kiểm tra ảnh bằng điện thoại"** trên trang chủ.
-2. **Cách 1 - Thử nhanh với 1 click:**  
-   Bấm vào một trong các chip ảnh mẫu:
-   - 🌾 *Bánh gai Nga Tới (4 sao Hải Dương)* -> Kết quả: **✅ Trùng khớp OCOP chính hãng**.
-   - ⚠️ *Bánh gai nhái (Tự in 5 sao, địa chỉ mờ)* -> Kết quả: **🚨 Cảnh báo tự ý nâng sao OCOP & Mạo danh**.
-   - 🍵 *Trà Tân Cương Hảo Đạt (5 sao Quốc gia)*.
-   - 🍚 *Gạo ST25 Ông Cua (5 sao)*.
-   - 🐟 *Nước mắm Khải Hoàn (5 sao)*.
-3. **Cách 2 - Kiểm tra ảnh chụp thực tế của bạn:**  
-   - Bấm **"Chụp ảnh bao bì bây giờ"** (trên điện thoại) hoặc **"Chọn ảnh tem mác có sẵn"**.
-   - Bấm nút xanh **"✨ Phân tích bằng Gemini AI & Đối chiếu OCOP"**.
-   - Hệ thống sẽ hiển thị **Ảnh 2** (ảnh bạn tải lên) song song cùng **Ảnh 1** (giấy chứng nhận chính hãng trong CSDL OCOP) kèm bảng phân tích 4 tiêu chí xác thực.
+A free vision model does not guarantee higher throughput than Gemini. Google AI Pro/Antigravity subscriptions provide coding-agent product entitlements; they do not provide a supported, production Gemini API quota for this application. Model and search quotas are separate from any Antigravity subscription. Browser search is a paid-per-use tool (currently listed at $7 per 1,000 searches in AI Gateway); configure spend limits and do not enable auto top-up. Check current provider availability and pricing before production launch.
 
----
+## Deploy to Vercel
 
-## 📡 API Endpoints
+Create two projects from the same Git repository:
 
-| Phương thức | Đường dẫn | Chức năng |
-| :--- | :--- | :--- |
-| `POST` | `/api/verify` | Nhận ảnh nhãn mác, gọi Gemini Vision AI và đối chiếu CSDL OCOP |
-| `GET` | `/api/ocop-products` | Danh sách các sản phẩm OCOP chính thức trong CSDL |
-| `GET` | `/api/ocop-products/{id}` | Chi tiết một sản phẩm OCOP |
-| `GET` | `/api/categories` | Danh sách các ngành hàng OCOP |
-| `GET` | `/api/samples` | Danh sách ảnh mẫu thử nghiệm nhanh |
-| `GET` | `/api/health` | Trạng thái server & cấu hình Gemini API |
+### Web project
 
----
+- Root Directory: `apps/web`
+- Framework preset: Next.js
+- Environment variable: `NEXT_PUBLIC_API_BASE_URL=https://<api-project-domain>`
 
-## 🛡️ Bản Quyền & Giấy Phép
-Dự án được xây dựng phục vụ giáo dục tư duy phản biện cộng đồng và bảo vệ giá trị nông sản bản địa Việt Nam.
+### API project
+
+- Root Directory: `apps/api`
+- Framework preset: NestJS (Vercel detects `src/main.ts`)
+- Set server-only variables for Preview and Production:
+  - `AI_GATEWAY_API_KEY`
+  - `AI_GATEWAY_MODEL=minimax/minimax-m3.1-flash`
+  - `UPSTASH_REDIS_REST_URL`
+  - `UPSTASH_REDIS_REST_TOKEN`
+  - `WEB_ORIGIN=https://<web-project-domain>` (add approved preview origins comma-separated if needed)
+
+Add these values in Vercel Project Settings; do not commit secrets. The API requires Upstash in Vercel to preserve cache behavior across serverless instances. `apps/api/vercel.json` raises the verification function duration to 60 seconds. Deploy the API first, then set the API URL on the web project and deploy the web project.

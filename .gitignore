@@ -1,25 +1,28 @@
-# Environments & Virtual Environments
+# Node / pnpm
+node_modules/
+.pnpm-store/
+.next/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel/
+
+# Python legacy tooling / cache
 venv/
 .venv/
-env/
-ENV/
-
-# Python bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Environment secrets
-.env
-backend/.env
-.env.local
-.env.*.local
-
-# Vercel
-.vercel/
-
-# OS / Editor files
+# OS / editors
 .DS_Store
 Thumbs.db
 .vscode/
