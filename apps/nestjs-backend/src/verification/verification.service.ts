@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, ServiceUnavailableException } from "@nestjs/common";
 import { createHash } from "node:crypto";
 import sharp from "sharp";
-import { AiGatewayService, type ProductExtraction, type SourceEvidence, isOfficialSource } from "../ai/ai-gateway.service";
+import { AiGatewayService, type ProductExtraction, type ProductSearchInfo, type SourceEvidence, isOfficialSource } from "../ai/ai-gateway.service";
 import { CacheService } from "../cache/cache.service";
 import { buildVerification } from "./match-evidence";
 import { fetchPublicPage, normalizeSubmittedUrl } from "./url-safety";
@@ -15,13 +15,13 @@ export class VerificationService {
     if (!file?.buffer?.length) throw new BadRequestException("Ảnh tải lên rỗng hoặc không hợp lệ.");
     if (file.size > 4 * 1024 * 1024) throw new BadRequestException("Ảnh sau khi nén vượt quá giới hạn 4 MB.");
     const image = await this.normalizeImage(file.buffer);
-    const key = `verification:image:${this.sha256(image)}`;
+    const key = `verification:v3:image:${this.sha256(image)}`;
     const cached = await this.cache.get<VerificationResponse>(key);
     if (cached) return cached;
 
     const extracted = await this.ai.extractImage(image);
-    const { evidence, error } = await this.findEvidence(extracted);
-    const response = buildVerification(extracted, evidence, error);
+    const { evidence, info, error } = await this.findEvidence(extracted);
+    const response = buildVerification(extracted, evidence, error, info);
     await this.cache.set(key, response);
     return response;
   }
@@ -29,7 +29,7 @@ export class VerificationService {
   async verifyUrl(inputUrl: string): Promise<VerificationResponse> {
     if (!inputUrl?.trim()) throw new BadRequestException("Vui lòng cung cấp URL sản phẩm.");
     const normalizedUrl = normalizeSubmittedUrl(inputUrl);
-    const key = `verification:url:${this.sha256(normalizedUrl)}`;
+    const key = `verification:v3:url:${this.sha256(normalizedUrl)}`;
     const cached = await this.cache.get<VerificationResponse>(key);
     if (cached) return cached;
 
@@ -38,21 +38,22 @@ export class VerificationService {
     const sourceEvidence: SourceEvidence[] = isOfficialSource(page.url)
       ? [{ title: page.title || page.url, url: page.url, excerpt: page.text.slice(0, 1_500), retrievedAt: new Date().toISOString() }]
       : [];
-    const { evidence, error } = await this.findEvidence(extracted, sourceEvidence);
-    const response = buildVerification(extracted, evidence, error);
+    const { evidence, info, error } = await this.findEvidence(extracted, sourceEvidence);
+    const response = buildVerification(extracted, evidence, error, info);
     await this.cache.set(key, response);
     return response;
   }
 
-  private async findEvidence(extracted: ProductExtraction, initial: SourceEvidence[] = []): Promise<{ evidence: SourceEvidence[]; error?: string }> {
+  private async findEvidence(extracted: ProductExtraction, initial: SourceEvidence[] = []): Promise<{ evidence: SourceEvidence[]; info: ProductSearchInfo; error?: string }> {
     try {
-      const evidence = await this.ai.searchOfficialSources(extracted);
-      const merged = [...initial, ...evidence];
+      const search = await this.ai.searchProduct(extracted);
+      const merged = [...initial, ...search.sources];
       const seen = new Set<string>();
-      return { evidence: merged.filter((item) => !seen.has(item.url) && Boolean(seen.add(item.url))).slice(0, 4) };
+      return { evidence: merged.filter((item) => !seen.has(item.url) && Boolean(seen.add(item.url))).slice(0, 8), info: search.info };
     } catch (error) {
-      if (error instanceof ServiceUnavailableException) return { evidence: initial, error: error.message };
-      return { evidence: initial, error: "Tra cứu nguồn OCOP tạm thời không khả dụng." };
+      const message = error instanceof ServiceUnavailableException ? error.message : "Tra cứu thông tin sản phẩm tạm thời không khả dụng.";
+      const info: ProductSearchInfo = { productName: null, brand: null, manufacturer: null, address: null, location: null, stars: null, starsSource: null, summary: message };
+      return { evidence: initial, info, error: message };
     }
   }
 

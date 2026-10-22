@@ -1,4 +1,4 @@
-import type { ProductExtraction, SourceEvidence } from "../ai/ai-gateway.service";
+import type { ProductExtraction, ProductSearchInfo, SourceEvidence } from "../ai/ai-gateway.service";
 import { isOfficialSource } from "../ai/ai-gateway.service";
 import type { VerificationResponse, VerificationStatus } from "./verification.types";
 
@@ -18,7 +18,8 @@ function starsIn(text: string): number | null {
   return match ? Number(match[1] ?? match[2]) : null;
 }
 
-export function buildVerification(extracted: ProductExtraction, evidence: SourceEvidence[], sourceError?: string): VerificationResponse {
+export function buildVerification(extracted: ProductExtraction, evidence: SourceEvidence[], sourceError?: string, productInfo?: ProductSearchInfo): VerificationResponse {
+  const searchInfo = productInfo ?? { productName: null, brand: null, manufacturer: null, address: null, location: null, stars: null, starsSource: null, summary: "" };
   const officialEvidence = evidence.filter((item) => isOfficialSource(item.url));
   const candidate = officialEvidence.find((item) => {
     const text = `${item.title} ${item.excerpt}`;
@@ -71,6 +72,16 @@ export function buildVerification(extracted: ProductExtraction, evidence: Source
       has_ocop_logo: extracted.hasOcopLogo,
       has_qr_code: extracted.hasQrCode,
       raw_text_summary: extracted.rawTextSummary,
+    },
+    product_info: {
+      product_name: searchInfo.productName,
+      brand: searchInfo.brand,
+      manufacturer: searchInfo.manufacturer,
+      address: searchInfo.address,
+      location: searchInfo.location,
+      stars: searchInfo.stars,
+      stars_source: searchInfo.starsSource,
+      summary: searchInfo.summary,
     },
     local_ocop_record: {
       is_certified: status === "verified" ? true : status === "conflict" ? null : null,

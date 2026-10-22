@@ -20,6 +20,16 @@ export interface VerificationResponse {
     has_qr_code: boolean | null;
     raw_text_summary: string;
   };
+  product_info: {
+    product_name: string | null;
+    brand: string | null;
+    manufacturer: string | null;
+    address: string | null;
+    location: string | null;
+    stars: number | null;
+    stars_source: "google" | "official" | null;
+    summary: string;
+  };
   local_ocop_record: {
     is_certified: boolean | null;
     official_stars: number | null;
