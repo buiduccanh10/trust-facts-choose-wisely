@@ -391,7 +391,16 @@ export class AiGatewayService {
       this.logger.warn("AI Gateway returned no model output; check the model's output-token budget and provider response.");
       return new ServiceUnavailableException("Model chưa trả nội dung phân tích. Vui lòng thử lại; nếu tiếp tục xảy ra, hãy thử ảnh rõ nét hơn hoặc đường dẫn khác.");
     }
-    this.logger.warn(`AI Gateway request failed (${errorName}${statusCode ? `, HTTP ${statusCode}` : ""}).`);
+    const errorCode = error && typeof error === "object" && "code" in error
+      ? String((error as { code?: unknown }).code ?? "")
+      : "";
+    const diagnostic = message
+      .replace(/Bearer\s+\S+/gi, "Bearer [redacted]")
+      .replace(/\b(?:sk|vck|AIza)[-_][A-Za-z0-9_-]{12,}\b/g, "[redacted]")
+      .replace(/((?:api[_ -]?key|token|secret)\s*[:=]\s*)["']?[^,\s}"']+/gi, "$1[redacted]")
+      .replace(/[\r\n]+/g, " ")
+      .slice(0, 320);
+    this.logger.warn(`AI Gateway request failed (${errorName}${statusCode ? `, HTTP ${statusCode}` : ""}${errorCode ? `, code ${errorCode}` : ""}): ${diagnostic}`);
     return new ServiceUnavailableException("Không gọi được model qua Vercel AI Gateway. Vui lòng thử lại sau.");
   }
 }
