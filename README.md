@@ -75,8 +75,8 @@ Create two projects from the same Git repository:
   - `GEMINI_API_KEY`
   - `GOOGLE_SEARCH_MODEL=gemini-3.5-flash-lite`
   - `TAKO_SEARCH_FALLBACK_ENABLED=true`
-  - `UPSTASH_REDIS_REST_URL`
-  - `UPSTASH_REDIS_REST_TOKEN`
+  - `UPSTASH_REDIS_REST_URL` (recommended)
+  - `UPSTASH_REDIS_REST_TOKEN` (recommended)
   - `WEB_ORIGIN=https://<web-project-domain>` (add approved preview origins comma-separated if needed)
 
-Add these values in Vercel Project Settings; do not commit secrets. The API requires Upstash in Vercel to preserve cache behavior across serverless instances. Deploy the API first, then set the API URL on the web project and deploy the web project.
+Add these values in Vercel Project Settings; do not commit secrets. Upstash is recommended for a shared 24-hour cache across serverless instances. If it is not configured, the API still starts and uses a best-effort in-memory cache per instance. Deploy the API first, then set the API URL on the web project and deploy the web project.
