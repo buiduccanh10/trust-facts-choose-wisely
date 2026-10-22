@@ -1,11 +1,16 @@
 import { Injectable, Logger, ServiceUnavailableException } from "@nestjs/common";
+import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
 type AiSdk = typeof import("ai");
 
-// AI SDK 7 is ESM-only, while the Nest app is emitted as CommonJS. Keep the
-// import native at runtime instead of letting TypeScript rewrite it to require().
-const importAiSdk = new Function("return import('ai')") as () => Promise<AiSdk>;
+// AI SDK 7 is ESM-only, while the Nest app is emitted as CommonJS. Resolve the
+// package statically so Vercel includes it, then use native import() at runtime.
+const importAiSdk = async (): Promise<AiSdk> => {
+  const moduleUrl = pathToFileURL(require.resolve("ai")).href;
+  const importModule = new Function("url", "return import(url)") as (url: string) => Promise<AiSdk>;
+  return importModule(moduleUrl);
+};
 
 const shortLabel = z.string().max(240).nullable();
 const ExtractionSchema = z.object({
