@@ -27,7 +27,7 @@ export interface VerificationResponse {
     address: string | null;
     location: string | null;
     stars: number | null;
-    stars_source: "google" | "official" | null;
+    stars_source: "tako" | "google" | "official" | null;
     summary: string;
   };
   local_ocop_record: {
