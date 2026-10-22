@@ -1,6 +1,9 @@
 {
   "name": "@rightwise/api",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "start": "node dist/main.js",
     "start:dev": "nest start --watch",
