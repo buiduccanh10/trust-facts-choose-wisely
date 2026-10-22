@@ -128,7 +128,7 @@ export function VerificationWidget() {
 
           <div className="snap-workspace" id="snapWorkspace" aria-busy={loading}>
             <div className="snap-col-media">
-              <Tabs.Root value={mode} onValueChange={setMode}>
+              <Tabs.Root value={mode} onValueChange={(value) => { setMode(value); setResult(null); setError(""); }}>
                 <Tabs.List className="verify-mode-tabs" aria-label="Phương thức thẩm định">
                   <Tabs.Trigger className={`verify-mode-btn${mode === "image" ? " active" : ""}`} value="image">Kiểm tra bằng ảnh</Tabs.Trigger>
                   <Tabs.Trigger className={`verify-mode-btn${mode === "url" ? " active" : ""}`} value="url">Kiểm tra bằng link</Tabs.Trigger>
@@ -152,14 +152,14 @@ export function VerificationWidget() {
                     <div className="url-info-banner">Trang bị chặn hoặc không truy cập được sẽ được ghi là chưa xác minh.</div>
                     <button type="button" className="btn-scan-primary" id="btnUrlScan" onClick={runVerification} disabled={loading}>Kiểm tra đường dẫn</button>
                   </div>
-                  {loading && <div className="ai-scanner inline"><div className="spinner" /><span>Đang đọc trang và tìm thông tin sản phẩm...</span></div>}
+                  {loading && <div className="ai-scanner inline"><div className="spinner" /><span>Đang đọc bài viết và đối chiếu thông tin sản phẩm...</span></div>}
                 </Tabs.Content>
               </Tabs.Root>
               {error && <p className="verification-error" role="alert">{error}</p>}
             </div>
 
             <div className="snap-col-results" id="snapColResults">
-              {!result && <div className="results-empty-state" id="resultsEmptyState"><div className="empty-icon">🔍</div><h3>Thông tin sản phẩm sẽ hiển thị tại đây</h3><p>Thêm ảnh hoặc đường dẫn để bắt đầu tra cứu.</p><ul className="empty-features"><li>Tên và thương hiệu</li><li>Cơ sở sản xuất</li><li>Hạng OCOP nếu tìm thấy</li></ul></div>}
+              {!result && <div className="results-empty-state" id="resultsEmptyState"><div className="empty-icon">🔍</div><h3>{mode === "url" ? "Thông tin đối chiếu sẽ hiển thị tại đây" : "Thông tin sản phẩm sẽ hiển thị tại đây"}</h3><p>{mode === "url" ? "Dán link bài viết hoặc trang quảng cáo để đối chiếu các tuyên bố với thông tin độc lập." : "Thêm ảnh nhãn để tìm thông tin sản phẩm và hồ sơ OCOP nếu có."}</p><ul className="empty-features">{(mode === "url" ? ["Nhận diện sản phẩm được nhắc tới", "Đối chiếu từng tuyên bố", "Dẫn nguồn tham khảo"] : ["Tên và thương hiệu", "Cơ sở sản xuất", "Hạng OCOP nếu tìm thấy"]).map((feature) => <li key={feature}>{feature}</li>)}</ul></div>}
               {result && <VerificationResultPanel result={result} onReset={reset} />}
             </div>
           </div>

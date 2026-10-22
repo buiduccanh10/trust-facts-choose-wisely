@@ -5,7 +5,7 @@ RightWISE helps shoppers inspect Vietnamese product labels and find product, pro
 ## Workspace
 
 - `apps/nextjs-frontend`: Next.js App Router frontend. The original RightWISE visual style and marketing page are retained; the verification widget uses React and accessible Radix tabs.
-- `apps/nestjs-backend`: NestJS API, image normalization, URL safety checks, MiniMax extraction, Google Search grounding with Tako Search fallback on Google HTTP 429, OCOP lookup on `gov.vn` when the main search has no star rating, and 24-hour cache.
+- `apps/nestjs-backend`: NestJS API, image normalization, URL safety checks, MiniMax extraction, Google Search grounding with Tako Search fallback on Google HTTP 429, product and OCOP lookup, article-to-product information comparison, and 24-hour cache.
 - Deploy each directory as a separate Vercel project from this repository.
 
 ## Requirements and local development
@@ -47,9 +47,9 @@ pnpm build:web
 
 ## AI and search flow
 
-The default extraction model is `minimax/minimax-m3.1-flash`, configured with `AI_GATEWAY_MODEL`. It extracts label fields only. The API then uses Gemini Google Search grounding as the primary product lookup. If Google returns HTTP 429, it automatically retries with Tako Search through AI Gateway. If the main results do not report an OCOP star rating, it makes a follow-up lookup restricted to `gov.vn`. `GEMINI_API_KEY` is separate from and never exposed alongside `AI_GATEWAY_API_KEY` in the browser.
+The default extraction model is `minimax/minimax-m3.1-flash`, configured with `AI_GATEWAY_MODEL`. Image input extracts label fields and searches product/producer information plus OCOP records where available. URL input extracts product identity, searches for information about the closest matching product, and presents a full summary plus the single best matching result so users can compare it with the submitted article. Google Search is primary; if Google returns HTTP 429, the API retries with Tako Search through AI Gateway. `GEMINI_API_KEY` is separate from and never exposed alongside `AI_GATEWAY_API_KEY` in the browser.
 
-Search results are transformed into product information for the result view; the UI does not display a source list. The API retains source metadata for internal matching. Search results are not a legal registry, and no match does not mean a product is uncertified.
+Image-search results are transformed into product information for the result view; the UI does not display a source list. URL results show the submitted page and one best matching result alongside the product summary. This helps users compare the linked article with public information; it is not a legal determination that the entire article or product is true or legitimate.
 
 Successful results are cached for 24 hours by SHA-256 fingerprint in Upstash Redis. Uploaded images and fetched page contents are processed in memory and are not persisted by the application. The cache stores the structured verification result and official evidence metadata. URL fetching only permits public HTTP(S) pages, revalidates redirects, rejects private IP ranges, limits response size/time, and strips active page content before extraction.
 

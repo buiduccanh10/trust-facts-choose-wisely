@@ -55,5 +55,11 @@ export interface VerificationResponse {
   }>;
   consumer_advice: string;
   evidence: EvidenceItem[];
+  article_context?: {
+    submitted_title: string;
+    submitted_url: string;
+    conclusion: string;
+    best_match: EvidenceItem | null;
+  };
   checked_at: string;
 }

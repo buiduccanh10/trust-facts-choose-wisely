@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, ServiceUnavailableException } from "@nestjs/common";
 import { createHash } from "node:crypto";
 import sharp from "sharp";
-import { AiGatewayService, type ProductExtraction, type ProductSearchInfo, type SourceEvidence, isOfficialSource } from "../ai/ai-gateway.service";
+import { AiGatewayService, type ProductExtraction, type ProductSearchInfo, type SourceEvidence } from "../ai/ai-gateway.service";
 import { CacheService } from "../cache/cache.service";
 import { buildVerification } from "./match-evidence";
 import { fetchPublicPage, normalizeSubmittedUrl } from "./url-safety";
@@ -29,17 +29,30 @@ export class VerificationService {
   async verifyUrl(inputUrl: string): Promise<VerificationResponse> {
     if (!inputUrl?.trim()) throw new BadRequestException("Vui lòng cung cấp URL sản phẩm.");
     const normalizedUrl = normalizeSubmittedUrl(inputUrl);
-    const key = `verification:v3:url:${this.sha256(normalizedUrl)}`;
+    const key = `verification:v5:url:${this.sha256(normalizedUrl)}`;
     const cached = await this.cache.get<VerificationResponse>(key);
     if (cached) return cached;
 
     const page = await fetchPublicPage(normalizedUrl);
     const extracted = await this.ai.extractPage(`URL: ${page.url}\nTiêu đề: ${page.title}\nMô tả: ${page.description}\nNội dung: ${page.text}`);
-    const sourceEvidence: SourceEvidence[] = isOfficialSource(page.url)
-      ? [{ title: page.title || page.url, url: page.url, excerpt: page.text.slice(0, 1_500), retrievedAt: new Date().toISOString() }]
-      : [];
-    const { evidence, info, error } = await this.findEvidence(extracted, sourceEvidence);
+    const { evidence, info, error } = await this.findEvidence(extracted);
     const response = buildVerification(extracted, evidence, error, info);
+    response.article_context = {
+      submitted_title: page.title || page.url,
+      submitted_url: page.url,
+      conclusion: info.summary
+        ? "Đây là thông tin tìm được về sản phẩm để bạn đối chiếu với bài viết đã gửi."
+        : "Chưa tìm thấy đủ thông tin phù hợp để đối chiếu với bài viết đã gửi.",
+      best_match: evidence[0] ?? null,
+    };
+    response.product_info = {
+      ...response.product_info,
+      product_name: extracted.productName,
+      brand: extracted.brand,
+      manufacturer: extracted.manufacturer,
+      address: extracted.address,
+      location: extracted.location,
+    };
     await this.cache.set(key, response);
     return response;
   }
