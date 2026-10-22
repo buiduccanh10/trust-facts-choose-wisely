@@ -6,3 +6,4 @@ minimumReleaseAgeExclude:
   - '@ai-sdk/gateway@4.0.121'
   - '@ai-sdk/provider-utils@5.0.65'
   - ai@7.0.148
+  - multer@2.5.0
