@@ -11,6 +11,9 @@ import { AppModule } from "./app.module";
 config({ path: resolve(process.cwd(), ".env") });
 config({ path: resolve(process.cwd(), "../../.env") });
 
+// Suppress benign AI SDK compatibility warnings from being logged to stderr
+(globalThis as unknown as { AI_SDK_LOG_WARNINGS: boolean }).AI_SDK_LOG_WARNINGS = false;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const allowedOrigins = process.env.WEB_ORIGIN?.split(",").map((origin) => origin.trim()).filter(Boolean);

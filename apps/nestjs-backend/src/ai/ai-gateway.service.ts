@@ -7,6 +7,7 @@ type AiSdk = typeof import("ai");
 // AI SDK 7 is ESM-only, while the Nest app is emitted as CommonJS. Resolve the
 // package statically so Vercel includes it, then use native import() at runtime.
 const importAiSdk = async (): Promise<AiSdk> => {
+  (globalThis as unknown as { AI_SDK_LOG_WARNINGS?: boolean }).AI_SDK_LOG_WARNINGS = false;
   const moduleUrl = pathToFileURL(require.resolve("ai")).href;
   const importModule = new Function("url", "return import(url)") as (url: string) => Promise<AiSdk>;
   return importModule(moduleUrl);
