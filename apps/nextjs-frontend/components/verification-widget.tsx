@@ -72,8 +72,8 @@ export function VerificationWidget() {
       if (mode === "image") {
         const { default: compressImage } = await import("browser-image-compression");
         const preparedImage = await compressImage(file as File, {
-          maxSizeMB: 3.8,
-          maxWidthOrHeight: 1800,
+          maxSizeMB: 1.2,
+          maxWidthOrHeight: 1280,
           useWebWorker: true,
           fileType: "image/jpeg",
         });
@@ -95,7 +95,12 @@ export function VerificationWidget() {
       }
       setResult(body.data as VerificationResultData);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Không thể kết nối tới RightWISE API.");
+      const message = cause instanceof Error ? cause.message : "";
+      if (/load failed|failed to fetch|network/i.test(message)) {
+        setError("Yêu cầu quá thời gian chờ (timeout) hoặc kết nối mạng bị gián đoạn. Vui lòng thử lại.");
+      } else {
+        setError(message || "Không thể kết nối tới RightWISE API.");
+      }
     } finally {
       setLoading(false);
     }

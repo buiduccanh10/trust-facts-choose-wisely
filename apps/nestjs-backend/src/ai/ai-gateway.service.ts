@@ -161,31 +161,7 @@ export class AiGatewayService {
     if (!Object.values(productDetails).some((value) => value?.trim())) return { info: this.emptySearchInfo(), sources: [] };
 
     try {
-      const primary = await this.takoSearch(productDetails, false);
-      let info = primary.info;
-      let sources = primary.sources;
-
-      // Only spend another Tako search call when the broad product search
-      // did not return an explicit OCOP star rating.
-      if (info.stars === null) {
-        try {
-          const ocopSearch = await this.takoSearch(productDetails, true);
-          const ocopRating = ocopSearch.info.stars;
-          const citedRating = ocopRating !== null && ocopSearch.sources.some((source) => this.starsIn(source.excerpt) === ocopRating);
-          if (ocopRating !== null && citedRating) {
-            info = {
-              ...info,
-              stars: ocopRating,
-              starsSource: ocopSearch.sources.some((s) => isOfficialSource(s.url)) ? "official" : "tako",
-            };
-          }
-          sources = [...sources, ...ocopSearch.sources].filter((source, index, all) => all.findIndex((item) => item.url === source.url) === index);
-        } catch (error) {
-          this.logger.warn(`OCOP star lookup failed (${error instanceof Error ? error.name : "UnknownError"}).`);
-        }
-      }
-
-      return { info, sources };
+      return await this.takoSearch(productDetails);
     } catch (error) {
       if (error instanceof ServiceUnavailableException) throw error;
       this.logger.warn(`Tako Search request failed (${error instanceof Error ? error.name : "UnknownError"}).`);
@@ -207,10 +183,8 @@ export class AiGatewayService {
     return { productName: null, brand: null, manufacturer: null, address: null, location: null, stars: null, starsSource: null, summary: "" };
   }
 
-  private async takoSearch(details: SearchableProductDetails, searchOcopFocus: boolean): Promise<ProductSearchResult> {
-    const prompt = searchOcopFocus
-      ? `Tìm kết quả trên web về sản phẩm để lấy thông tin chứng nhận và hạng sao OCOP nếu có trang/bài viết nêu rõ tên sản phẩm và hạng sao OCOP. Ưu tiên các trang chính thức, cơ quan quản lý hoặc báo chí uy tín. Chỉ trả về JSON thuần theo mẫu {"productName":string|null,"brand":string|null,"manufacturer":string|null,"address":string|null,"location":string|null,"stars":number|null,"summary":string}. Dựa hoàn toàn trên kết quả tìm kiếm vừa nhận được. Không suy diễn, không kết luận thật/giả. Nếu không có dữ liệu phù hợp hãy để null hoặc chuỗi rỗng. Sản phẩm cần tìm: ${JSON.stringify(details)}`
-      : `Tìm thông tin đang được công bố trên web về sản phẩm, thương hiệu/cơ sở sản xuất, địa chỉ và hạng sao OCOP nếu có. Ưu tiên kết quả khớp chính xác tên sản phẩm, thương hiệu và cơ sở; không gộp thông tin từ sản phẩm gần tên nhưng khác nhà sản xuất. Đây là tìm thông tin để người dùng so sánh với trang họ gửi, không kết luận thật/giả hoặc chứng nhận hợp lệ. Chỉ trả về JSON thuần theo mẫu {"productName":string|null,"brand":string|null,"manufacturer":string|null,"address":string|null,"location":string|null,"stars":number|null,"summary":string}, dựa hoàn toàn trên kết quả tìm kiếm vừa nhận được. Viết summary như một bài tóm tắt đầy đủ, mạch lạc từ nguồn phù hợp nhất; không cắt giữa câu, không kết thúc bằng dấu ba chấm và không thêm chi tiết ngoài nguồn. Không bịa thông tin; trường không thấy rõ thì để null. Sản phẩm cần tìm: ${JSON.stringify(details)}`;
+  private async takoSearch(details: SearchableProductDetails): Promise<ProductSearchResult> {
+    const prompt = `Tìm thông tin đang được công bố trên web về sản phẩm, thương hiệu/cơ sở sản xuất, địa chỉ, cũng như chứng nhận và hạng sao OCOP nếu có. Ưu tiên kết quả khớp chính xác tên sản phẩm, thương hiệu và cơ sở; chú ý thông tin từ các cổng OCOP, cơ quan quản lý hoặc báo chí uy tín. Đây là tìm thông tin để người dùng so sánh với thông tin nhãn, không kết luận thật/giả hoặc chứng nhận hợp lệ. Chỉ trả về JSON thuần theo mẫu {"productName":string|null,"brand":string|null,"manufacturer":string|null,"address":string|null,"location":string|null,"stars":number|null,"summary":string}, dựa hoàn toàn trên kết quả tìm kiếm vừa nhận được. Viết summary như một bài tóm tắt ngắn gọn, đầy đủ, mạch lạc từ nguồn phù hợp nhất; không cắt giữa câu, không kết thúc bằng dấu ba chấm và không thêm chi tiết ngoài nguồn. Không bịa thông tin; trường không thấy rõ thì để null. Sản phẩm cần tìm: ${JSON.stringify(details)}`;
 
     try {
       const { gateway, generateText, stepCountIs } = await this.getAiSdk();
@@ -226,7 +200,7 @@ export class AiGatewayService {
               web: {
                 count: 5,
                 includeContents: false,
-                snippetMaxChars: 1_200,
+                snippetMaxChars: 1_000,
               },
             },
           }),
@@ -235,6 +209,7 @@ export class AiGatewayService {
         stopWhen: stepCountIs(2),
         temperature: 0,
         reasoning: "minimal",
+        maxOutputTokens: 1_200,
       });
       const sourceOutput = result.steps.flatMap((step) => step.toolResults)
         .find((toolResult) => toolResult.toolName === "tako_search")?.output;
@@ -250,7 +225,7 @@ export class AiGatewayService {
         .map((source) => ({
           title: (source.title ?? source.url).slice(0, 300),
           url: source.url,
-          excerpt: (source.snippet ?? "").slice(0, 1_200),
+          excerpt: (source.snippet ?? "").slice(0, 1_000),
           retrievedAt: new Date().toISOString(),
         }));
       const info = this.parseSearchInfo(result.text);
