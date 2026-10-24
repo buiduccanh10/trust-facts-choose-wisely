@@ -123,7 +123,7 @@ Xin chào, RightWISE!
 
 Lệnh này có nghĩa là: nhờ Node.js chạy tệp tên index.js trong thư mục terminal hiện tại. Nếu terminal báo không tìm thấy index.js, hãy nhìn dòng đường dẫn trong terminal: có thể bạn đang ở nhầm thư mục. Mở đúng thư mục trong VS Code hoặc chuyển thư mục bằng lệnh cd.
 
-> **Phân biệt hai việc:** node index.js dùng để chạy một tệp JavaScript đơn giản. Repo RightWISE không có tệp index.js ở thư mục gốc. Repo có nhiều ứng dụng và thư viện, vì vậy chạy bằng các lệnh pnpm dev:web và pnpm dev:api ở mục 5.
+> **Phân biệt hai việc:** node index.js dùng để chạy một tệp JavaScript đơn giản. Repo RightWISE không có tệp index.js ở thư mục gốc. Repo có nhiều ứng dụng và thư viện, vì vậy chạy bằng các lệnh pnpm dev:web và pnpm dev:api ở mục 6.
 
 ## 3. JavaScript cơ bản: biến và kiểu dữ liệu
 
@@ -211,11 +211,22 @@ tenSanPhams.push("Hạt điều");
 console.log(tenSanPhams); // ["Trà", "Mật ong", "Gạo", "Hạt điều"]
 ~~~
 
+Muốn thay phần tử thứ nhất, gán vào vị trí 0. Muốn bỏ phần tử cuối, dùng pop:
+
+~~~js
+const danhSachTraiCay = ["Táo", "Lê", "Cam"];
+danhSachTraiCay[0] = "Xoài";
+const traiCayBiBo = danhSachTraiCay.pop();
+console.log(danhSachTraiCay); // ["Xoài", "Lê"]
+console.log(traiCayBiBo); // "Cam"
+~~~
+
 Duyệt qua toàn bộ danh sách bằng for...of:
 
 ~~~js
-for (const sanPham of sanPhams) {
-  console.log(sanPham);
+const tenCacSanPham = ["Trà", "Mật ong", "Gạo"];
+for (const tenSanPham of tenCacSanPham) {
+  console.log(tenSanPham);
 }
 ~~~
 
@@ -611,7 +622,7 @@ Các biến bí mật chỉ đặt trong phần Environment Variables của Verc
 
 Nếu mới làm quen với lập trình, có thể khám phá từng bước:
 
-1. Chạy được website theo [mục 5](#5-chạy-dự-án-trên-máy).
+1. Chạy được website theo [mục 6](#6-cài-đặt-và-chạy-rightwise).
 2. Mở apps/nextjs-frontend/app/page.tsx, tìm component HeroSection hoặc ClassroomSection.
 3. Thử sửa một dòng chữ, lưu lại và xem trang tự cập nhật.
 4. Tìm class CSS của dòng chữ đó trong apps/nextjs-frontend/app/globals.css và thử đổi màu.
