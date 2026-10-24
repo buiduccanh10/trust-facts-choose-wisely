@@ -6,105 +6,324 @@ RightWISE là website giúp người dùng đọc thông tin trên nhãn sản p
 
 ## Mục lục
 
-- [1. Lập trình là gì?](#1-lập-trình-là-gì)
-- [2. JavaScript là gì?](#2-javascript-là-gì)
-- [3. TypeScript khác JavaScript thế nào?](#3-typescript-khác-javascript-thế-nào)
-- [4. Website này gồm những phần nào?](#4-website-này-gồm-những-phần-nào)
-- [5. Chạy dự án trên máy](#5-chạy-dự-án-trên-máy)
-- [6. Khám phá và sửa giao diện](#6-khám-phá-và-sửa-giao-diện)
-- [7. Khám phá backend](#7-khám-phá-backend)
-- [8. Các lệnh thường dùng](#8-các-lệnh-thường-dùng)
-- [9. Đưa ứng dụng lên mạng](#9-đưa-ứng-dụng-lên-mạng)
-- [10. Bắt đầu từ đâu?](#10-bắt-đầu-từ-đâu)
+- [1. Trước khi viết code: máy tính làm theo chỉ dẫn](#1-trước-khi-viết-code-máy-tính-làm-theo-chỉ-dẫn)
+- [2. Cài công cụ và chạy JavaScript lần đầu](#2-cài-công-cụ-lần-đầu)
+- [3. JavaScript cơ bản: biến và kiểu dữ liệu](#3-javascript-cơ-bản-biến-và-kiểu-dữ-liệu)
+- [4. TypeScript khác JavaScript thế nào?](#4-typescript-khác-javascript-thế-nào)
+- [5. Website này gồm những phần nào?](#5-website-này-gồm-những-phần-nào)
+- [6. Cài đặt và chạy RightWISE](#6-cài-đặt-và-chạy-rightwise)
+- [7. Khám phá và sửa giao diện](#7-khám-phá-và-sửa-giao-diện)
+- [8. Khám phá backend](#8-khám-phá-backend)
+- [9. Các lệnh thường dùng](#9-các-lệnh-thường-dùng)
+- [10. Đưa ứng dụng lên mạng](#10-đưa-ứng-dụng-lên-mạng)
+- [11. Bắt đầu từ đâu?](#11-bắt-đầu-từ-đâu)
 
-## 1. Lập trình là gì?
+## 1. Trước khi viết code: máy tính làm theo chỉ dẫn
 
-**Lập trình** là viết những chỉ dẫn để máy tính làm một việc. Máy tính không tự đoán ý mình; nó đọc lệnh theo quy tắc, xử lý dữ liệu rồi tạo ra kết quả.
+**Lập trình** là viết chỉ dẫn để máy tính làm một việc. Máy tính không tự hiểu ý định của mình; nó chỉ làm theo lệnh và dữ liệu mình đưa.
 
-Một chương trình đơn giản thường có ba bước:
+Một chương trình thường đi theo vòng này:
 
-1. **Nhận dữ liệu vào**: ví dụ người dùng chọn ảnh nhãn sản phẩm.
-2. **Xử lý**: kiểm tra ảnh có hợp lệ không, rồi gửi ảnh đi đọc thông tin.
-3. **Đưa kết quả ra**: hiển thị tên sản phẩm và thông tin tìm được.
+1. **Nhận dữ liệu vào**: người dùng chọn ảnh nhãn sản phẩm.
+2. **Xử lý**: chương trình kiểm tra ảnh, gửi ảnh để đọc thông tin.
+3. **Đưa kết quả ra**: trang hiện tên sản phẩm hoặc thông báo lỗi.
+
+Có thể hình dung như một công thức nấu ăn: nguyên liệu là dữ liệu đầu vào, các bước nấu là thuật toán, món ăn hoàn thành là kết quả.
+
+### Thuật toán là gì?
+
+**Thuật toán** là danh sách các bước rõ ràng để giải một bài toán. Ví dụ thuật toán kiểm tra ảnh:
+
+1. Chờ người dùng chọn tệp.
+2. Nếu chưa chọn tệp, báo “Hãy chọn ảnh”.
+3. Nếu tệp không phải ảnh, báo lỗi.
+4. Nếu ảnh hợp lệ, gửi ảnh tới backend.
+5. Chờ backend xử lý.
+6. Hiện thông tin nhận được hoặc báo lỗi.
+
+Sau này khi đọc code, hãy thử hỏi: “Dòng này nhận dữ liệu, xử lý hay hiển thị kết quả?”
+
+### Tệp code là gì?
+
+Tệp code là một tệp văn bản chứa các lệnh. Tên tệp thường có phần mở rộng cho biết ngôn ngữ hoặc mục đích:
+
+- **.js**: tệp JavaScript.
+- **.ts**: tệp TypeScript.
+- **.tsx**: TypeScript có chứa cú pháp giao diện React.
+- **.css**: quy tắc trang trí giao diện.
+
+Đuôi tệp phải đúng. Nếu vô tình lưu thành index.js.txt, máy tính sẽ coi đó là tệp văn bản thường chứ không phải tệp JavaScript.
+
+## 2. Cài công cụ lần đầu
+
+Để viết và chạy ví dụ JavaScript, cần có một trình soạn thảo code và Node.js. Sau đó mới cần cài thư viện của dự án.
+
+### Bước 1: Cài VS Code
+
+VS Code là ứng dụng miễn phí để mở thư mục dự án, viết code và mở terminal ngay trong thư mục đó.
+
+1. Vào [trang tải VS Code chính thức](https://code.visualstudio.com/).
+2. Chọn phiên bản cho Windows hoặc macOS.
+3. Mở tệp vừa tải và làm theo các bước cài đặt mặc định.
+4. Mở VS Code sau khi cài xong.
+
+### Bước 2: Cài Node.js phiên bản dự án cần
+
+**Node.js** là chương trình chạy JavaScript ngoài trình duyệt. Trong repo này, phiên bản yêu cầu là **Node.js 24.x**.
+
+1. Vào [trang tải Node.js chính thức](https://nodejs.org/en/download).
+2. Chọn phiên bản **24.x LTS** và đúng hệ điều hành máy tính. Windows thường dùng trình cài đặt .msi; macOS thường dùng .pkg.
+3. Mở tệp tải về, đồng ý các bước cài đặt mặc định.
+4. Đóng rồi mở lại VS Code để terminal nhận ra Node.js mới cài.
+
+Kiểm tra đã cài chưa:
+
+- Trong VS Code, mở menu **Terminal → New Terminal**.
+- Gõ lệnh dưới đây rồi nhấn Enter:
+
+~~~sh
+node --version
+~~~
+
+Nếu thấy kết quả bắt đầu bằng v24, ví dụ v24.12.0, Node.js đã sẵn sàng. Kiểm tra thêm npm, trình quản lý gói đi kèm Node.js:
+
+~~~sh
+npm --version
+~~~
+
+Nếu thấy thông báo “node is not recognized” trên Windows hoặc “command not found” trên macOS, hãy đóng/mở lại VS Code. Nếu vẫn còn, cài lại Node.js và kiểm tra đã chọn đúng hệ điều hành chưa.
+
+### Bước 3: Tạo một tệp JavaScript đầu tiên
+
+Bài tập này tạo một thư mục riêng, chưa đụng đến code của RightWISE.
+
+1. Trong VS Code, chọn **File → Open Folder**.
+2. Tạo một thư mục mới, ví dụ **Documents/lap-javascript**, rồi mở thư mục đó.
+3. Trong Explorer bên trái, bấm nút **New File** và đặt tên chính xác là **index.js**.
+4. Dán đoạn code này vào:
+
+~~~js
+const ten = "RightWISE";
+console.log("Xin chào, " + ten + "!");
+~~~
+
+5. Lưu bằng Ctrl+S trên Windows hoặc Cmd+S trên macOS.
+6. Chọn **Terminal → New Terminal**. Terminal mở ở thư mục đang được mở trong VS Code.
+7. Gõ lệnh sau rồi nhấn Enter:
+
+~~~sh
+node index.js
+~~~
+
+Kết quả mong đợi:
+
+~~~text
+Xin chào, RightWISE!
+~~~
+
+Lệnh này có nghĩa là: nhờ Node.js chạy tệp tên index.js trong thư mục terminal hiện tại. Nếu terminal báo không tìm thấy index.js, hãy nhìn dòng đường dẫn trong terminal: có thể bạn đang ở nhầm thư mục. Mở đúng thư mục trong VS Code hoặc chuyển thư mục bằng lệnh cd.
+
+> **Phân biệt hai việc:** node index.js dùng để chạy một tệp JavaScript đơn giản. Repo RightWISE không có tệp index.js ở thư mục gốc. Repo có nhiều ứng dụng và thư viện, vì vậy chạy bằng các lệnh pnpm dev:web và pnpm dev:api ở mục 5.
+
+## 3. JavaScript cơ bản: biến và kiểu dữ liệu
 
 ### Biến là gì?
 
-**Biến** là một cái tên dùng để lưu giá trị để chương trình có thể dùng lại.
+**Biến** là tên mình đặt cho một giá trị để chương trình lưu và sử dụng. Ví dụ, tenSanPham là tên biến còn "Trà Shan Tuyết" là giá trị.
 
 ~~~js
 const tenSanPham = "Trà Shan Tuyết";
 let soSao = 4;
 
-console.log(tenSanPham); // In: Trà Shan Tuyết
-console.log(soSao);      // In: 4
+console.log(tenSanPham);
+console.log(soSao);
 ~~~
 
-Trong JavaScript, const dùng khi không định gán lại biến; let dùng khi giá trị sẽ thay đổi. console.log in thông tin ra cửa sổ terminal hoặc bảng Console của trình duyệt để mình quan sát.
-
-### Điều kiện, lặp và hàm
-
-**Điều kiện** giúp chương trình chọn việc cần làm tùy theo tình huống:
+- **const**: dùng mặc định khi không cần gán biến sang một giá trị khác.
+- **let**: dùng khi biến cần nhận giá trị mới.
+- **var**: cách khai báo cũ. Người mới nên dùng const hoặc let vì hành vi của chúng dễ hiểu và ít gây lỗi hơn.
 
 ~~~js
-if (soSao >= 4) {
-  console.log("Sản phẩm có từ 4 sao trở lên");
-} else {
-  console.log("Sản phẩm có ít hơn 4 sao");
-}
+let trangThai = "đang chờ";
+trangThai = "đã hoàn tất"; // Được phép vì khai báo bằng let
+
+const ten = "RightWISE";
+// ten = "Khác"; // Lỗi: không thể gán lại biến const
 ~~~
 
-**Vòng lặp** chạy lại một việc nhiều lần. Ví dụ in tên từng sản phẩm trong danh sách:
+Lưu ý: const ngăn mình gán biến sang một giá trị khác, nhưng nếu giá trị là object hoặc array thì nội dung bên trong vẫn có thể thay đổi. Xem các ví dụ bên dưới.
+
+### Những kiểu dữ liệu thường gặp
+
+| Kiểu | Dùng để lưu | Ví dụ |
+| --- | --- | --- |
+| String (chuỗi) | Chữ, tên, URL hoặc thông báo | "Mật ong", "https://example.com" |
+| Number (số) | Số nguyên hoặc số thập phân | 4, 12.5 |
+| Boolean (đúng/sai) | Một câu trả lời chỉ có true hoặc false | true, false |
+| Undefined | Biến đã được khai báo nhưng chưa có giá trị | let ketQua; |
+| Null | Chủ động ghi rằng hiện không có giá trị | const anh = null; |
+| Array (mảng) | Danh sách nhiều giá trị theo thứ tự | ["Trà", "Mật ong"] |
+| Object (đối tượng) | Một nhóm thông tin có tên trường | { ten: "Trà", soSao: 4 } |
+
+JavaScript còn có các kiểu ít cần dùng lúc mới bắt đầu: **BigInt** lưu số nguyên cực lớn, **Symbol** tạo giá trị định danh duy nhất. **Function** là hàm; trong JavaScript hàm cũng là một loại object đặc biệt. Array, object và function là các kiểu dữ liệu dạng tham chiếu; các kiểu còn lại trong bảng đầu là kiểu nguyên thủy.
+
+~~~js
+const tenSanPham = "Trà";           // String
+const soSao = 4;                    // Number
+const daXacMinh = false;            // Boolean
+let ketQuaTimKiem;                  // Undefined vì chưa gán giá trị
+const diaChi = null;                // Null: chưa có địa chỉ
+const diemRatLon = 12345678901234567890n; // BigInt, có chữ n cuối
+const maDuyNhat = Symbol("ma");     // Symbol
+~~~
+
+Muốn biết kiểu của một giá trị, dùng typeof:
+
+~~~js
+console.log(typeof "Trà"); // string
+console.log(typeof 4);     // number
+console.log(typeof true);  // boolean
+~~~
+
+Một điều dễ gây ngạc nhiên: typeof null trả về "object" vì lý do lịch sử của JavaScript. Khi kiểm tra giá trị null, so sánh trực tiếp với null.
+
+### Array (mảng): danh sách theo thứ tự
+
+Dùng **array** khi có nhiều giá trị cùng loại hoặc cùng nhóm, chẳng hạn danh sách tên sản phẩm.
 
 ~~~js
 const sanPhams = ["Trà", "Mật ong", "Gạo"];
+~~~
 
+Các vị trí trong array được đánh số từ **0**, không phải từ 1:
+
+~~~js
+console.log(sanPhams[0]); // "Trà", phần tử đầu tiên
+console.log(sanPhams[1]); // "Mật ong", phần tử thứ hai
+console.log(sanPhams.length); // 3, số phần tử
+~~~
+
+Đọc một phần tử không làm thay đổi array. Có thể thêm phần tử cuối danh sách bằng push:
+
+~~~js
+const tenSanPhams = ["Trà", "Mật ong", "Gạo"];
+tenSanPhams.push("Hạt điều");
+console.log(tenSanPhams); // ["Trà", "Mật ong", "Gạo", "Hạt điều"]
+~~~
+
+Duyệt qua toàn bộ danh sách bằng for...of:
+
+~~~js
 for (const sanPham of sanPhams) {
   console.log(sanPham);
 }
 ~~~
 
-**Hàm** là một nhóm lệnh có tên, có thể gọi lại khi cần. Hàm dưới đây nhận tên rồi trả lời lời chào:
+**Dùng array khi:** cần giữ một danh sách có thứ tự, ví dụ nhiều sản phẩm, nhiều nguồn tham khảo hoặc nhiều lỗi kiểm tra. Nếu muốn lấy phần tử theo tên thuộc tính, dùng object.
+
+### Object (đối tượng): một vật có nhiều thông tin
+
+Dùng **object** để gom nhiều thuộc tính mô tả cùng một thứ. Ví dụ mỗi sản phẩm có tên, thương hiệu và số sao:
 
 ~~~js
-function chao(ten) {
-  return `Xin chào, ${ten}!`;
+const sanPham = {
+  ten: "Trà Shan Tuyết",
+  thuongHieu: "Làng Mây",
+  soSao: 4
+};
+~~~
+
+Đọc giá trị bằng dấu chấm:
+
+~~~js
+console.log(sanPham.ten);        // "Trà Shan Tuyết"
+console.log(sanPham["soSao"]);   // 4
+~~~
+
+Có thể đổi một thuộc tính nếu khai báo object bằng const; const chỉ ngăn thay toàn bộ biến sang object khác:
+
+~~~js
+const monHang = { ten: "Trà Shan Tuyết", soSao: 4 };
+monHang.soSao = 5;
+console.log(monHang.soSao); // 5
+~~~
+
+**Dùng object khi:** một vật có nhiều thông tin mang tên rõ ràng, ví dụ một sản phẩm hoặc một kết quả kiểm tra. Danh sách các sản phẩm có thể là array chứa nhiều object:
+
+~~~js
+const danhSach = [
+  { ten: "Trà Shan Tuyết", soSao: 4 },
+  { ten: "Mật ong rừng", soSao: 3 }
+];
+
+console.log(danhSach[0].ten); // "Trà Shan Tuyết"
+console.log(danhSach[1].soSao); // 3
+~~~
+
+Trong JavaScript, phần tử cuối của array có chỉ số là length - 1. Nếu hỏi vị trí không tồn tại, kết quả thường là undefined:
+
+~~~js
+console.log(danhSach[2]); // undefined, vì danh sách chỉ có vị trí 0 và 1
+~~~
+
+### Ghép biến, so sánh và quyết định
+
+Dấu + có thể cộng số hoặc nối chuỗi. Khi nối chữ và số, cần chú ý kiểu dữ liệu:
+
+~~~js
+console.log(2 + 3);          // 5
+console.log("Số sao: " + 4); // "Số sao: 4"
+~~~
+
+Các phép so sánh hay gặp là > (lớn hơn), < (nhỏ hơn), >= (lớn hơn hoặc bằng), === (bằng nhau) và !== (khác nhau). Nên dùng === để so sánh vì nó không tự đổi kiểu dữ liệu.
+
+~~~js
+const soSao = 4;
+
+if (soSao >= 4) {
+  console.log("Có từ 4 sao trở lên");
+} else {
+  console.log("Có ít hơn 4 sao");
+}
+~~~
+
+### Hàm: đặt tên cho một nhóm lệnh
+
+**Hàm** gom các lệnh để gọi lại. Thông tin đưa vào hàm gọi là tham số; kết quả hàm gửi ra bằng return.
+
+~~~js
+function loiChao(ten) {
+  return "Xin chào, " + ten + "!";
 }
 
-console.log(chao("An"));
+const loiChaoCuaAn = loiChao("An");
+console.log(loiChaoCuaAn); // "Xin chào, An!"
 ~~~
 
-### Thuật toán là gì?
-
-**Thuật toán** là các bước rõ ràng để giải một bài toán. Chẳng hạn, để kiểm tra một ảnh sản phẩm:
-
-1. Hỏi người dùng chọn ảnh.
-2. Kiểm tra tệp có phải ảnh và có quá lớn không.
-3. Gửi ảnh tới máy chủ.
-4. Nhận thông tin máy chủ trả về.
-5. Hiển thị thông tin hoặc báo lỗi.
-
-Các bước đó chính là ý tưởng của tính năng kiểm tra ảnh trong RightWISE. Code biến các bước thành lệnh mà máy tính có thể chạy.
-
-## 2. JavaScript là gì?
-
-**JavaScript (JS)** là ngôn ngữ lập trình phổ biến trên web. Trình duyệt dùng JS để tạo tương tác: bấm nút, mở tab, kiểm tra biểu mẫu, cập nhật nội dung mà không cần tải lại toàn bộ trang. JavaScript cũng chạy được bên ngoài trình duyệt, ví dụ bằng **Node.js**.
-
-Một tệp JavaScript cơ bản thường có đuôi .js. Ví dụ, lưu đoạn này trong hello.js:
+Nếu cần lặp lại một việc cho từng phần tử, dùng vòng lặp:
 
 ~~~js
-const ten = "RightWISE";
-console.log(`Xin chào từ ${ten}!`);
+const sanPhams = ["Trà", "Mật ong", "Gạo"];
+
+for (const sanPham of sanPhams) {
+  console.log("Đang xem: " + sanPham);
+}
 ~~~
 
-Có thể chạy bằng Node.js trong terminal:
+### Kết nối với dự án
 
-~~~sh
-node hello.js
-~~~
+Trong RightWISE, dữ liệu cũng có những dạng tương tự:
 
-Trong dự án này, mã nguồn có đuôi .ts hoặc .tsx vì được viết bằng TypeScript. Công cụ của Next.js và NestJS sẽ xử lý mã TypeScript để chạy ứng dụng.
+- URL người dùng nhập là **string**.
+- Trạng thái đang gửi yêu cầu là **boolean**: đang tải hay không.
+- Danh sách nguồn tìm được là **array**.
+- Thông tin một sản phẩm là **object**, có các trường như tên, thương hiệu và địa chỉ.
+- Chưa có hạng sao có thể được biểu diễn bằng **null**.
+- Một hàm nhận ảnh, gửi API hoặc định dạng kết quả sẽ thực hiện từng bước của thuật toán.
 
-## 3. TypeScript khác JavaScript thế nào?
+Đọc code bằng cách tìm biến được khai báo, xem kiểu dữ liệu đang lưu, rồi tìm chỗ biến đó được dùng. Hãy thử đổi giá trị trong bài tập index.js và chạy lại node index.js để thấy kết quả thay đổi.
+
+## 4. TypeScript khác JavaScript thế nào?
 
 **TypeScript (TS)** bổ sung kiểu dữ liệu cho JavaScript. Có thể xem nó là JavaScript có thêm cách mô tả dữ liệu mong đợi. Trước khi chạy, TypeScript kiểm tra một số lỗi thường gặp, ví dụ dùng nhầm chữ với số hoặc quên xử lý giá trị có thể bị thiếu.
 
@@ -130,7 +349,7 @@ RightWISE dùng TypeScript vì nhiều phần trao đổi dữ liệu với nhau
 
 > TSX là tệp TypeScript có thêm cú pháp giao diện JSX của React. Ví dụ các thành phần UI trong apps/nextjs-frontend/components/ đều là .tsx.
 
-## 4. Website này gồm những phần nào?
+## 5. Website này gồm những phần nào?
 
 Repo chia thành hai ứng dụng trong một workspace pnpm — kiểu tổ chức này thường gọi là **monorepo**:
 
@@ -166,47 +385,105 @@ flowchart LR
 └── README.md              # Tài liệu bạn đang đọc
 ~~~
 
-## 5. Chạy dự án trên máy
+## 6. Cài đặt và chạy RightWISE
 
-### Cài công cụ cần thiết
+Mục 2 hướng dẫn cài Node.js và tạo một tệp JavaScript đơn giản. Để chạy repo này còn cần cài các thư viện mà hai ứng dụng sử dụng. Làm lần lượt các bước sau.
 
-- **Node.js 24.x** — phiên bản được khai báo trong repo.
-- **pnpm 12.11.2** — trình quản lý các gói thư viện. Có thể bật pnpm thông qua Corepack đi kèm Node.js:
+### Bước 1: Kiểm tra Node.js
+
+Mở dự án bằng VS Code, chọn **Terminal → New Terminal**, rồi chạy:
 
 ~~~sh
-corepack enable
-corepack prepare pnpm@12.11.2 --activate
+node --version
 ~~~
 
-### Cài thư viện và tạo file cấu hình
+Repo này cần Node.js 24.x. Nếu máy chưa có hoặc hiện phiên bản khác, làm lại bước cài Node.js ở mục 2, Bước 2.
 
-Mở terminal ở thư mục gốc của repo, rồi chạy:
+### Bước 2: Cài pnpm
+
+**pnpm** là công cụ tải và quản lý thư viện cho dự án. Máy đã cài Node.js thì cài đúng phiên bản pnpm repo đang yêu cầu:
+
+~~~sh
+npm install --global pnpm@12.11.2
+~~~
+
+Đóng/mở lại terminal, rồi kiểm tra:
+
+~~~sh
+pnpm --version
+~~~
+
+Kết quả cần là 12.11.2. Nếu lệnh npm hoặc pnpm không chạy, khởi động lại VS Code trước; nếu vẫn lỗi, nhờ giáo viên kiểm tra quyền cài phần mềm trên máy.
+
+### Bước 3: Mở đúng thư mục repo và tải thư viện
+
+Trong VS Code, chọn **File → Open Folder** và mở thư mục repo trust-facts-choose-wisely. Đây là thư mục có file package.json ở ngoài cùng. Trong terminal, kiểm tra mình đang ở đúng thư mục:
+
+~~~sh
+ls
+~~~
+
+Trên Windows PowerShell, có thể dùng dir thay vì ls. Kết quả cần có package.json, pnpm-workspace.yaml và thư mục apps.
+
+Sau đó chạy:
 
 ~~~sh
 pnpm install
+~~~
+
+Lệnh này đọc danh sách thư viện trong package.json rồi tải chúng. Cần kết nối Internet. Chỉ phải cài lại khi thư viện của dự án thay đổi hoặc khi thiết lập repo trên máy mới.
+
+### Bước 4: Tạo file cấu hình local
+
+Trong terminal đang ở thư mục gốc repo, chạy:
+
+~~~sh
 cp apps/nestjs-backend/.env.example apps/nestjs-backend/.env
 cp apps/nextjs-frontend/.env.example apps/nextjs-frontend/.env.local
 ~~~
 
-Mở apps/nestjs-backend/.env, điền AI_GATEWAY_API_KEY do người quản lý dự án cung cấp. Không đưa API key vào code, README, ảnh chụp màn hình công khai hoặc Git. Nếu không có key, phần giao diện vẫn chạy nhưng tính năng tra cứu cần backend và sẽ không hoàn tất.
+Trên Windows PowerShell nếu lệnh cp báo lỗi, dùng hai lệnh sau:
 
-UPSTASH_REDIS_REST_URL và UPSTASH_REDIS_REST_TOKEN có thể để trống khi học và chạy local. Khi thiếu Redis, API dùng bộ nhớ tạm của tiến trình để lưu kết quả trong 24 giờ; khi deploy nhiều máy chủ, Upstash giúp chia sẻ cache giữa các máy.
+~~~powershell
+Copy-Item apps/nestjs-backend/.env.example apps/nestjs-backend/.env
+Copy-Item apps/nextjs-frontend/.env.example apps/nextjs-frontend/.env.local
+~~~
 
-### Khởi động hai ứng dụng
+Mở apps/nestjs-backend/.env trong VS Code, điền AI_GATEWAY_API_KEY do người quản lý dự án cung cấp. Đây là mật khẩu cho backend gọi dịch vụ AI. Không chia sẻ key, không chụp màn hình có key và không commit file .env lên Git.
 
-Mở **hai cửa sổ terminal** tại thư mục gốc repo. Chạy một lệnh trong mỗi cửa sổ:
+Nếu không có key, vẫn có thể xem trang web, sửa chữ và CSS; chức năng tra cứu thật cần key để gọi dịch vụ AI.
+
+UPSTASH_REDIS_REST_URL và UPSTASH_REDIS_REST_TOKEN có thể để trống khi học local. Khi không cấu hình Redis, API dùng bộ nhớ tạm của tiến trình để lưu kết quả trong 24 giờ.
+
+### Bước 5: Khởi động API và website
+
+Cần chạy cả hai ứng dụng cùng lúc. Trong VS Code, chọn **Terminal → New Terminal** hai lần để có hai terminal. Để thấy cách gọi terminal thứ nhất và thứ hai rõ ràng:
+
+**Terminal 1 — API/backend:**
 
 ~~~sh
 pnpm dev:api
 ~~~
 
-~~~
+Chờ đến khi terminal báo ứng dụng đã khởi động. Đừng đóng terminal này.
+
+**Terminal 2 — website/frontend:**
+
+~~~sh
 pnpm dev:web
 ~~~
 
-Mở http://localhost:3001 trong trình duyệt. Web gọi API ở http://localhost:3000; hai tiến trình cần chạy đồng thời để tính năng kiểm tra hoạt động.
+Mở trình duyệt và vào [http://localhost:3001](http://localhost:3001). Khi xong, quay về từng terminal và nhấn Ctrl+C để dừng ứng dụng.
 
-## 6. Khám phá và sửa giao diện
+### Nếu gặp lỗi
+
+- **node, npm hoặc pnpm không nhận dạng được:** đóng/mở VS Code để terminal tải lại cấu hình; kiểm tra các lệnh --version.
+- **Cannot find module hoặc thiếu thư viện:** kiểm tra terminal đang ở thư mục gốc repo, rồi chạy pnpm install.
+- **Cổng đã được sử dụng:** có thể một bản web/API khác vẫn đang chạy. Tìm terminal cũ và nhấn Ctrl+C.
+- **Website mở được nhưng không tra cứu được:** kiểm tra API có đang chạy ở terminal 1 và AI_GATEWAY_API_KEY đã được điền chưa.
+- **Ảnh/link báo lỗi:** xem thông báo trên trang và terminal API; không phải mọi trang web đều cho phép máy chủ đọc nội dung.
+
+## 7. Khám phá và sửa giao diện
 
 ### React và component
 
@@ -263,7 +540,7 @@ Trong verification-widget.tsx, luồng cơ bản là:
 
 Muốn thay nội dung kết quả, xem verification-result.tsx. Nếu thay cấu trúc dữ liệu phản hồi, cần sửa đồng bộ kiểu VerificationResultData ở đầu tệp kết quả và kiểu VerificationResponse phía API.
 
-## 7. Khám phá backend
+## 8. Khám phá backend
 
 Backend dùng **NestJS**, một framework Node.js giúp chia mã thành các phần có trách nhiệm rõ ràng. Trong dự án, các vai trò chính là:
 
@@ -304,7 +581,7 @@ GET /api/v1/health kiểm tra API có chạy và đã có cấu hình AI chưa. 
 
 Backend lưu dữ liệu cache, không lưu ảnh tải lên hay nội dung trang vào kho lưu trữ lâu dài của ứng dụng. Thông tin trả về là thông tin tìm được để tham khảo. Nếu muốn thay cách kết luận, hãy đọc match-evidence.ts và kiểu kết quả trước khi sửa; không nên hiểu kết quả tìm kiếm là bằng chứng chứng nhận pháp lý.
 
-## 8. Các lệnh thường dùng
+## 9. Các lệnh thường dùng
 
 Chạy các lệnh ở thư mục gốc repo:
 
@@ -317,7 +594,7 @@ Chạy các lệnh ở thư mục gốc repo:
 | pnpm build:api | Tạo bản build backend. |
 | pnpm test | Chạy các bài test của API. |
 
-## 9. Đưa ứng dụng lên mạng
+## 10. Đưa ứng dụng lên mạng
 
 Repo được cấu hình để triển khai thành **hai project Vercel riêng** từ cùng Git repository:
 
@@ -330,7 +607,7 @@ Repo được cấu hình để triển khai thành **hai project Vercel riêng*
 
 Các biến bí mật chỉ đặt trong phần Environment Variables của Vercel, không commit vào Git. Xem thêm ví dụ trong .env.example của từng ứng dụng.
 
-## 10. Bắt đầu từ đâu?
+## 11. Bắt đầu từ đâu?
 
 Nếu mới làm quen với lập trình, có thể khám phá từng bước:
 
