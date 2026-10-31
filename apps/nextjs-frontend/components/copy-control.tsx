@@ -1,17 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useClipboardCopy } from "@/hooks/use-clipboard-copy";
 
-export function CopyControl({ prompts }: { prompts: string[] }) {
-  const [message, setMessage] = useState("");
-  const copy = async () => {
-    const text = prompts.map((prompt, index) => `${"WISE"[index]} · ${prompt}`).join("\n");
-    try {
-      await navigator.clipboard.writeText(`Thẻ WISE, 30 giây\n${text}`);
-      setMessage("Đã chép thẻ vào clipboard.");
-    } catch {
-      setMessage("Trình duyệt chưa cho phép chép nội dung. Hãy thử trên kết nối bảo mật.");
-    }
+interface CopyControlProps {
+  prompts: string[];
+}
+
+export function CopyControl({ prompts }: CopyControlProps) {
+  const { message, copy } = useClipboardCopy();
+
+  const handleCopy = () => {
+    const text = prompts
+      .map((prompt, index) => `${"WISE"[index]} · ${prompt}`)
+      .join("\n");
+    void copy(`Thẻ WISE, 30 giây\n${text}`);
   };
-  return <><button type="button" className="btn" onClick={copy}>Chép thẻ để dán vào nhóm lớp</button><span className="copy-state" aria-live="polite">{message}</span></>;
+
+  return (
+    <>
+      <button type="button" className="btn" onClick={handleCopy}>
+        Chép thẻ để dán vào nhóm lớp
+      </button>
+      <span className="copy-state" aria-live="polite">
+        {message}
+      </span>
+    </>
+  );
 }

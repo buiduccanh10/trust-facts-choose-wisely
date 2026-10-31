@@ -1,62 +1,26 @@
-export type VerificationResultData = {
-  status: "verified" | "conflict" | "unverified";
-  extracted: {
-    brand: string | null;
-    manufacturer: string | null;
-    address: string | null;
-    product_name: string | null;
-    location: string | null;
-    claimed_stars: number | null;
-    has_ocop_logo: boolean | null;
-    has_qr_code: boolean | null;
-    raw_text_summary: string;
-  };
-  product_info: {
-    product_name: string | null;
-    brand: string | null;
-    manufacturer: string | null;
-    address: string | null;
-    location: string | null;
-    stars: number | null;
-    stars_source: "tako" | "google" | "official" | null;
-    summary: string;
-  };
-  local_ocop_record: {
-    is_certified: boolean | null;
-    official_stars: number | null;
-    official_product_name: string | null;
-    certifying_authority: string | null;
-    district: string | null;
-    province: string | null;
-    recognition_details: string | null;
-  };
-  verdict: { code: string; title: string; severity: "success" | "warning" | "danger"; confidence_score: number | null };
-  comparison_text: string;
-  comparison_points: { criteria: string; on_label: string; official_record: string; is_match: boolean | null; note: string }[];
-  consumer_advice: string;
-  evidence: { title: string; url: string; excerpt: string; retrievedAt: string }[];
-  article_context?: {
-    submitted_title: string;
-    submitted_url: string;
-    conclusion: string;
-    best_match: { title: string; url: string; excerpt: string; retrievedAt: string } | null;
-  };
-};
+import type { VerificationResultData } from "@/types/verification";
+import { cleanProductName } from "@/utils/formatters";
 
-type Props = {
+export type { VerificationResultData };
+
+interface VerificationResultPanelProps {
   result: VerificationResultData;
   onReset: () => void;
-};
+}
 
-export function VerificationResultPanel({ result, onReset }: Props) {
+export function VerificationResultPanel({ result, onReset }: VerificationResultPanelProps) {
   const info = result.product_info;
   const articleContext = result.article_context;
-  const product = (info.product_name ?? result.extracted.product_name)
-    ?.replace(/\([^)]*\)/g, "")
-    .replace(/[“”"']/g, "")
-    .replace(/\s+/g, " ")
-    .trim() || "Chưa đọc rõ tên sản phẩm";
-  const hasSearchInfo = Boolean(info.product_name || info.brand || info.manufacturer || info.address || info.location || info.stars);
+  const product = cleanProductName(info.product_name ?? result.extracted.product_name);
+  const hasSearchInfo = Boolean(
+    info.product_name ||
+    info.brand ||
+    info.manufacturer ||
+    info.address ||
+    info.location ||
+    info.stars
+  );
+
   const status = articleContext
     ? articleContext.conclusion
     : result.status === "conflict"
@@ -67,20 +31,45 @@ export function VerificationResultPanel({ result, onReset }: Props) {
         ? "Đã tìm thấy thông tin sản phẩm"
         : "Chưa tìm thấy thông tin phù hợp";
 
+  const overviewSeverityClass = articleContext
+    ? articleContext.best_match
+      ? "success"
+      : "warning"
+    : result.verdict.severity;
+
+  const overviewIcon = articleContext
+    ? articleContext.best_match
+      ? "✓"
+      : "⌕"
+    : result.status === "verified"
+      ? "✓"
+      : result.status === "conflict"
+        ? "!"
+        : "⌕";
+
   return (
     <section className="verification-result" aria-live="polite" aria-labelledby="verification-result-title">
-      <header className={`result-overview ${articleContext ? articleContext.best_match ? "success" : "warning" : result.verdict.severity}`}>
+      <header className={`result-overview ${overviewSeverityClass}`}>
         <div className="result-overview-icon" aria-hidden="true">
-          {articleContext ? articleContext.best_match ? "✓" : "⌕" : result.status === "verified" ? "✓" : result.status === "conflict" ? "!" : "⌕"}
+          {overviewIcon}
         </div>
         <div className="result-overview-copy">
-          <p className="result-eyebrow">{articleContext ? "Đối chiếu bài viết" : "Thông tin sản phẩm"}</p>
+          <p className="result-eyebrow">
+            {articleContext ? "Đối chiếu bài viết" : "Thông tin sản phẩm"}
+          </p>
           <h3 id="verification-result-title">{product}</h3>
           <p className="result-verdict">{status}</p>
         </div>
       </header>
 
-      {articleContext && <p className="submitted-article">Bài viết bạn gửi: <a href={articleContext.submitted_url} target="_blank" rel="noreferrer noopener">{articleContext.submitted_title}</a></p>}
+      {articleContext && (
+        <p className="submitted-article">
+          Bài viết bạn gửi:{" "}
+          <a href={articleContext.submitted_url} target="_blank" rel="noreferrer noopener">
+            {articleContext.submitted_title}
+          </a>
+        </p>
+      )}
 
       {info.summary && (
         <div className="result-research-copy">
@@ -92,13 +81,24 @@ export function VerificationResultPanel({ result, onReset }: Props) {
       {articleContext?.best_match && (
         <article className="best-match-article">
           <h4>Bài viết khớp nhất</h4>
-          <a className="best-match-title" href={articleContext.best_match.url} target="_blank" rel="noreferrer noopener">{articleContext.best_match.title}</a>
-          {articleContext.best_match.excerpt && <p className="best-match-content">{articleContext.best_match.excerpt}</p>}
+          <a
+            className="best-match-title"
+            href={articleContext.best_match.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {articleContext.best_match.title}
+          </a>
+          {articleContext.best_match.excerpt && (
+            <p className="best-match-content">{articleContext.best_match.excerpt}</p>
+          )}
         </article>
       )}
 
       <footer className="result-footer">
-        <button type="button" className="btn btn-ghost btn-sm" onClick={onReset}>Kiểm tra sản phẩm khác</button>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={onReset}>
+          Kiểm tra sản phẩm khác
+        </button>
       </footer>
     </section>
   );
