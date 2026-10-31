@@ -15,7 +15,7 @@ export class VerificationService {
     if (!file?.buffer?.length) throw new BadRequestException("Ảnh tải lên rỗng hoặc không hợp lệ.");
     if (file.size > 4 * 1024 * 1024) throw new BadRequestException("Ảnh sau khi nén vượt quá giới hạn 4 MB.");
     const image = await this.normalizeImage(file.buffer);
-    const key = `verification:v3:image:${this.sha256(image)}`;
+    const key = `verification:v6:image:${this.sha256(image)}`;
     const cached = await this.cache.get<VerificationResponse>(key);
     if (cached) return cached;
 
@@ -29,7 +29,7 @@ export class VerificationService {
   async verifyUrl(inputUrl: string): Promise<VerificationResponse> {
     if (!inputUrl?.trim()) throw new BadRequestException("Vui lòng cung cấp URL sản phẩm.");
     const normalizedUrl = normalizeSubmittedUrl(inputUrl);
-    const key = `verification:v5:url:${this.sha256(normalizedUrl)}`;
+    const key = `verification:v6:url:${this.sha256(normalizedUrl)}`;
     const cached = await this.cache.get<VerificationResponse>(key);
     if (cached) return cached;
 

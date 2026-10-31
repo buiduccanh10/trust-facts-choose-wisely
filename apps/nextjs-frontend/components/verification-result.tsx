@@ -1,7 +1,98 @@
+import type { ReactNode } from "react";
 import type { VerificationResultData } from "@/types/verification";
 import { cleanProductName } from "@/utils/formatters";
 
 export type { VerificationResultData };
+
+function renderFormattedInline(text: string): ReactNode {
+  if (text.includes("**")) {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        return <strong key={i}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+  }
+
+  const match = text.match(/^([^:]{2,35}:)\s*(.*)$/);
+  if (match) {
+    return (
+      <>
+        <strong>{match[1]}</strong> {match[2]}
+      </>
+    );
+  }
+
+  return text;
+}
+
+function FormattedNarrative({ content }: { content: string }) {
+  if (!content) return null;
+
+  let text = content;
+  // If content is wrapped in raw JSON (e.g. from an old cache or fallback)
+  if (text.trim().startsWith("{")) {
+    try {
+      const parsed = JSON.parse(text);
+      if (typeof parsed.summary === "string" && parsed.summary.trim()) {
+        text = parsed.summary;
+      }
+    } catch {
+      const summaryMatch = text.match(/"summary"\s*:\s*"([\s\S]*)/);
+      if (summaryMatch) {
+        let raw = summaryMatch[1];
+        const end = raw.match(/^([\s\S]*?)(?<!\\)"/);
+        if (end) raw = end[1];
+        text = raw;
+      }
+    }
+  }
+
+  // Handle literal escaped newlines "\\n" -> "\n"
+  text = text.replace(/\\n/g, "\n").replace(/\\"/g, '"');
+
+  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  const hasBullets = lines.some((l) => /^[-*•]\s+/.test(l) || /^([^:]{2,35}:)/.test(l));
+
+  if (!hasBullets) {
+    return <p className="result-narrative">{text}</p>;
+  }
+
+  const elements: ReactNode[] = [];
+  let currentBullets: string[] = [];
+
+  const flushBullets = () => {
+    if (currentBullets.length > 0) {
+      elements.push(
+        <ul key={`ul-${elements.length}`} className="narrative-bullet-list">
+          {currentBullets.map((item, idx) => (
+            <li key={idx}>{renderFormattedInline(item)}</li>
+          ))}
+        </ul>
+      );
+      currentBullets = [];
+    }
+  };
+
+  lines.forEach((line, idx) => {
+    if (/^[-*•]\s+/.test(line)) {
+      currentBullets.push(line.replace(/^[-*•]\s+/, ""));
+    } else if (/^([^:]{2,35}:)\s*(.*)$/.test(line)) {
+      currentBullets.push(line);
+    } else {
+      flushBullets();
+      elements.push(
+        <p key={`p-${idx}`} className="narrative-paragraph">
+          {renderFormattedInline(line)}
+        </p>
+      );
+    }
+  });
+  flushBullets();
+
+  return <div className="result-narrative">{elements}</div>;
+}
 
 interface VerificationResultPanelProps {
   result: VerificationResultData;
@@ -74,7 +165,7 @@ export function VerificationResultPanel({ result, onReset }: VerificationResultP
       {info.summary && (
         <div className="result-research-copy">
           <h4>{articleContext ? "Thông tin tìm được để đối chiếu" : "Thông tin sản phẩm"}</h4>
-          <p className="result-narrative">{info.summary}</p>
+          <FormattedNarrative content={info.summary} />
         </div>
       )}
 
