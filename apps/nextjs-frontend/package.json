@@ -2,7 +2,7 @@
   "name": "@rightwise/web",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "cross-env WATCHPACK_POLLING=true next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
@@ -19,6 +19,7 @@
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "cross-env": "^10.1.0",
     "typescript": "^5.9.3"
   }
 }
