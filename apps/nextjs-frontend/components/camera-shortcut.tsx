@@ -4,12 +4,12 @@ import { OPEN_CAMERA_EVENT } from "@/lib/events";
 
 export function CameraShortcut() {
   return (
-    <a
+    <button
+      type="button"
       className="btn btn-primary btn-sm"
-      href="#kiem-tra-anh"
       onClick={() => window.dispatchEvent(new Event(OPEN_CAMERA_EVENT))}
     >
       Chụp ảnh
-    </a>
+    </button>
   );
 }
