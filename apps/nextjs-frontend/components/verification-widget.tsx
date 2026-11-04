@@ -2,6 +2,7 @@
 
 import * as Tabs from "@radix-ui/react-tabs";
 import { VerificationResultPanel } from "@/components/verification-result";
+import { PageViewCounter } from "@/components/page-view-counter";
 import { useVerification } from "@/hooks/use-verification";
 import { formatFileSizeKB } from "@/utils/formatters";
 
@@ -256,6 +257,9 @@ export function VerificationWidget() {
               {result && <VerificationResultPanel result={result} onReset={reset} />}
             </div>
           </div>
+        </div>
+        <div className="page-views-row">
+          <PageViewCounter />
         </div>
       </div>
     </section>
