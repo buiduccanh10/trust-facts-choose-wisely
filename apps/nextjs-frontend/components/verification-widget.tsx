@@ -1,12 +1,15 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { VerificationResultPanel } from "@/components/verification-result";
 import { PageViewCounter } from "@/components/page-view-counter";
 import { useVerification } from "@/hooks/use-verification";
 import { formatFileSizeKB } from "@/utils/formatters";
+import { OPEN_CAMERA_EVENT } from "@/lib/events";
 
 export function VerificationWidget() {
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const {
     mode,
     setMode,
@@ -23,6 +26,16 @@ export function VerificationWidget() {
     runVerification,
     reset,
   } = useVerification();
+
+  useEffect(() => {
+    const openCamera = () => {
+      setMode("image");
+      cameraInputRef.current?.click();
+    };
+
+    window.addEventListener(OPEN_CAMERA_EVENT, openCamera);
+    return () => window.removeEventListener(OPEN_CAMERA_EVENT, openCamera);
+  }, [setMode]);
 
   return (
     <section className="snap" id="kiem-tra-anh" aria-labelledby="snapTitle">
@@ -60,6 +73,22 @@ export function VerificationWidget() {
                 value={mode}
                 onValueChange={(value) => setMode(value as "image" | "url")}
               >
+                <input
+                  className="sr"
+                  type="file"
+                  id="photoCam"
+                  accept="image/*"
+                  capture="environment"
+                  ref={cameraInputRef}
+                  onChange={onFileChange}
+                />
+                <input
+                  className="sr"
+                  type="file"
+                  id="photoLib"
+                  accept="image/*"
+                  onChange={onFileChange}
+                />
                 <Tabs.List className="verify-mode-tabs" aria-label="Phương thức thẩm định">
                   <Tabs.Trigger
                     className={`verify-mode-btn${mode === "image" ? " active" : ""}`}
@@ -113,24 +142,9 @@ export function VerificationWidget() {
                     <div className="pick" id="snapPickRow">
                       <label className="bigbtn main" htmlFor="photoCam">
                         <span>Chụp ảnh bao bì bây giờ</span>
-                        <input
-                          className="sr"
-                          type="file"
-                          id="photoCam"
-                          accept="image/*"
-                          capture="environment"
-                          onChange={onFileChange}
-                        />
                       </label>
                       <label className="bigbtn alt" htmlFor="photoLib">
                         <span>Chọn ảnh tem mác có sẵn</span>
-                        <input
-                          className="sr"
-                          type="file"
-                          id="photoLib"
-                          accept="image/*"
-                          onChange={onFileChange}
-                        />
                       </label>
                     </div>
                   )}

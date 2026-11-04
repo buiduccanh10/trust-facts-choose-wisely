@@ -1,3 +1,5 @@
+import { CameraShortcut } from "@/components/camera-shortcut";
+
 export function SiteHeader() {
   return (
     <header className="top">
@@ -18,7 +20,7 @@ export function SiteHeader() {
           <a href="#thu-thach">Phòng kiểm chứng</a>
           <a href="#lop-hoc">Lớp học</a>
         </nav>
-        <a className="btn btn-primary btn-sm" href="#kiem-tra-anh">Chụp ảnh</a>
+        <CameraShortcut />
       </div>
     </header>
   );
