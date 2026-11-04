@@ -31,7 +31,7 @@ export function VerificationWidget() {
             <div className="snap-head">
               <span className="eyebrow">Thẩm định OCOP</span>
               <h2 className="snap-title" id="snapTitle">
-                Kiểm tra nhãn mác &amp; Tra cứu chứng chỉ OCOP địa phương!!!
+                Kiểm tra nhãn mác &amp; Tra cứu chứng chỉ OCOP địa phương
               </h2>
               <p className="snap-lead">
                 Chụp hoặc tải ảnh bao bì sản phẩm. RightWISE đọc nhãn và tìm thông tin sản phẩm, cơ sở sản xuất và hạng OCOP.
