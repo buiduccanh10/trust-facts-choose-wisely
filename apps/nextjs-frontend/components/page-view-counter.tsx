@@ -30,7 +30,6 @@ export function PageViewCounter() {
       {pageViews && pageViews !== "error" ? (
         <span>
           Tổng lượt xem: <strong>{pageViews.count.toLocaleString("vi-VN")}</strong>
-          {!pageViews.persistent && <small> · lưu tạm</small>}
         </span>
       ) : pageViews === "error" ? (
         <span>Lượt xem hiện không khả dụng</span>
