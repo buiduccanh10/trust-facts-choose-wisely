@@ -3,6 +3,7 @@
 import { useHeroCanvas } from "@/hooks/use-hero-canvas";
 import { useClaimSimulator } from "@/hooks/use-claim-simulator";
 import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
+import { PageViewCounter } from "@/components/page-view-counter";
 
 function HeroCanvas() {
   const canvasRef = useHeroCanvas();
@@ -82,6 +83,7 @@ export function HeroSection() {
               Xem quy trình WISE
             </a>
           </div>
+          <PageViewCounter />
         </div>
         <ExampleClaim />
       </div>

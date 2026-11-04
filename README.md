@@ -466,6 +466,8 @@ Nếu không có key, vẫn có thể xem trang web, sửa chữ và CSS; chức
 
 UPSTASH_REDIS_REST_URL và UPSTASH_REDIS_REST_TOKEN có thể để trống khi học local. Khi không cấu hình Redis, API dùng bộ nhớ tạm của tiến trình để lưu kết quả trong 24 giờ.
 
+Bộ đếm lượt xem ở đầu trang tính mỗi lần mở hoặc tải lại trang là một lượt xem; đây không phải số người truy cập duy nhất. Bộ đếm dùng hai biến Upstash này để lưu tổng số ổn định giữa các lần khởi động và trên môi trường triển khai. Nếu để trống, con số chỉ được lưu tạm trong tiến trình hiện tại và có thể bắt đầu lại hoặc không đồng nhất; nhãn “lưu tạm” sẽ được hiển thị. Muốn dùng số liệu ổn định trên website đã triển khai, hãy tạo cơ sở dữ liệu Redis trên Upstash và thêm URL cùng token vào biến môi trường backend.
+
 ### Bước 5: Khởi động API và website
 
 Cần chạy cả hai ứng dụng cùng lúc. Trong VS Code, chọn **Terminal → New Terminal** hai lần để có hai terminal. Để thấy cách gọi terminal thứ nhất và thứ hai rõ ràng:

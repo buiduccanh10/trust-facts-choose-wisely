@@ -479,6 +479,50 @@
         gap: 12px;
       }
 
+      .page-views {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        max-width: 100%;
+        padding: 8px 16px;
+        border: 1px solid rgba(57, 217, 130, 0.45);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        color: #176b9b;
+        font-size: 0.92rem;
+        line-height: 1.4;
+        box-shadow: 0 2px 6px rgba(20, 83, 45, 0.08);
+      }
+
+      .page-views svg {
+        width: 21px;
+        height: 21px;
+        flex: 0 0 auto;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .page-views strong {
+        color: var(--forest);
+        font-weight: 700;
+      }
+
+      .page-views small {
+        color: var(--soft);
+        font-size: 0.72rem;
+      }
+
+      .page-views-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: #10b981;
+      }
+
       /* Claim card (hero demo) */
 
       .claim {

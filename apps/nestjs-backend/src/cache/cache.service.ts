@@ -7,6 +7,7 @@ const TTL_SECONDS = 24 * 60 * 60;
 export class CacheService {
   private readonly logger = new Logger(CacheService.name);
   private readonly memory = new Map<string, { value: unknown; expiresAt: number }>();
+  private readonly memoryCounters = new Map<string, number>();
   private readonly redis?: Redis;
 
   constructor() {
@@ -14,6 +15,18 @@ export class CacheService {
     const token = process.env.UPSTASH_REDIS_REST_TOKEN;
     if (url && token) this.redis = new Redis({ url, token });
     if (!this.redis) this.logger.warn("Upstash is not configured; using per-instance memory cache with a 24-hour TTL.");
+  }
+
+  get usesPersistentStore(): boolean {
+    return Boolean(this.redis);
+  }
+
+  async incrementCounter(key: string): Promise<number> {
+    if (this.redis) return this.redis.incr(key);
+
+    const nextValue = (this.memoryCounters.get(key) ?? 0) + 1;
+    this.memoryCounters.set(key, nextValue);
+    return nextValue;
   }
 
   async get<T>(key: string): Promise<T | null> {
